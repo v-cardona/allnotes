@@ -45,6 +45,8 @@ dependencies:
   get_it: ^5.0.1
   # realiza la comparacion de objetos automaticamente (equals())
   equatable: ^1.2.5
+  # font awesome
+  font_awesome_flutter: ^8.10.1
 
 dev_dependencies:
   flutter_test:

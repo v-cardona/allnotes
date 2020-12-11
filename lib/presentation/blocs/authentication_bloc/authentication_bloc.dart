@@ -37,6 +37,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       if (isSignedIn) {
         User user = userRepository.getUser();
         yield Authenticated(user);
+      } else {
+        yield Unauthenticated();
       }
     } catch (_) {
       yield Unauthenticated();

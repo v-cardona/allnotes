@@ -1,4 +1,5 @@
 import 'package:allnotes/presentation/journeys/home/home_screen.dart';
+import 'package:allnotes/presentation/journeys/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,7 +53,7 @@ class _AllNotesAppState extends State<AllNotesApp> {
             }
             
             // not authenticated, show login page
-            return Container();
+            return LoginScreen();
           },
         ),
       )
