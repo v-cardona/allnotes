@@ -15,24 +15,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({
     @required this.userRepository
-  }) : super(LoginState.empty());
+  }) : super(LoginInitial());
 
   @override
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
     if (event is LoginWithGooglePressed) {
-      _mapLoginWithGooglePressedToState();
+      yield* _mapLoginWithGooglePressedToState();
     }
   }
 
   Stream<LoginState> _mapLoginWithGooglePressedToState() async* {
-    yield LoginState.loading();
+    yield LoginLoading();
     try {
       await userRepository.signInWithGoogle();
-      yield LoginState.success();
+      yield LoginSuccess();
     } catch (_) {
-      yield LoginState.failure();
+      yield LoginFailure();
     }
   }
 }

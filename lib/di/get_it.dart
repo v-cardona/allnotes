@@ -20,10 +20,10 @@ Future init() async {
   );
 
   // blocs
-  getItInstance.registerLazySingleton<AuthenticationBloc>(
+  getItInstance.registerFactory<AuthenticationBloc>(
     () => AuthenticationBloc(userRepository: getItInstance())
   );
-  getItInstance.registerLazySingleton<LoginBloc>(
+  getItInstance.registerFactory<LoginBloc>(
     () => LoginBloc(userRepository: getItInstance())
   );
 
