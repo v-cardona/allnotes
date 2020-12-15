@@ -38,10 +38,26 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
+  Future<UserCredential> signInWithEmail(String email, String password) {
+    return _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password
+    );
+  }
+
+  @override
   void signOut() async {
     Future.wait([
       _firebaseAuth.signOut(),
       _googleSignIn.signOut()
     ]);
+  }
+
+  @override
+  Future<UserCredential> signUp(String email, String password) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password
+    );
   }
 }
