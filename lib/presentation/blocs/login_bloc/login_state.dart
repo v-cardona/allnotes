@@ -11,11 +11,28 @@ abstract class LoginState extends Equatable {
 // initial state of the LoginForm
 class LoginInitial extends LoginState {}
 
-// LoginForm when we are validating credentials
+// when we are validating credentials
 class LoginLoading extends LoginState {}
 
-// LoginForm when a login attempt has succeeded
+// when a login attempt has succeeded
 class LoginSuccess extends LoginState {}
 
-// LoginForm when a login attempt has failed
+// when a login attempt has failed
 class LoginFailure extends LoginState {}
+
+// when there is a modification on email
+class LoginEmailChanged extends LoginState {
+  final bool isValidEmail;
+
+  LoginEmailChanged(this.isValidEmail);
+}
+
+// when there is a modification on password
+class LoginPasswordChanged extends LoginState {
+  final bool isValidPassword;
+
+  LoginPasswordChanged(this.isValidPassword);
+}
+
+// when submit button will be enable because it has valid format of email and password
+class LoginSubmitEnable extends LoginState {}

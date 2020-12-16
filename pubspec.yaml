@@ -47,6 +47,8 @@ dependencies:
   equatable: ^1.2.5
   # font awesome
   font_awesome_flutter: ^8.10.1
+  # adds additional capabilities to Dart Streams and StreamControllers
+  rxdart: ^0.22.0
 
 dev_dependencies:
   flutter_test:
