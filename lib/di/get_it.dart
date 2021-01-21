@@ -1,4 +1,5 @@
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
+import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,11 +21,14 @@ Future init() async {
   );
 
   // blocs
-  getItInstance.registerFactory<AuthenticationBloc>(
+  getItInstance.registerLazySingleton<AuthenticationBloc>(
     () => AuthenticationBloc(userRepository: getItInstance())
   );
   getItInstance.registerFactory<LoginBloc>(
     () => LoginBloc(userRepository: getItInstance())
+  );
+  getItInstance.registerFactory<SignupBloc>(
+    () => SignupBloc(userRepository: getItInstance())
   );
 
 }

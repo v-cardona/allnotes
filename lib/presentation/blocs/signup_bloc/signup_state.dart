@@ -1,29 +1,33 @@
-part of 'login_bloc.dart';
+part of 'signup_bloc.dart';
 
 // initial state and manage email and password
-class LoginState extends Equatable {
+class SignupState extends Equatable {
 
   final Email email;
   final Password password;
+  final PasswordConfirm passwordConfirm;
   final FormzStatus status;
 
-  const LoginState({
+  const SignupState({
     this.email = const Email.pure(),
     this.password = const Password.pure(),
+    this.passwordConfirm = const PasswordConfirm.pure(),
     this.status = FormzStatus.pure,
   });
 
   @override
-  List<Object> get props => [email, password, status];
+  List<Object> get props => [email, password, passwordConfirm, status];
 
-  LoginState copyWith({
+  SignupState copyWith({
     Email email,
     Password password,
+    PasswordConfirm passwordConfirm,
     FormzStatus status,
   }) {
-    return LoginState(
+    return SignupState(
       email: email ?? this.email,
       password: password ?? this.password,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       status: status ?? this.status,
     );
   }

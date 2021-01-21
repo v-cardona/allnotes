@@ -1,38 +1,21 @@
 import 'dart:async';
 
+import 'package:allnotes/domain/entities/email.dart';
+import 'package:allnotes/domain/entities/password.dart';
 import 'package:allnotes/domain/repositories/user_repository.dart';
-import 'package:allnotes/utils/validator.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:formz/formz.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-
   UserRepository userRepository;
 
-  LoginBloc({
-    @required this.userRepository
-  }) : super(LoginInitial());
-
-  @override
-  Stream<Transition<LoginEvent, LoginState>> transformEvents(Stream<LoginEvent> events, transitionFn) {
-    final observableStream = events as Observable<LoginEvent>;
-    final nonDebounceStream = observableStream.where((event) => 
-      event is! EmailChanged && event is! PasswordChanged
-    );
-
-    //  we give the user some time to stop typing before validating the input
-    final debounceStream = observableStream.where((event) => 
-      event is EmailChanged || event is PasswordChanged
-    ).debounceTime(Duration(milliseconds: 500));
-
-    return super.transformEvents(nonDebounceStream.mergeWith([debounceStream]), transitionFn);
-  }
+  LoginBloc({@required this.userRepository}) : super(LoginState());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -43,40 +26,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is LoginWithCredentialsPressed) {
-      yield* _mapLoginWithCredentialsPressedToState(event.email, event.password);
+      yield* _mapLoginWithCredentialsPressedToState(
+          event.email, event.password);
     } else if (event is LoginWithGooglePressed) {
       yield* _mapLoginWithGooglePressedToState();
     }
   }
 
-  Stream<LoginState> _mapEmailChangedToState(String email) async* {
-    bool isValid = Validator.isValidEmail(email);
-    yield LoginEmailChanged(isValid);
+  Stream<LoginState> _mapEmailChangedToState(String value) async* {
+    Email email = Email.dirty(value);
+    yield state.copyWith(
+        email: email, status: Formz.validate([email, state.password]));
   }
 
-  Stream<LoginState> _mapPasswordChangedToState(String password) async* {
-    bool isValid = Validator.isValidPassword(password);
-    yield LoginPasswordChanged(isValid);
+  Stream<LoginState> _mapPasswordChangedToState(String value) async* {
+    Password password = Password.dirty(value);
+    yield state.copyWith(
+        password: password, status: Formz.validate([state.email, password]));
   }
 
   Stream<LoginState> _mapLoginWithGooglePressedToState() async* {
-    yield LoginLoading();
+    yield state.copyWith(status: FormzStatus.submissionInProgress);
     try {
       await userRepository.signInWithGoogle();
-      yield LoginSuccess();
+      yield state.copyWith(status: FormzStatus.submissionSuccess);
     } catch (_) {
-      yield LoginFailure();
+      yield state.copyWith(status: FormzStatus.submissionFailure);
     }
   }
 
-  Stream<LoginState> _mapLoginWithCredentialsPressedToState(String email, String password) async* {
-    yield LoginLoading();
-    try {
-      await userRepository.signInWithEmail(email, password);
-      yield LoginSuccess();
-    } catch (_) {
-      yield LoginFailure();
+  Stream<LoginState> _mapLoginWithCredentialsPressedToState(
+      Email email, Password password) async* {
+    if (state.status.isValidated) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      try {
+        await userRepository.signInWithEmail(email.value, password.value);
+        yield state.copyWith(status: FormzStatus.submissionSuccess);
+      } catch (_) {
+        yield state.copyWith(status: FormzStatus.submissionFailure);
+      }
     }
   }
-
 }

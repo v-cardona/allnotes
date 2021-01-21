@@ -7,7 +7,7 @@ import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:allnotes/presentation/journeys/login/splashscreen.dart';
 
-class AllNotesApp extends StatefulWidget {
+class   AllNotesApp extends StatefulWidget {
   // This widget is the root of the application.
 
   @override

@@ -12,11 +12,12 @@ class GoogleLoginButton extends StatelessWidget {
     return RaisedButton.icon(
       onPressed: () =>
         BlocProvider.of<LoginBloc>(context).add(LoginWithGooglePressed()),
-      icon: Icon(FontAwesomeIcons.google),
-      label: Text('Continue with Google'),
+      icon: Icon(FontAwesomeIcons.google, color: Colors.white,),
+      label: Text('Google', style: TextStyle(color: Colors.white),),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0)
+        borderRadius: BorderRadius.circular(20.0)
       ),
+      color: Colors.red,
     );
   }
 }

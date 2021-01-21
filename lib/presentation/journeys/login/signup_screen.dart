@@ -1,7 +1,6 @@
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
-import 'package:allnotes/presentation/journeys/login/email_signup_button.dart';
+import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 
@@ -10,51 +9,67 @@ import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'google_login_button.dart';
-
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  LoginBloc _loginBloc;
+class _SignupScreenState extends State<SignupScreen> {
+  SignupBloc _signupBloc;
+  AuthenticationBloc _authenticationBloc;
 
   @override
   void initState() {
     super.initState();
-    _loginBloc = getItInstance<LoginBloc>();
+    _signupBloc = getItInstance<SignupBloc>();
+    _authenticationBloc = getItInstance<AuthenticationBloc>();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _loginBloc.close();
+    _signupBloc.close();
+    _authenticationBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocProvider.value(
-      value: _loginBloc,
+        body: MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _signupBloc),
+        BlocProvider.value(value: _authenticationBloc),
+      ],
       child: BlocListener(
-        cubit: _loginBloc,
+        cubit: _signupBloc,
         child: BlocBuilder(
-          cubit: _loginBloc,
+          cubit: _signupBloc,
           builder: (context, state) {
             return Stack(
               children: <Widget>[
                 _crearFondo(context),
                 _loginForm(context, state),
+                Positioned(
+                  left: Sizes.dimen_16.w,
+                  top: ScreenUtil.statusBarHeight + Sizes.dimen_4.h,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: Sizes.dimen_14.h,
+                    ),
+                  ),
+                )
               ],
             );
           },
         ),
-        listener: (context, LoginState state) {
+        listener: (context, SignupState state) {
           // hide previous snackbars
           Scaffold.of(context).hideCurrentSnackBar();
 
-          // if submitting when login show snackbar loading
+          // if submitting when signup show snackbar loading
           if (state.status.isSubmissionInProgress) {
             Scaffold.of(context).showSnackBar(SnackBar(
                 duration: Duration(hours: 1),
@@ -64,18 +79,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 )));
           }
 
-          // if fail when login show snackbar fail
+          // if fail when signup show snackbar fail
           if (state.status.isSubmissionFailure) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Login failure...'), Icon(Icons.error)],
+                children: [Text('Sign Up failure.'), Icon(Icons.error)],
               ),
               backgroundColor: Colors.red,
             ));
           }
 
-          // if login success emit Logged state to change to homeScreen
+          // if sigup success emit Logged state to change to homeScreen
           if (state.status.isSubmissionSuccess) {
             BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           }
@@ -155,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _loginForm(BuildContext context, LoginState state) {
+  Widget _loginForm(BuildContext context, SignupState state) {
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -184,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Login',
+                  'Sign Up',
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(
@@ -196,42 +211,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 _crearPassword(context, state),
                 SizedBox(
+                  height: 30,
+                ),
+                _crearPasswordConfirm(context, state),
+                SizedBox(
                   height: 60,
                 ),
                 _crearBoton(context, state),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(children: <Widget>[
-                  Expanded(child: Divider()),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text("Or connect using"),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(child: Divider()),
-                ]),
-                SizedBox(
-                  height: 20,
-                ),
-                GoogleLoginButton(),
               ],
             ),
           ),
-          EmailSignupButton()
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Already have an account? Login here'),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+          )
         ],
       ),
     );
   }
 
-  Widget _crearEmail(BuildContext context, LoginState state) {
+  Widget _crearEmail(BuildContext context, SignupState state) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        onChanged: (value) =>
-            BlocProvider.of<LoginBloc>(context).add(EmailChanged(email: value)),
+        onChanged: (value) => BlocProvider.of<SignupBloc>(context)
+            .add(EmailChanged(email: value)),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             icon: Icon(
@@ -245,11 +251,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _crearPassword(BuildContext context, LoginState state) {
+  Widget _crearPassword(BuildContext context, SignupState state) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+        onChanged: (value) => BlocProvider.of<SignupBloc>(context)
             .add(PasswordChanged(password: value)),
         keyboardType: TextInputType.emailAddress,
         obscureText: true,
@@ -266,11 +272,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _crearBoton(BuildContext context, LoginState state) {
+  Widget _crearPasswordConfirm(BuildContext context, SignupState state) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        onChanged: (value) => BlocProvider.of<SignupBloc>(context)
+            .add(PasswordConfirmChanged(password: value)),
+        keyboardType: TextInputType.emailAddress,
+        obscureText: true,
+        decoration: InputDecoration(
+            icon: Icon(
+              Icons.lock_outline,
+              color: Colors.deepPurple,
+            ),
+            labelText: 'Confirma tu contraseña',
+            errorText: state.passwordConfirm.invalid
+                ? 'Las contraseñas no coinciden'
+                : null),
+      ),
+    );
+  }
+
+  Widget _crearBoton(BuildContext context, SignupState state) {
     return RaisedButton(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-        child: Text('Ingresar'),
+        child: Text('Registrarse'),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
@@ -280,9 +307,11 @@ class _LoginScreenState extends State<LoginScreen> {
       textColor: Colors.white,
       onPressed: state.status.isValid
           ? () {
-              BlocProvider.of<LoginBloc>(context).add(
-                  LoginWithCredentialsPressed(
-                      email: state.email, password: state.password));
+              BlocProvider.of<SignupBloc>(context).add(
+                  SignupWithCredentialsPressed(
+                      email: state.email,
+                      password: state.password,
+                      passwordConfirm: state.passwordConfirm));
             }
           : null,
     );

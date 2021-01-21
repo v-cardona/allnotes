@@ -49,6 +49,8 @@ dependencies:
   font_awesome_flutter: ^8.10.1
   # adds additional capabilities to Dart Streams and StreamControllers
   rxdart: ^0.22.0
+  # form representation and validation
+  formz: ^0.3.2
 
 dev_dependencies:
   flutter_test:
