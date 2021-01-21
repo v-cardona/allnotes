@@ -8,7 +8,7 @@ class PasswordConfirm
       
   final String password;
 
-  const PasswordConfirm.pure({this.password = ''}) : super.pure('');
+  const PasswordConfirm.pure({this.password = ''}) : super.pure(' ');
   const PasswordConfirm.dirty({@required this.password, String value = ''})
       : super.dirty(value);
 

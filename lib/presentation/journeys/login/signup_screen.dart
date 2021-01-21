@@ -93,6 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
           // if sigup success emit Logged state to change to homeScreen
           if (state.status.isSubmissionSuccess) {
             BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+            Navigator.of(context).pop();
           }
         },
       ),
@@ -205,15 +206,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                _crearEmail(context, state),
+                _EmailInput(),
                 SizedBox(
                   height: 30,
                 ),
-                _crearPassword(context, state),
+                _PasswordInput(),
                 SizedBox(
                   height: 30,
                 ),
-                _crearPasswordConfirm(context, state),
+                _PasswordConfirmInput(),
                 SizedBox(
                   height: 60,
                 ),
@@ -314,6 +315,93 @@ class _SignupScreenState extends State<SignupScreen> {
                       passwordConfirm: state.passwordConfirm));
             }
           : null,
+    );
+  }
+}
+
+class _EmailInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignupBloc, SignupState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: TextField(
+            onChanged: (value) => BlocProvider.of<SignupBloc>(context)
+                .add(EmailChanged(email: value)),
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+                icon: Icon(
+                  Icons.alternate_email,
+                  color: Colors.deepPurple,
+                ),
+                hintText: 'ejemplo@correo.com',
+                labelText: 'Correo Electrónico',
+                errorText: state.email.invalid ? 'Correo inválido' : null),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignupBloc, SignupState>(
+      buildWhen: (previous, current) => previous.password != current.password,
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: TextField(
+            onChanged: (value) => BlocProvider.of<SignupBloc>(context)
+                .add(PasswordChanged(password: value)),
+            keyboardType: TextInputType.emailAddress,
+            obscureText: true,
+            decoration: InputDecoration(
+                icon: Icon(
+                  Icons.lock_outline,
+                  color: Colors.deepPurple,
+                ),
+                labelText: 'Contraseña',
+                errorText: state.password.invalid
+                    ? 'Debe tener una longitud entre 8 y 50 carácteres'
+                    : null),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordConfirmInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignupBloc, SignupState>(
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.passwordConfirm != current.passwordConfirm,
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: TextField(
+            onChanged: (value) => BlocProvider.of<SignupBloc>(context)
+                .add(PasswordConfirmChanged(password: value)),
+            keyboardType: TextInputType.emailAddress,
+            obscureText: true,
+            decoration: InputDecoration(
+                icon: Icon(
+                  Icons.lock_outline,
+                  color: Colors.deepPurple,
+                ),
+                labelText: 'Confirma tu contraseña',
+                errorText: state.passwordConfirm.invalid
+                    ? 'Las contraseñas no coinciden'
+                    : null),
+          ),
+        );
+      },
     );
   }
 }
