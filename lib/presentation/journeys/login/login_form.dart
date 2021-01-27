@@ -1,9 +1,13 @@
+import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
+import 'package:allnotes/presentation/journeys/login/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-import 'email_signup_button.dart';
+import 'email_open_signup_button.dart';
 import 'google_login_button.dart';
 
 class LoginForm extends StatelessWidget {
@@ -11,71 +15,71 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           SafeArea(
             child: Container(
-              height: 130,
+              height: Sizes.dimen_80.h,
             ),
           ),
           Container(
-            width: size.width * 0.85,
-            margin: EdgeInsets.only(top: 30, left: 30, bottom: 10, right: 30),
-            padding: EdgeInsets.symmetric(vertical: 30),
+            width: ScreenUtil.defaultWidth * 0.85,
+            margin: EdgeInsets.only(
+                top: Sizes.dimen_6.h,
+                left: Sizes.dimen_12.w,
+                bottom: Sizes.dimen_6.h,
+                right: Sizes.dimen_12.w),
+            padding: EdgeInsets.symmetric(vertical: Sizes.dimen_16.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(Sizes.dimen_4.w),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Colors.black26,
-                    blurRadius: 3,
-                    offset: Offset(0, 5),
-                    spreadRadius: 3)
+                    blurRadius: Sizes.dimen_5.w,
+                    offset: Offset(Sizes.dimen_0.w, Sizes.dimen_5.w),
+                    spreadRadius: Sizes.dimen_3.w)
               ],
             ),
             child: Column(
               children: <Widget>[
                 Text(
                   'Login',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
+                SizedBox(height: Sizes.dimen_20.h),
                 _EmailInput(),
                 SizedBox(
-                  height: 30,
+                  height: Sizes.dimen_14.h,
                 ),
                 _PasswordInput(),
                 SizedBox(
-                  height: 60,
+                  height: Sizes.dimen_20.h,
                 ),
                 _LoginButton(),
                 SizedBox(
-                  height: 30,
+                  height: Sizes.dimen_20.h,
                 ),
                 Row(children: <Widget>[
                   Expanded(child: Divider()),
                   SizedBox(
-                    width: 20,
+                    width: Sizes.dimen_20.w,
                   ),
                   Text("Or continue using"),
                   SizedBox(
-                    width: 20,
+                    width: Sizes.dimen_20.w,
                   ),
                   Expanded(child: Divider()),
                 ]),
                 SizedBox(
-                  height: 20,
+                  height: Sizes.dimen_14.h,
                 ),
                 GoogleLoginButton(),
               ],
             ),
           ),
-          EmailSignupButton()
+          EmailOpenSignupButton()
         ],
       ),
     );
@@ -89,7 +93,7 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: TextField(
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(EmailChanged(email: value)),
@@ -116,7 +120,7 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: TextField(
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(PasswordChanged(password: value)),
@@ -148,17 +152,8 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
-            : RaisedButton(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                  child: Text('Ingresar'),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                elevation: 0,
-                color: Colors.deepPurple,
-                textColor: Colors.white,
+            : SubmitButton(
+                text: 'Ingresar',
                 onPressed: state.status.isValid
                     ? () {
                         BlocProvider.of<LoginBloc>(context).add(

@@ -1,4 +1,9 @@
+import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
+import 'package:allnotes/presentation/journeys/login/email_open_login_button.dart';
+import 'package:allnotes/presentation/journeys/login/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -8,68 +13,62 @@ class SignupForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           SafeArea(
             child: Container(
-              height: 130,
+              height: Sizes.dimen_80.h,
             ),
           ),
           Container(
-            width: size.width * 0.85,
-            margin: EdgeInsets.only(top: 30, left: 30, bottom: 10, right: 30),
-            padding: EdgeInsets.symmetric(vertical: 30),
+            width: ScreenUtil.defaultWidth * 0.85,
+            margin: EdgeInsets.only(
+                top: Sizes.dimen_6.h,
+                left: Sizes.dimen_12.w,
+                bottom: Sizes.dimen_6.h,
+                right: Sizes.dimen_12.w),
+            padding: EdgeInsets.symmetric(vertical: Sizes.dimen_16.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(Sizes.dimen_4.w),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Colors.black26,
-                    blurRadius: 3,
-                    offset: Offset(0, 5),
-                    spreadRadius: 3)
+                    blurRadius: Sizes.dimen_5.w,
+                    offset: Offset(Sizes.dimen_0.w, Sizes.dimen_5.w),
+                    spreadRadius: Sizes.dimen_3.w)
               ],
             ),
             child: Column(
               children: <Widget>[
                 Text(
                   'Sign Up',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
+                SizedBox(height: Sizes.dimen_20.h),
                 _EmailInput(),
                 SizedBox(
-                  height: 30,
+                  height: Sizes.dimen_14.h,
                 ),
                 _PasswordInput(),
                 SizedBox(
-                  height: 30,
+                  height: Sizes.dimen_14.h,
                 ),
                 _PasswordConfirmInput(),
                 SizedBox(
-                  height: 60,
+                  height: Sizes.dimen_20.h,
                 ),
                 _SignUpButton()
               ],
             ),
           ),
-          FlatButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Already have an account? Login here'),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-          )
+          EmailOpenLoginButton()
         ],
       ),
     );
   }
 }
-
 
 class _EmailInput extends StatelessWidget {
   @override
@@ -78,7 +77,7 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: TextField(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(EmailChanged(email: value)),
@@ -105,7 +104,7 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: TextField(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(PasswordChanged(password: value)),
@@ -138,7 +137,7 @@ class _PasswordConfirmInput extends StatelessWidget {
           previous.passwordConfirm != current.passwordConfirm,
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: TextField(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(PasswordConfirmChanged(password: value)),
@@ -162,7 +161,6 @@ class _PasswordConfirmInput extends StatelessWidget {
   }
 }
 
-
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -171,27 +169,18 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
-            : RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-        child: Text('Registrarse'),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
-      elevation: 0,
-      color: Colors.deepPurple,
-      textColor: Colors.white,
-      onPressed: state.status.isValid
-          ? () {
-              BlocProvider.of<SignupBloc>(context).add(
-                  SignupWithCredentialsPressed(
-                      email: state.email,
-                      password: state.password,
-                      passwordConfirm: state.passwordConfirm));
-            }
-          : null,
-    );
+            : SubmitButton(
+                text: 'Registrarse',
+                onPressed: state.status.isValid
+                    ? () {
+                        BlocProvider.of<SignupBloc>(context).add(
+                            SignupWithCredentialsPressed(
+                                email: state.email,
+                                password: state.password,
+                                passwordConfirm: state.passwordConfirm));
+                      }
+                    : null,
+              );
       },
     );
   }

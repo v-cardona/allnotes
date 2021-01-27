@@ -1,4 +1,6 @@
-
+import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationBackground extends StatelessWidget {
@@ -6,10 +8,9 @@ class AuthenticationBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
 
-    final fondoMorado = Container(
-      height: size.height * 0.4,
+    final background = Container(
+      height: ScreenUtil.defaultHeight * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -20,53 +21,53 @@ class AuthenticationBackground extends StatelessWidget {
       )),
     );
 
-    final circulo = Container(
-      width: 100,
-      height: 100,
+    final circle = Container(
+      width: Sizes.dimen_100.w,
+      height: Sizes.dimen_48.h,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(Sizes.dimen_100.w),
           color: Color.fromRGBO(255, 255, 255, 0.05)),
     );
 
     return Stack(
       children: <Widget>[
-        fondoMorado,
+        background,
         Positioned(
-          child: circulo,
-          top: 90,
-          left: 30,
+          child: circle,
+          top: Sizes.dimen_90,
+          left: Sizes.dimen_30,
         ),
         Positioned(
-          child: circulo,
-          top: -40,
-          right: -30,
+          child: circle,
+          top: -Sizes.dimen_40,
+          right: -Sizes.dimen_30,
         ),
         Positioned(
-          child: circulo,
-          bottom: -50,
-          right: -10,
+          child: circle,
+          bottom: -Sizes.dimen_50,
+          right: -Sizes.dimen_10,
         ),
         Positioned(
-          child: circulo,
-          bottom: 120,
-          right: 20,
+          child: circle,
+          bottom: Sizes.dimen_120,
+          right: Sizes.dimen_20,
         ),
         Positioned(
-          child: circulo,
-          bottom: -50,
-          left: -20,
+          child: circle,
+          bottom: -Sizes.dimen_50,
+          left: -Sizes.dimen_20,
         ),
         Container(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: Sizes.dimen_60.w),
           child: Column(
             children: <Widget>[
               Icon(
                 Icons.person_pin_circle,
                 color: Colors.white,
-                size: 100,
+                size: Sizes.dimen_50.h,
               ),
               SizedBox(
-                height: 10,
+                height: Sizes.dimen_10.h,
                 width: double.infinity,
               ),
             ],

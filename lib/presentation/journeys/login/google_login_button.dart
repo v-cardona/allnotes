@@ -1,3 +1,5 @@
+import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,15 +11,31 @@ class GoogleLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton.icon(
-      onPressed: () =>
-        BlocProvider.of<LoginBloc>(context).add(LoginWithGooglePressed()),
-      icon: Icon(FontAwesomeIcons.google, color: Colors.white,),
-      label: Text('Google', style: TextStyle(color: Colors.white),),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0)
-      ),
-      color: Colors.red,
-    );
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_20.w)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black26,
+                blurRadius: Sizes.dimen_3.w,
+                offset: Offset(Sizes.dimen_1.w, Sizes.dimen_1.w),
+                spreadRadius: Sizes.dimen_2.w)
+          ],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
+        height: Sizes.dimen_20.h,
+        child: FlatButton.icon(
+          onPressed: () =>
+              BlocProvider.of<LoginBloc>(context).add(LoginWithGooglePressed()),
+          icon: Icon(
+            FontAwesomeIcons.google,
+            color: Colors.white,
+          ),
+          label: Text(
+            'Google',
+            style: TextStyle(color: Colors.white),
+          ),
+        ));
   }
 }
