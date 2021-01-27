@@ -2,7 +2,8 @@ import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
-import 'package:allnotes/presentation/journeys/login/submit_button.dart';
+import 'package:allnotes/presentation/widgets/password_input.dart';
+import 'package:allnotes/presentation/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -119,26 +120,13 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
-          child: TextField(
-            onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+        return PasswordInput(
+          onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(PasswordChanged(password: value)),
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(
-                icon: Icon(
-                  Icons.lock_outline,
-                  color: Colors.deepPurple,
-                ),
-                labelText: 'Contraseña',
-                errorText: state.password.invalid
+          errorText: state.password.invalid
                     ? 'Debe tener una longitud entre 8 y 50 carácteres'
-                    : null),
-          ),
-        );
+                    : null,
+          labelText: 'Contraseña');
       },
     );
   }
