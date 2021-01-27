@@ -62,7 +62,7 @@ class LoginForm extends StatelessWidget {
                   SizedBox(
                     width: 20,
                   ),
-                  Text("Or connect using"),
+                  Text("Or continue using"),
                   SizedBox(
                     width: 20,
                   ),
@@ -122,6 +122,8 @@ class _PasswordInput extends StatelessWidget {
                 .add(PasswordChanged(password: value)),
             keyboardType: TextInputType.visiblePassword,
             obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
             decoration: InputDecoration(
                 icon: Icon(
                   Icons.lock_outline,

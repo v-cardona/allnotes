@@ -109,8 +109,10 @@ class _PasswordInput extends StatelessWidget {
           child: TextField(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(PasswordChanged(password: value)),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.visiblePassword,
             obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
             decoration: InputDecoration(
                 icon: Icon(
                   Icons.lock_outline,
@@ -140,8 +142,10 @@ class _PasswordConfirmInput extends StatelessWidget {
           child: TextField(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(PasswordConfirmChanged(password: value)),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.visiblePassword,
             obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
             decoration: InputDecoration(
                 icon: Icon(
                   Icons.lock_outline,
