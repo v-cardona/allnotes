@@ -1,4 +1,4 @@
-import 'package:allnotes/presentation/journeys/login/signup_screen.dart';
+import 'package:allnotes/presentation/journeys/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class EmailOpenSignupButton extends StatelessWidget {

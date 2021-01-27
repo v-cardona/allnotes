@@ -1,8 +1,8 @@
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
-import 'package:allnotes/presentation/journeys/login/authentication_background.dart';
-import 'package:allnotes/presentation/journeys/login/signup_form.dart';
+import 'package:allnotes/presentation/widgets/authentication_background.dart';
+import 'package:allnotes/presentation/journeys/signup/signup_form.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 

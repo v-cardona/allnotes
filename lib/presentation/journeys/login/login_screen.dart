@@ -7,7 +7,7 @@ import 'package:formz/formz.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'authentication_background.dart';
+import '../../widgets/authentication_background.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
