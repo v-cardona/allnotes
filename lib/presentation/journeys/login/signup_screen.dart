@@ -71,16 +71,6 @@ class _SignupScreenState extends State<SignupScreen> {
           // hide previous snackbars
           Scaffold.of(context).hideCurrentSnackBar();
 
-          // if submitting when signup show snackbar loading
-          if (state.status.isSubmissionInProgress) {
-            Scaffold.of(context).showSnackBar(SnackBar(
-                duration: Duration(hours: 1),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Loading...'), CircularProgressIndicator()],
-                )));
-          }
-
           // if fail when signup show snackbar fail
           if (state.status.isSubmissionFailure) {
             Scaffold.of(context).showSnackBar(SnackBar(
