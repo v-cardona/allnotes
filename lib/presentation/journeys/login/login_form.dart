@@ -2,6 +2,7 @@ import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
+import 'package:allnotes/presentation/widgets/email_input.dart';
 import 'package:allnotes/presentation/widgets/password_input.dart';
 import 'package:allnotes/presentation/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
@@ -93,22 +94,10 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
-          child: TextField(
+        return EmailInput(
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(EmailChanged(email: value)),
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-                icon: Icon(
-                  Icons.alternate_email,
-                  color: Colors.deepPurple,
-                ),
-                hintText: 'ejemplo@correo.com',
-                labelText: 'Correo Electrónico',
-                errorText: state.email.invalid ? 'Correo inválido' : null),
-          ),
-        );
+            errorText: state.email.invalid ? 'Correo inválido' : null);
       },
     );
   }
@@ -121,12 +110,12 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return PasswordInput(
-          onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+            onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(PasswordChanged(password: value)),
-          errorText: state.password.invalid
-                    ? 'Debe tener una longitud entre 8 y 50 carácteres'
-                    : null,
-          labelText: 'Contraseña');
+            errorText: state.password.invalid
+                ? 'Debe tener una longitud entre 8 y 50 carácteres'
+                : null,
+            labelText: 'Contraseña');
       },
     );
   }
