@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:allnotes/domain/entities/email.dart';
+import 'package:allnotes/domain/entities/login_params.dart';
 import 'package:allnotes/domain/entities/password.dart';
 import 'package:allnotes/domain/entities/password_confirm.dart';
-import 'package:allnotes/domain/repositories/user_repository.dart';
+import 'package:allnotes/domain/usecases/sign_up.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -14,9 +15,9 @@ part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  UserRepository userRepository;
+  final SignUp signUp;
 
-  SignupBloc({@required this.userRepository}) : super(SignupState());
+  SignupBloc({@required this.signUp}) : super(SignupState());
 
   @override
   Stream<SignupState> mapEventToState(
@@ -60,7 +61,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await userRepository.signUp(email.value, password.value);
+        await signUp(LoginParams(email.value, password.value));
         yield state.copyWith(status: FormzStatus.submissionSuccess);
       } catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
