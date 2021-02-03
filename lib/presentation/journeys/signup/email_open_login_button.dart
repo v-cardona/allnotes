@@ -12,9 +12,9 @@ class EmailOpenLoginButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(TranslationConstants.already_account.translate(context)),
+          Text(TranslationConstants.alreadyAccount.translate(context)),
           Text(
-            TranslationConstants.login_title.translate(context),
+            TranslationConstants.loginTitle.translate(context),
             style: TextStyle(color: Colors.deepPurple),
           ),
         ],

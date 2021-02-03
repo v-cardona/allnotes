@@ -47,7 +47,7 @@ class SignupForm extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  TranslationConstants.signup_title.translate(context),
+                  TranslationConstants.signupTitle.translate(context),
                   style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
                 SizedBox(height: Sizes.dimen_20.h),
@@ -84,7 +84,7 @@ class _EmailInput extends StatelessWidget {
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(EmailChanged(email: value)),
             errorText: state.email.invalid
-                ? TranslationConstants.email_invalid_title.translate(context)
+                ? TranslationConstants.emailInvalidTitle.translate(context)
                 : null);
       },
     );
@@ -101,9 +101,9 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (value) => BlocProvider.of<SignupBloc>(context)
               .add(PasswordChanged(password: value)),
           errorText: state.password.invalid
-              ? TranslationConstants.password_invalid_length_title.translate(context)
+              ? TranslationConstants.passwordInvalidLengthTitle.translate(context)
               : null,
-          labelText: TranslationConstants.password_title.translate(context),
+          labelText: TranslationConstants.passwordTitle.translate(context),
         );
       },
     );
@@ -122,9 +122,9 @@ class _PasswordConfirmInput extends StatelessWidget {
           onChanged: (value) => BlocProvider.of<SignupBloc>(context)
               .add(PasswordConfirmChanged(password: value)),
           errorText: state.passwordConfirm.invalid
-              ? TranslationConstants.password_invalid_confirm_title.translate(context)
+              ? TranslationConstants.passwordInvalidConfirmTitle.translate(context)
               : null,
-          labelText: TranslationConstants.password_confirm_title.translate(context),
+          labelText: TranslationConstants.passwordConfirmTitle.translate(context),
         );
       },
     );
@@ -140,7 +140,7 @@ class _SignUpButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SubmitButton(
-                text: TranslationConstants.signup_title.translate(context),
+                text: TranslationConstants.signupTitle.translate(context),
                 onPressed: state.status.isValid
                     ? () {
                         BlocProvider.of<SignupBloc>(context).add(

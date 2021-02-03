@@ -1,6 +1,7 @@
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
+import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationBackground extends StatelessWidget {
@@ -15,8 +16,8 @@ class AuthenticationBackground extends StatelessWidget {
       decoration: BoxDecoration(
           gradient: LinearGradient(
         colors: <Color>[
-          Color.fromRGBO(63, 63, 156, 1),
-          Color.fromRGBO(90, 70, 178, 1)
+          AppColor.gigas,
+          AppColor.blueViolet
         ],
       )),
     );

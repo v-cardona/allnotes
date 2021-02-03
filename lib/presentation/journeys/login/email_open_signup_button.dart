@@ -14,9 +14,9 @@ class EmailOpenSignupButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(TranslationConstants.not_account.translate(context)),
+          Text(TranslationConstants.notAccount.translate(context)),
           Text(
-            TranslationConstants.signup_title.translate(context),
+            TranslationConstants.signupTitle.translate(context),
             style: TextStyle(color: Colors.deepPurple),
           ),
         ],

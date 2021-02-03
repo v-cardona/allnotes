@@ -49,7 +49,7 @@ class LoginForm extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  TranslationConstants.login_title.translate(context),
+                  TranslationConstants.loginTitle.translate(context),
                   style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
                 SizedBox(height: Sizes.dimen_20.h),
@@ -70,7 +70,7 @@ class LoginForm extends StatelessWidget {
                   SizedBox(
                     width: Sizes.dimen_20.w,
                   ),
-                  Text(TranslationConstants.continue_using.translate(context)),
+                  Text(TranslationConstants.continueUsing.translate(context)),
                   SizedBox(
                     width: Sizes.dimen_20.w,
                   ),
@@ -100,7 +100,7 @@ class _EmailInput extends StatelessWidget {
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(EmailChanged(email: value)),
             errorText: state.email.invalid
-                ? TranslationConstants.email_invalid_title.translate(context)
+                ? TranslationConstants.emailInvalidTitle.translate(context)
                 : null);
       },
     );
@@ -117,10 +117,10 @@ class _PasswordInput extends StatelessWidget {
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(PasswordChanged(password: value)),
             errorText: state.password.invalid
-                ? TranslationConstants.password_invalid_length_title
+                ? TranslationConstants.passwordInvalidLengthTitle
                     .translate(context)
                 : null,
-            labelText: TranslationConstants.password_title.translate(context));
+            labelText: TranslationConstants.passwordTitle.translate(context));
       },
     );
   }
@@ -135,7 +135,7 @@ class _LoginButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SubmitButton(
-                text: TranslationConstants.login_title.translate(context),
+                text: TranslationConstants.loginTitle.translate(context),
                 onPressed: state.status.isValid
                     ? () {
                         BlocProvider.of<LoginBloc>(context).add(

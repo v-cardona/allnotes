@@ -39,7 +39,7 @@ class _AllNotesAppState extends State<AllNotesApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: TranslationConstants.app_title,
+        title: TranslationConstants.appTitle,
         supportedLocales:
             Languages.languages.map((e) => Locale(e.code)).toList(),
         locale: Locale('en'),
