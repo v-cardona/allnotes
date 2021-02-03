@@ -1,5 +1,7 @@
 import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:allnotes/presentation/journeys/signup/email_open_login_button.dart';
@@ -45,7 +47,7 @@ class SignupForm extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Sign Up',
+                  TranslationConstants.signup_title.translate(context),
                   style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
                 SizedBox(height: Sizes.dimen_20.h),
@@ -81,7 +83,9 @@ class _EmailInput extends StatelessWidget {
         return EmailInput(
             onChanged: (value) => BlocProvider.of<SignupBloc>(context)
                 .add(EmailChanged(email: value)),
-            errorText: state.email.invalid ? 'Correo inválido' : null);
+            errorText: state.email.invalid
+                ? TranslationConstants.email_invalid_title.translate(context)
+                : null);
       },
     );
   }
@@ -97,9 +101,9 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (value) => BlocProvider.of<SignupBloc>(context)
               .add(PasswordChanged(password: value)),
           errorText: state.password.invalid
-              ? 'Debe tener una longitud entre 8 y 50 carácteres'
+              ? TranslationConstants.password_invalid_length_title.translate(context)
               : null,
-          labelText: 'Contraseña',
+          labelText: TranslationConstants.password_title.translate(context),
         );
       },
     );
@@ -118,9 +122,9 @@ class _PasswordConfirmInput extends StatelessWidget {
           onChanged: (value) => BlocProvider.of<SignupBloc>(context)
               .add(PasswordConfirmChanged(password: value)),
           errorText: state.passwordConfirm.invalid
-              ? 'Las contraseñas no coinciden'
+              ? TranslationConstants.password_invalid_confirm_title.translate(context)
               : null,
-          labelText: 'Confirma tu contraseña',
+          labelText: TranslationConstants.password_confirm_title.translate(context),
         );
       },
     );
@@ -136,7 +140,7 @@ class _SignUpButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SubmitButton(
-                text: 'Registrarse',
+                text: TranslationConstants.signup_title.translate(context),
                 onPressed: state.status.isValid
                     ? () {
                         BlocProvider.of<SignupBloc>(context).add(

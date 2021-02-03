@@ -1,4 +1,5 @@
 import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class GoogleLoginButton extends StatelessWidget {
             color: Colors.white,
           ),
           label: Text(
-            'Google',
+            TranslationConstants.google,
             style: TextStyle(color: Colors.white),
           ),
         ));

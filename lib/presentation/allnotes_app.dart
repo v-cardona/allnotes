@@ -1,4 +1,5 @@
 import 'package:allnotes/common/constants/languages.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/presentation/journeys/home/home_screen.dart';
 import 'package:allnotes/presentation/journeys/login/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _AllNotesAppState extends State<AllNotesApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'AllNotes',
+        title: TranslationConstants.app_title,
         supportedLocales:
             Languages.languages.map((e) => Locale(e.code)).toList(),
         locale: Locale('en'),

@@ -1,3 +1,5 @@
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/presentation/journeys/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +14,9 @@ class EmailOpenSignupButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Don\'t have an account? '),
+          Text(TranslationConstants.not_account.translate(context)),
           Text(
-            'Sign Up',
+            TranslationConstants.signup_title.translate(context),
             style: TextStyle(color: Colors.deepPurple),
           ),
         ],

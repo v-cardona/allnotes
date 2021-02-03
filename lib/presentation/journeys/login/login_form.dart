@@ -70,7 +70,7 @@ class LoginForm extends StatelessWidget {
                   SizedBox(
                     width: Sizes.dimen_20.w,
                   ),
-                  Text("Or continue using"),
+                  Text(TranslationConstants.continue_using.translate(context)),
                   SizedBox(
                     width: Sizes.dimen_20.w,
                   ),
@@ -99,7 +99,9 @@ class _EmailInput extends StatelessWidget {
         return EmailInput(
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(EmailChanged(email: value)),
-            errorText: state.email.invalid ? 'Correo inválido' : null);
+            errorText: state.email.invalid
+                ? TranslationConstants.email_invalid_title.translate(context)
+                : null);
       },
     );
   }
@@ -115,9 +117,10 @@ class _PasswordInput extends StatelessWidget {
             onChanged: (value) => BlocProvider.of<LoginBloc>(context)
                 .add(PasswordChanged(password: value)),
             errorText: state.password.invalid
-                ? 'Debe tener una longitud entre 8 y 50 carácteres'
+                ? TranslationConstants.password_invalid_length_title
+                    .translate(context)
                 : null,
-            labelText: 'Contraseña');
+            labelText: TranslationConstants.password_title.translate(context));
       },
     );
   }
@@ -132,7 +135,7 @@ class _LoginButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SubmitButton(
-                text: 'Ingresar',
+                text: TranslationConstants.login_title.translate(context),
                 onPressed: state.status.isValid
                     ? () {
                         BlocProvider.of<LoginBloc>(context).add(

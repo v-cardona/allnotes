@@ -1,3 +1,17 @@
 {
-  "login_title": "Login"
+  "app_title": "AllNotes",
+  
+  "login_title": "Login",
+  "email_title": "Email",
+  "email_invalid_title": "Invalid email",
+  "email_placeholder": "example@email.com",
+  "password_title": "Password",
+  "password_confirm_title": "Confirm your password",
+  "password_invalid_length_title": "Must be between 8-50 characters",
+  "password_invalid_confirm_title": "Password does not match",
+  "continue_using": "Or continue using",
+  "google": "Google",
+  "not_account": "Don't have an account? ",
+  "already_account": "Already have an account? ",
+  "signup_title": "Sign Up"
 }

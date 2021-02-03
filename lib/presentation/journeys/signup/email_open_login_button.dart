@@ -1,3 +1,5 @@
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:flutter/material.dart';
 
 class EmailOpenLoginButton extends StatelessWidget {
@@ -10,9 +12,9 @@ class EmailOpenLoginButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Already have an account? '),
+          Text(TranslationConstants.already_account.translate(context)),
           Text(
-            'Login here',
+            TranslationConstants.login_title.translate(context),
             style: TextStyle(color: Colors.deepPurple),
           ),
         ],

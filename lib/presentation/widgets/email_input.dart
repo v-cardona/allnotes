@@ -1,4 +1,6 @@
 import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +22,8 @@ class EmailInput extends StatelessWidget {
                   Icons.alternate_email,
                   color: Colors.deepPurple,
                 ),
-                hintText: 'ejemplo@correo.com',
-                labelText: 'Correo Electrónico',
+                hintText: TranslationConstants.email_placeholder.translate(context),
+                labelText: TranslationConstants.email_title.translate(context),
                 errorText: errorText),
                 textInputAction: TextInputAction.next,
           ),
