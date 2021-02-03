@@ -23,6 +23,7 @@ class EmailInput extends StatelessWidget {
                 hintText: 'ejemplo@correo.com',
                 labelText: 'Correo Electrónico',
                 errorText: errorText),
+                textInputAction: TextInputAction.next,
           ),
         );
   }

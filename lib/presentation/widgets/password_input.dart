@@ -39,7 +39,7 @@ class _PasswordInputState extends State<PasswordInput> {
             labelText: widget.labelText,
             errorText: widget.errorText,
             suffixIcon: IconButton(
-              icon: Icon(_isPasswordHidden ? Icons.visibility : Icons.visibility_off, color: Colors.grey,),
+              icon: Icon(_isPasswordHidden ? Icons.visibility : Icons.visibility_off, color: _isPasswordHidden ? Colors.grey : Colors.deepPurple),
               onPressed: _togglePasswordView,
             )),
       ),
