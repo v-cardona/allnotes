@@ -62,11 +62,12 @@ class UserRepositoryImpl extends UserRepository {
   /// Signs in with the provided [email] and [password]
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs
   @override
-  Future<UserCredential> signInWithEmail(String email, String password) {
+  Future<User> signInWithEmail(String email, String password) async {
     assert(email != null && password != null);
     try {
-      return _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+          return userCredential.user;
     } catch (_) {
       throw LogInWithEmailAndPasswordFailure();
     }
@@ -86,11 +87,12 @@ class UserRepositoryImpl extends UserRepository {
   /// Creates a new user with the provided [email] and [password]
   /// Throws a [SignUpFailure] if an exception occurs
   @override
-  Future<UserCredential> signUp(String email, String password) async {
+  Future<User> signUp(String email, String password) async {
     assert(email != null && password != null);
     try {
-      return await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return userCredential.user;
     } catch (_) {
       throw SignUpFailure();
     }

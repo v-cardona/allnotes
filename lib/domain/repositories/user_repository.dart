@@ -16,7 +16,7 @@ abstract class UserRepository {
   
   /// Signs in with the provided [email] and [password]
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs
-  Future<UserCredential> signInWithEmail(String email, String password);
+  Future<User> signInWithEmail(String email, String password);
 
   /// Signs out the current user 
   /// Throws a [LogOutFailure] if an exception occurs
@@ -24,5 +24,5 @@ abstract class UserRepository {
 
   /// Creates a new user with the provided [email] and [password]
   /// Throws a [SignUpFailure] if an exception occurs
-  Future<UserCredential> signUp(String email, String password);
+  Future<User> signUp(String email, String password);
 }
