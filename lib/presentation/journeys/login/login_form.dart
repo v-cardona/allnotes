@@ -1,5 +1,7 @@
 import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/common/screenutil/screenutil.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:allnotes/presentation/widgets/email_input.dart';
@@ -47,7 +49,7 @@ class LoginForm extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Login',
+                  TranslationConstants.login_title.translate(context),
                   style: TextStyle(fontSize: Sizes.dimen_20.sp),
                 ),
                 SizedBox(height: Sizes.dimen_20.h),
