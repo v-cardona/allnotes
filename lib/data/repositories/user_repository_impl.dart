@@ -56,6 +56,8 @@ class UserRepositoryImpl extends UserRepository {
         errorType = AppErrorType.loginWrongPassword;
       }
       return Left(AppError(errorType));
+    } catch (_) {
+      return Left(AppError(AppErrorType.general));
     }
   }
 
@@ -81,6 +83,8 @@ class UserRepositoryImpl extends UserRepository {
         errorType = AppErrorType.loginWrongPassword;
       }
       return Left(AppError(errorType));
+    } catch (_) {
+      return Left(AppError(AppErrorType.general));
     }
   }
 
@@ -110,6 +114,8 @@ class UserRepositoryImpl extends UserRepository {
         errorType = AppErrorType.signupEmailInvalid;
       }
       return Left(AppError(errorType));
+    } catch (_) {
+      return Left(AppError(AppErrorType.general));
     }
   }
 }
