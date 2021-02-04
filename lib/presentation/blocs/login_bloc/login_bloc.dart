@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:allnotes/domain/entities/app_error.dart';
 import 'package:allnotes/domain/entities/email.dart';
 import 'package:allnotes/domain/entities/login_params.dart';
 import 'package:allnotes/domain/entities/no_params.dart';
 import 'package:allnotes/domain/entities/password.dart';
-import 'package:allnotes/domain/usecases/sign_in_with_email.dart';
-import 'package:allnotes/domain/usecases/sign_in_with_google.dart';
+import 'package:allnotes/domain/usecases/login_with_email.dart';
+import 'package:allnotes/domain/usecases/login_with_google.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
@@ -16,10 +19,11 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final SignInWithGoogle signInWithGoogle;
-  final SignInWithEmail signInWithEmail;
+  final LoginWithGoogle loginWithGoogle;
+  final LoginWithEmail loginWithEmail;
 
-  LoginBloc({@required this.signInWithGoogle, @required this.signInWithEmail}) : super(LoginState());
+  LoginBloc({@required this.loginWithGoogle, @required this.loginWithEmail})
+      : super(LoginState());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -51,24 +55,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapLoginWithGooglePressedToState() async* {
     yield state.copyWith(status: FormzStatus.submissionInProgress);
-    try {
-      await signInWithGoogle(NoParams());
-      yield state.copyWith(status: FormzStatus.submissionSuccess);
-    } catch (_) {
-      yield state.copyWith(status: FormzStatus.submissionFailure);
-    }
+    Either<AppError, User> eitherGoogle = await loginWithGoogle(NoParams());
+    yield eitherGoogle.fold(
+        (l) => state.copyWith(status: FormzStatus.submissionFailure, error: l),
+        (r) => state.copyWith(status: FormzStatus.submissionSuccess));
   }
 
   Stream<LoginState> _mapLoginWithCredentialsPressedToState(
       Email email, Password password) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      try {
-        await signInWithEmail(LoginParams(email.value, password.value));
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
-      } catch (_) {
-        yield state.copyWith(status: FormzStatus.submissionFailure);
-      }
+
+      Either<AppError, User> loginEither =
+          await loginWithEmail(LoginParams(email.value, password.value));
+      yield loginEither.fold(
+          (l) =>
+              state.copyWith(status: FormzStatus.submissionFailure, error: l),
+          (r) => state.copyWith(status: FormzStatus.submissionSuccess));
     }
   }
 }

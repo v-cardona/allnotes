@@ -1,12 +1,12 @@
 import 'package:allnotes/domain/entities/no_params.dart';
 import 'package:allnotes/domain/repositories/user_repository.dart';
 
-class SignOut {
+class IsLogged {
   final UserRepository userRepository;
 
-  SignOut(this.userRepository);
+  IsLogged(this.userRepository);
 
-  void call(NoParams noParams) {
-    userRepository.signOut();
+  bool call(NoParams noParams) {
+    return userRepository.isLogged();
   }
 }

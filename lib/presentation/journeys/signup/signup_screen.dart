@@ -1,4 +1,7 @@
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/di/get_it.dart';
+import 'package:allnotes/domain/entities/app_error.dart';
 import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:allnotes/presentation/widgets/authentication_background.dart';
@@ -76,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Sign Up failure.'), Icon(Icons.error)],
+                children: [getSignupError(context, state.error), Icon(Icons.error)],
               ),
               backgroundColor: Colors.red,
             ));
@@ -90,5 +93,25 @@ class _SignupScreenState extends State<SignupScreen> {
         },
       ),
     ));
+  }
+
+  // method to get which error is
+  Widget getSignupError(BuildContext context, AppError appError) {
+    String error;
+    switch (appError.errorType) {
+      case AppErrorType.signupEmailInUse:
+        error = TranslationConstants.errorMsgSignupEmailInUse.translate(context);
+        break;
+      case AppErrorType.signupWeakPassword:
+        error = TranslationConstants.errorMsgSignupPasswordWeak.translate(context);
+        break;
+      case AppErrorType.signupEmailInvalid:
+        error = TranslationConstants.errorMsgSignupEmailInvalid.translate(context);
+        break;
+      default:
+        error = TranslationConstants.errorMsgGeneral.translate(context);
+    }
+
+    return Text(error);
   }
 }

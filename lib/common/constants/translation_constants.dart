@@ -3,7 +3,7 @@ class TranslationConstants {
 
   static const String appTitle = 'appTitle';
 
-// SIGNUP / LOGIN 
+  // SIGNUP / LOGIN 
   static const String loginTitle = 'loginTitle';
   static const String emailTitle = 'emailTitle';
   static const String emailInvalidTitle = 'emailInvalidTitle';
@@ -17,4 +17,15 @@ class TranslationConstants {
   static const String notAccount = 'notAccount';
   static const String alreadyAccount = 'alreadyAccount';
   static const String signupTitle = 'signupTitle';
+
+  // ERROR MESSAGES
+  static const String errorMsgGeneral = 'errorMsgGeneral';
+  static const String errorMsgSignupEmailInUse = 'errorMsgSignupEmailInUse';
+  static const String errorMsgSignupEmailInvalid = 'errorMsgSignupEmailInvalid';
+  static const String errorMsgSignupPasswordWeak = 'errorMsgSignupPasswordWeak';
+  static const String errorMsgLoginUserNotFound = 'errorMsgLoginUserNotFound';
+  static const String errorMsgLoginUserDisabled = 'errorMsgLoginUserDisabled';
+  static const String errorMsgLoginWrongPassword = 'errorMsgLoginWrongPassword';
+  static const String errorMsgLoginDifferentCredential = 'errorMsgLoginDifferentCredential';
+
 }

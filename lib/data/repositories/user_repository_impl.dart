@@ -1,19 +1,9 @@
+import 'package:allnotes/domain/entities/app_error.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:allnotes/domain/repositories/user_repository.dart';
-
-/// Thrown if during the sign up process if a failure occurs
-class SignUpFailure implements Exception {}
-
-/// Thrown during the login process if a failure occurs
-class LogInWithEmailAndPasswordFailure implements Exception {}
-
-/// Thrown during the sign in with google process if a failure occurs
-class LogInWithGoogleFailure implements Exception {}
-
-/// Thrown during the logout process if a failure occurs
-class LogOutFailure implements Exception {}
 
 /// {@template authentication_repository}
 /// Repository which manages user authentication
@@ -38,7 +28,7 @@ class UserRepositoryImpl extends UserRepository {
   /// Returns true if there is a user log in [Bool]
   /// or false in other case
   @override
-  bool isSignedIn() {
+  bool isLogged() {
     User currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
@@ -46,55 +36,80 @@ class UserRepositoryImpl extends UserRepository {
   /// Starts the Sign In with Google Flow
   /// Throws a [LogInWithGoogleFailure] if an exception occurs
   @override
-  Future<User> signInWithGoogle() async {
+  Future<Either<AppError, User>> loginWithGoogle() async {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
       await _firebaseAuth.signInWithCredential(credential);
-      return _firebaseAuth.currentUser;
-    } catch (_) {
-      throw LogInWithGoogleFailure();
+      return Right(_firebaseAuth.currentUser);
+    } on FirebaseAuthException catch (e) {
+      AppErrorType errorType = AppErrorType.general;
+      if (e.code == 'user-not-found') {
+        errorType = AppErrorType.loginUserNotFound;
+      } else if (e.code == 'user-disabled') {
+        errorType = AppErrorType.loginUserDisabled;
+      } else if (e.code == 'account-exists-with-different-credential') {
+        errorType = AppErrorType.loginDifferentCredential;
+      } else if (e.code == 'wrong-password') {
+        errorType = AppErrorType.loginWrongPassword;
+      }
+      return Left(AppError(errorType));
     }
   }
 
   /// Signs in with the provided [email] and [password]
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs
   @override
-  Future<User> signInWithEmail(String email, String password) async {
+  Future<Either<AppError, User>> loginWithEmail(
+      String email, String password) async {
     assert(email != null && password != null);
     try {
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-          return userCredential.user;
-    } catch (_) {
-      throw LogInWithEmailAndPasswordFailure();
+      UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      return Right(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      AppErrorType errorType = AppErrorType.general;
+      if (e.code == 'user-not-found') {
+        errorType = AppErrorType.loginUserNotFound;
+      } else if (e.code == 'user-disabled') {
+        errorType = AppErrorType.loginUserDisabled;
+      } else if (e.code == 'invalid-email') {
+        errorType = AppErrorType.signupEmailInvalid;
+      } else if (e.code == 'wrong-password') {
+        errorType = AppErrorType.loginWrongPassword;
+      }
+      return Left(AppError(errorType));
     }
   }
 
   /// Signs out the current user
   /// Throws a [LogOutFailure] if an exception occurs
   @override
-  void signOut() async {
-    try {
-      Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
-    } catch (_) {
-      throw LogOutFailure();
-    }
+  void logout() async {
+    Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
   }
 
   /// Creates a new user with the provided [email] and [password]
   /// Throws a [SignUpFailure] if an exception occurs
   @override
-  Future<User> signUp(String email, String password) async {
+  Future<Either<AppError, User>> signUp(String email, String password) async {
     assert(email != null && password != null);
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      return userCredential.user;
-    } catch (_) {
-      throw SignUpFailure();
+      return Right(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      AppErrorType errorType = AppErrorType.general;
+      if (e.code == 'weak-password') {
+        errorType = AppErrorType.signupWeakPassword;
+      } else if (e.code == 'email-already-in-use') {
+        errorType = AppErrorType.signupEmailInUse;
+      } else if (e.code == 'invalid-email') {
+        errorType = AppErrorType.signupEmailInvalid;
+      }
+      return Left(AppError(errorType));
     }
   }
 }

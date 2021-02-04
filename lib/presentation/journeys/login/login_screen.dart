@@ -1,4 +1,7 @@
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/di/get_it.dart';
+import 'package:allnotes/domain/entities/app_error.dart';
 import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:allnotes/presentation/journeys/login/login_form.dart';
@@ -53,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Login failure...'), Icon(Icons.error)],
+                children: [getSignupError(context, state.error), Icon(Icons.error)],
               ),
               backgroundColor: Colors.red,
             ));
@@ -66,5 +69,31 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       ),
     ));
+  }
+  
+  // method to get which error is
+  Widget getSignupError(BuildContext context, AppError appError) {
+    String error;
+    switch (appError.errorType) {
+      case AppErrorType.loginUserNotFound:
+        error = TranslationConstants.errorMsgLoginUserNotFound.translate(context);
+        break;
+      case AppErrorType.loginUserDisabled:
+        error = TranslationConstants.errorMsgLoginUserDisabled.translate(context);
+        break;
+      case AppErrorType.signupEmailInvalid:
+        error = TranslationConstants.errorMsgSignupEmailInvalid.translate(context);
+        break;
+      case AppErrorType.loginWrongPassword:
+        error = TranslationConstants.errorMsgLoginWrongPassword.translate(context);
+        break;
+      case AppErrorType.loginDifferentCredential:
+        error = TranslationConstants.errorMsgLoginDifferentCredential.translate(context);
+        break;
+      default:
+        error = TranslationConstants.errorMsgGeneral.translate(context);
+    }
+
+    return Text(error);
   }
 }

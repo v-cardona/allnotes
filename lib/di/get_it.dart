@@ -1,8 +1,8 @@
 import 'package:allnotes/domain/usecases/get_user.dart';
-import 'package:allnotes/domain/usecases/is_sign_in.dart';
-import 'package:allnotes/domain/usecases/sign_in_with_email.dart';
-import 'package:allnotes/domain/usecases/sign_in_with_google.dart';
-import 'package:allnotes/domain/usecases/sign_out.dart';
+import 'package:allnotes/domain/usecases/is_logged.dart';
+import 'package:allnotes/domain/usecases/login_with_email.dart';
+import 'package:allnotes/domain/usecases/login_with_google.dart';
+import 'package:allnotes/domain/usecases/logout.dart';
 import 'package:allnotes/domain/usecases/sign_up.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
@@ -24,22 +24,22 @@ Future init() async {
   // init usecases
   getItInstance.registerLazySingleton<GetUser>(() => GetUser(getItInstance()));
   getItInstance
-      .registerLazySingleton<IsSignIn>(() => IsSignIn(getItInstance()));
-  getItInstance.registerLazySingleton<SignOut>(() => SignOut(getItInstance()));
-  getItInstance.registerLazySingleton<SignInWithGoogle>(
-      () => SignInWithGoogle(getItInstance()));
-  getItInstance.registerLazySingleton<SignInWithEmail>(
-      () => SignInWithEmail(getItInstance()));
+      .registerLazySingleton<IsLogged>(() => IsLogged(getItInstance()));
+  getItInstance.registerLazySingleton<Logout>(() => Logout(getItInstance()));
+  getItInstance.registerLazySingleton<LoginWithGoogle>(
+      () => LoginWithGoogle(getItInstance()));
+  getItInstance.registerLazySingleton<LoginWithEmail>(
+      () => LoginWithEmail(getItInstance()));
   getItInstance.registerLazySingleton<SignUp>(() => SignUp(getItInstance()));
 
   // blocs
   getItInstance.registerLazySingleton<AuthenticationBloc>(() =>
       AuthenticationBloc(
           getUser: getItInstance(),
-          isSignIn: getItInstance(),
-          signOut: getItInstance()));
+          isLogged: getItInstance(),
+          logout: getItInstance()));
   getItInstance.registerFactory<LoginBloc>(() => LoginBloc(
-      signInWithEmail: getItInstance(), signInWithGoogle: getItInstance()));
+      loginWithEmail: getItInstance(), loginWithGoogle: getItInstance()));
   getItInstance
       .registerFactory<SignupBloc>(() => SignupBloc(signUp: getItInstance()));
 }

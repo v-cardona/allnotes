@@ -13,5 +13,13 @@
   "google": "Google",
   "notAccount": "Don't have an account? ",
   "alreadyAccount": "Already have an account? ",
-  "signupTitle": "Sign Up"
+  "signupTitle": "Sign Up",
+  "errorMsgGeneral": "An error has occurred",
+  "errorMsgSignupEmailInUse": "The account already exists for that email.",
+  "errorMsgSignupEmailInvalid": "Invalid email address.",
+  "errorMsgSignupPasswordWeak": "The password provided is too weak.",
+  "errorMsgLoginUserNotFound": "User not found.",
+  "errorMsgLoginUserDisabled": "This account is disabled.",
+  "errorMsgLoginWrongPassword": "Wrong password.",
+  "errorMsgLoginDifferentCredential": "Already exists an account with the email address."
 }

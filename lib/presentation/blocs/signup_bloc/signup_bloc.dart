@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:allnotes/domain/entities/app_error.dart';
 import 'package:allnotes/domain/entities/email.dart';
 import 'package:allnotes/domain/entities/login_params.dart';
 import 'package:allnotes/domain/entities/password.dart';
 import 'package:allnotes/domain/entities/password_confirm.dart';
 import 'package:allnotes/domain/usecases/sign_up.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
@@ -50,7 +53,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Stream<SignupState> _mapPasswordConfirmChangedToState(String value) async* {
-    PasswordConfirm password = PasswordConfirm.dirty(password: state.password.value, value: value);
+    PasswordConfirm password =
+        PasswordConfirm.dirty(password: state.password.value, value: value);
     yield state.copyWith(
         passwordConfirm: password,
         status: Formz.validate([state.email, state.password, password]));
@@ -60,12 +64,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       Email email, Password password, PasswordConfirm passwordConfirm) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      try {
-        await signUp(LoginParams(email.value, password.value));
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
-      } catch (_) {
-        yield state.copyWith(status: FormzStatus.submissionFailure);
-      }
+      Either<AppError, User> signupEither =
+          await signUp(LoginParams(email.value, password.value));
+      yield signupEither.fold(
+          (l) => state.copyWith(status: FormzStatus.submissionFailure, error: l),
+          (r) => state.copyWith(status: FormzStatus.submissionSuccess));
     }
   }
 }

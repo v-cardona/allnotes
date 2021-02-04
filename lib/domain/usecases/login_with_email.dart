@@ -5,13 +5,13 @@ import 'package:allnotes/domain/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUp extends UseCase<Either<AppError, User>, LoginParams> {
+class LoginWithEmail extends UseCase<Either<AppError, User>, LoginParams> {
   final UserRepository userRepository;
 
-  SignUp(this.userRepository);
+  LoginWithEmail(this.userRepository);
 
   @override
   Future<Either<AppError, User>> call(LoginParams loginParams) {
-    return userRepository.signUp(loginParams.email, loginParams.password);
+    return userRepository.loginWithEmail(loginParams.email, loginParams.password);
   }
 }
