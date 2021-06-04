@@ -56,7 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [getSignupError(context, state.error), Icon(Icons.error)],
+                children: [
+                  getSignupError(context, state.error),
+                  Icon(Icons.error)
+                ],
               ),
               backgroundColor: Colors.red,
             ));
@@ -70,25 +73,30 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     ));
   }
-  
+
   // method to get which error is
   Widget getSignupError(BuildContext context, AppError appError) {
     String error;
     switch (appError.errorType) {
       case AppErrorType.loginUserNotFound:
-        error = TranslationConstants.errorMsgLoginUserNotFound.translate(context);
+        error =
+            TranslationConstants.errorMsgLoginUserNotFound.translate(context);
         break;
       case AppErrorType.loginUserDisabled:
-        error = TranslationConstants.errorMsgLoginUserDisabled.translate(context);
+        error =
+            TranslationConstants.errorMsgLoginUserDisabled.translate(context);
         break;
       case AppErrorType.signupEmailInvalid:
-        error = TranslationConstants.errorMsgSignupEmailInvalid.translate(context);
+        error =
+            TranslationConstants.errorMsgSignupEmailInvalid.translate(context);
         break;
       case AppErrorType.loginWrongPassword:
-        error = TranslationConstants.errorMsgLoginWrongPassword.translate(context);
+        error =
+            TranslationConstants.errorMsgLoginWrongPassword.translate(context);
         break;
       case AppErrorType.loginDifferentCredential:
-        error = TranslationConstants.errorMsgLoginDifferentCredential.translate(context);
+        error = TranslationConstants.errorMsgLoginDifferentCredential
+            .translate(context);
         break;
       default:
         error = TranslationConstants.errorMsgGeneral.translate(context);
