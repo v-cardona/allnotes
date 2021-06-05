@@ -1,0 +1,24 @@
+import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
+import 'package:allnotes/data/models/note_model.dart';
+import 'package:allnotes/domain/entities/app_error.dart';
+import 'package:allnotes/domain/repositories/notes_repository.dart';
+import 'package:dartz/dartz.dart';
+
+/// {@template notes_repository}
+/// Repository which manages crud of notes in cloud firestore
+/// {@endtemplate}
+class NotesRepositoryImpl extends NotesRepository {
+  final NotesRemoteDataSource remoteDataSource;
+
+  NotesRepositoryImpl(this.remoteDataSource);
+
+  @override
+  Future<Either<AppError, List<NoteModel>>> getAllNotes() async {
+    try {
+      List<NoteModel> notes = await remoteDataSource.getAllNotes();
+      return Right(notes);
+    } on Exception {
+      return Left(AppError(AppErrorType.general));
+    }
+  }
+}

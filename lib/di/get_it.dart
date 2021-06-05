@@ -1,3 +1,7 @@
+import 'package:allnotes/data/core/firestore_client.dart';
+import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
+import 'package:allnotes/data/repositories/notes_repository_impl.dart';
+import 'package:allnotes/domain/repositories/notes_repository.dart';
 import 'package:allnotes/domain/usecases/get_user.dart';
 import 'package:allnotes/domain/usecases/is_logged.dart';
 import 'package:allnotes/domain/usecases/login_with_email.dart';
@@ -17,9 +21,15 @@ import 'package:allnotes/domain/repositories/user_repository.dart';
 final getItInstance = GetIt.I;
 
 Future init() async {
+  getItInstance.registerLazySingleton<FirestoreClient>(() => FirestoreClient());
+  getItInstance.registerLazySingleton<NotesRemoteDataSource>(
+      () => NotesRemoteDataSourceImpl(getItInstance()));
+
   // user repository
   getItInstance.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
       firebaseAuth: FirebaseAuth.instance, googleSignIn: GoogleSignIn()));
+  getItInstance.registerLazySingleton<NotesRepository>(
+      () => NotesRepositoryImpl(getItInstance()));
 
   // init usecases
   getItInstance.registerLazySingleton<GetUser>(() => GetUser(getItInstance()));
