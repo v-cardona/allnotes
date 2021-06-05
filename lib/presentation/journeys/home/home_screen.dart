@@ -1,41 +1,95 @@
-import 'package:allnotes/presentation/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz_unsafe.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:ui';
+
+import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/di/get_it.dart';
+import 'package:allnotes/presentation/blocs/notes_bloc/notes_bloc.dart';
+import 'package:allnotes/presentation/journeys/home/home_screen_notes_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:allnotes/common/extensions/size_extensions.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 
-class HomeScreen extends StatelessWidget {
-  final User user;
+import 'home_screen_app_bar.dart';
 
-  const HomeScreen({Key key, @required this.user}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  NotesBloc _notesBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _notesBloc = getItInstance<NotesBloc>();
+    _notesBloc.add(NotesLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _notesBloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
-    readNote();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () =>
-                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut()))
-        ],
+      body: BlocBuilder(
+        cubit: _notesBloc,
+        builder: (context, state) {
+          if (state is NotesError) {
+            print(state.appErrorType);
+          } else if (state is NotesLoaded) {
+            return CustomScrollView(
+              slivers: <Widget>[
+                HomeScreenAppBar(),
+                state.notes.isEmpty
+                    ? SliverToBoxAdapter(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            top: Sizes.dimen_20.h,
+                          ),
+                          child: Center(
+                            child: Text(
+                              TranslationConstants.addFirstNote
+                                  .translate(context),
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : HomeScreenNotesGrid(notes: state.notes),
+              ],
+            );
+          }
+          return const SizedBox.shrink();
+        },
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Center(child: Text(user.uid))],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
     );
   }
-
-  void readNote() async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    QuerySnapshot collection =
-        await _firestore.collection('notes-${user.uid}').get();
-    List<QueryDocumentSnapshot> documents = collection.docs;
-    List<String> documentsList = documents.map((e) => e.id).toList();
-    print(documentsList);
-  }
 }
+
+// BlocBuilder<NotesBloc, NotesState>(
+//           cubit: _notesBloc,
+//           builder: (context, state) {
+//             if (state is NotesError) {
+//               print(state.appErrorType);
+//             } else if (state is NotesLoaded) {
+//               NoteEntity note = state.notes[0];
+//               print(note);
+//             }
+//             return const SizedBox.shrink();
+//           },
+//         ));

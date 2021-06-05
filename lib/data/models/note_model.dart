@@ -33,14 +33,15 @@ class NoteModel extends NoteEntity {
     NoteModel note;
     if (document.exists) {
       Map<String, dynamic> data = document.data();
+      Timestamp timestampCreated = data['creation_time'];
+      Timestamp timestampModified = data['last_modification_time'];
       note = NoteModel(
           color: Color(data['color'] ?? AppColor.white),
           content: data['content'],
-          createdAt: DateTime.fromMillisecondsSinceEpoch(data['creation_time']),
+          createdAt: DateTime.tryParse(timestampCreated.toDate().toString()),
           id: document.id,
-          modifiedAt: DateTime.fromMillisecondsSinceEpoch(
-              data['last_modification_time']),
-          state: NoteState.values[data['state'] ?? 0],
+          modifiedAt: DateTime.tryParse(timestampModified.toDate().toString()),
+          state: NoteState.values[data['state']],
           title: data['title']);
     }
 

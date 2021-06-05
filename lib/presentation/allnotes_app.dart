@@ -59,9 +59,7 @@ class _AllNotesAppState extends State<AllNotesApp> {
 
               // successfully authenticated, show home page
               if (state is Authenticated) {
-                return HomeScreen(
-                  user: state.user,
-                );
+                return HomeScreen();
               }
 
               // not authenticated, show login page

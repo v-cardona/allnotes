@@ -2,6 +2,7 @@ import 'package:allnotes/data/core/firestore_client.dart';
 import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
 import 'package:allnotes/data/repositories/notes_repository_impl.dart';
 import 'package:allnotes/domain/repositories/notes_repository.dart';
+import 'package:allnotes/domain/usecases/get_all_notes.dart';
 import 'package:allnotes/domain/usecases/get_user.dart';
 import 'package:allnotes/domain/usecases/is_logged.dart';
 import 'package:allnotes/domain/usecases/login_with_email.dart';
@@ -9,6 +10,7 @@ import 'package:allnotes/domain/usecases/login_with_google.dart';
 import 'package:allnotes/domain/usecases/logout.dart';
 import 'package:allnotes/domain/usecases/sign_up.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
+import 'package:allnotes/presentation/blocs/notes_bloc/notes_bloc.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -41,6 +43,8 @@ Future init() async {
   getItInstance.registerLazySingleton<LoginWithEmail>(
       () => LoginWithEmail(getItInstance()));
   getItInstance.registerLazySingleton<SignUp>(() => SignUp(getItInstance()));
+  getItInstance
+      .registerLazySingleton<GetAllNotes>(() => GetAllNotes(getItInstance()));
 
   // blocs
   getItInstance.registerLazySingleton<AuthenticationBloc>(() =>
@@ -52,4 +56,6 @@ Future init() async {
       loginWithEmail: getItInstance(), loginWithGoogle: getItInstance()));
   getItInstance
       .registerFactory<SignupBloc>(() => SignupBloc(signUp: getItInstance()));
+  getItInstance.registerFactory<NotesBloc>(
+      () => NotesBloc(getAllNotes: getItInstance()));
 }
