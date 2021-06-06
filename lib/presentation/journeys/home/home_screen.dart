@@ -80,16 +80,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// BlocBuilder<NotesBloc, NotesState>(
-//           cubit: _notesBloc,
-//           builder: (context, state) {
-//             if (state is NotesError) {
-//               print(state.appErrorType);
-//             } else if (state is NotesLoaded) {
-//               NoteEntity note = state.notes[0];
-//               print(note);
-//             }
-//             return const SizedBox.shrink();
-//           },
-//         ));

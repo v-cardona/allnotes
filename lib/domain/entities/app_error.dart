@@ -17,5 +17,6 @@ enum AppErrorType {
   loginUserNotFound,
   loginUserDisabled,
   loginWrongPassword,
-  loginDifferentCredential
+  loginDifferentCredential,
+  addNoteFailed
 }

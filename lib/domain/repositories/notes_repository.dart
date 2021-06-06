@@ -5,4 +5,6 @@ import 'package:dartz/dartz.dart';
 abstract class NotesRepository {
   /// Returns all notes of current user [User]
   Future<Either<AppError, List<NoteEntity>>> getAllNotes();
+
+  Future<Either<AppError, bool>> addNote(NoteEntity note);
 }

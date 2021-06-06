@@ -4,6 +4,7 @@ import 'package:allnotes/data/models/note_result_model.dart';
 
 abstract class NotesRemoteDataSource {
   Future<List<NoteModel>> getAllNotes();
+  Future<bool> addNote(NoteModel note);
 }
 
 class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
@@ -16,5 +17,11 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
     final response = await _client.getAllNotes();
     List<NoteModel> notes = NotesResultModel.fromDocuments(response).notes;
     return notes;
+  }
+
+  @override
+  Future<bool> addNote(NoteModel note) async {
+    bool noteAdded = await _client.addNote(note);
+    return noteAdded;
   }
 }

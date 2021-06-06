@@ -2,6 +2,7 @@ import 'package:allnotes/data/core/firestore_client.dart';
 import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
 import 'package:allnotes/data/repositories/notes_repository_impl.dart';
 import 'package:allnotes/domain/repositories/notes_repository.dart';
+import 'package:allnotes/domain/usecases/add_note.dart';
 import 'package:allnotes/domain/usecases/get_all_notes.dart';
 import 'package:allnotes/domain/usecases/get_user.dart';
 import 'package:allnotes/domain/usecases/is_logged.dart';
@@ -45,6 +46,7 @@ Future init() async {
   getItInstance.registerLazySingleton<SignUp>(() => SignUp(getItInstance()));
   getItInstance
       .registerLazySingleton<GetAllNotes>(() => GetAllNotes(getItInstance()));
+  getItInstance.registerLazySingleton<AddNote>(() => AddNote(getItInstance()));
 
   // blocs
   getItInstance.registerLazySingleton<AuthenticationBloc>(() =>

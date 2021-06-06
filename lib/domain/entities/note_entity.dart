@@ -14,13 +14,13 @@ class NoteEntity extends Equatable {
       {this.content,
       this.color,
       this.id,
-      this.state,
       this.title,
+      NoteState state,
       DateTime createdAt,
       DateTime modifiedAt})
-      : this.createdAt = createdAt ?? DateTime.now(),
-        this.modifiedAt = modifiedAt ?? DateTime.now(),
-        assert(id != null, 'Note id must not be null');
+      : this.state = state ?? NoteState.unspecified,
+        this.createdAt = createdAt ?? DateTime.now(),
+        this.modifiedAt = modifiedAt ?? DateTime.now();
 
   @override
   List<Object> get props => [this.id, this.title];

@@ -29,6 +29,22 @@ class NoteModel extends NoteEntity {
             state: state,
             title: title);
 
+  factory NoteModel.fromNoteEntity(NoteEntity note) {
+    NoteModel noteModel;
+    if (note != null) {
+      noteModel = NoteModel(
+          color: note.color,
+          content: note.content,
+          createdAt: note.createdAt,
+          id: note.id,
+          modifiedAt: note.modifiedAt,
+          state: note.state,
+          title: note.title);
+    }
+
+    return noteModel;
+  }
+
   factory NoteModel.fromDocument(QueryDocumentSnapshot document) {
     NoteModel note;
     if (document.exists) {
@@ -46,5 +62,17 @@ class NoteModel extends NoteEntity {
     }
 
     return note;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['color'] = color.value;
+    data['content'] = content;
+    data['creation_time'] = Timestamp.fromDate(createdAt);
+    data['id'] = id;
+    data['last_modification_time'] = Timestamp.fromDate(modifiedAt);
+    data['state'] = state.index;
+    data['title'] = title;
+    return data;
   }
 }
