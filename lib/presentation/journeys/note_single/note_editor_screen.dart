@@ -3,6 +3,7 @@ import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
+import 'package:allnotes/presentation/journeys/note_single/note_editor_form.dart';
 import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,7 +65,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 child: SizedBox(),
               ),
             ),
-            body: Center(child: Text('test')),
+            body: NoteEditorForm(
+              note: _note,
+            ),
             bottomNavigationBar: BottomAppBar(
               elevation: 0,
               child: Padding(

@@ -28,6 +28,9 @@ class NoteEntity extends Equatable {
 
   /// Formatted last modified time
   String get strLastModified => DateFormat.MMMd().format(modifiedAt);
+
+  /// Checks if a note in this state can edit (modify / copy).
+  bool get canEdit => this.state.index < NoteState.deleted.index;
 }
 
 enum NoteState { unspecified, pinned, archived, deleted }

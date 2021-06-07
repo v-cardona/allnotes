@@ -25,6 +25,8 @@ class TranslationConstants {
 
   // EDITOR NOTE SCREEN
   static const String edited = 'edited';
+  static const String title = 'title';
+  static const String note = 'note';
 
   // ERROR MESSAGES
   static const String errorMsgGeneral = 'errorMsgGeneral';
