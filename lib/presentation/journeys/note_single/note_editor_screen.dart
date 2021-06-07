@@ -3,6 +3,7 @@ import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
+import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,17 +29,17 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        primaryColor: _note.color,
+        primaryColor: _note?.color ?? AppColor.white,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
               elevation: 0,
             ),
-        scaffoldBackgroundColor: _note.color,
-        bottomAppBarColor: _note.color,
+        scaffoldBackgroundColor: _note?.color ?? AppColor.white,
+        bottomAppBarColor: _note?.color ?? AppColor.white,
       ),
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: _note.color,
-          systemNavigationBarColor: _note.color,
+          statusBarColor: _note?.color,
+          systemNavigationBarColor: _note?.color,
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: Scaffold(
@@ -70,8 +71,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 padding: EdgeInsets.only(left: Sizes.dimen_10.w),
                 child: Row(
                   children: [
-                    Text(TranslationConstants.edited.translate(context) +
-                        ' ${_note.strLastModified}'),
+                    Text(_note != null
+                        ? TranslationConstants.edited.translate(context) +
+                            ' ${_note?.strLastModified}'
+                        : ''),
                     Expanded(
                       child: Row(),
                     ),
