@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NoteEntity extends Equatable {
   final String content;
@@ -24,6 +25,9 @@ class NoteEntity extends Equatable {
 
   @override
   List<Object> get props => [this.id, this.title];
+
+  /// Formatted last modified time
+  String get strLastModified => DateFormat.MMMd().format(modifiedAt);
 }
 
 enum NoteState { unspecified, pinned, archived, deleted }

@@ -16,6 +16,7 @@
   "signupTitle": "Sign Up",
   "searchYourNotes": "Search your notes",
   "addFirstNote": "Add your first note",
+  "edited": "Edited",
   "errorMsgGeneral": "An error has occurred",
   "errorMsgSignupEmailInUse": "The account already exists for that email.",
   "errorMsgSignupEmailInvalid": "Invalid email address.",

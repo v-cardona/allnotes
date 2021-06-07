@@ -5,6 +5,7 @@ import 'package:allnotes/common/constants/translation_constants.dart';
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/notes_bloc/notes_bloc.dart';
 import 'package:allnotes/presentation/journeys/home/home_screen_notes_grid.dart';
+import 'package:allnotes/presentation/journeys/note_single/note_editor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NoteEditorScreen())),
         child: const Icon(Icons.add),
       ),
     );

@@ -23,6 +23,9 @@ class TranslationConstants {
   static const String searchYourNotes = 'searchYourNotes';
   static const String addFirstNote = 'addFirstNote';
 
+  // EDITOR NOTE SCREEN
+  static const String edited = 'edited';
+
   // ERROR MESSAGES
   static const String errorMsgGeneral = 'errorMsgGeneral';
   static const String errorMsgSignupEmailInUse = 'errorMsgSignupEmailInUse';
