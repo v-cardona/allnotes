@@ -52,7 +52,7 @@ class NoteModel extends NoteEntity {
       Timestamp timestampCreated = data['creation_time'];
       Timestamp timestampModified = data['last_modification_time'];
       note = NoteModel(
-          color: Color(data['color'] ?? AppColor.white),
+          color: Color(data['color'] ?? AppColor.noteColorDefault),
           content: data['content'],
           createdAt: DateTime.tryParse(timestampCreated.toDate().toString()),
           id: document.id,

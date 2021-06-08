@@ -20,7 +20,7 @@ class NoteEntity extends Equatable {
       NoteState state,
       DateTime createdAt,
       DateTime modifiedAt})
-      : this.color = color ?? AppColor.white,
+      : this.color = color ?? AppColor.noteColorDefault,
         this.state = state ?? NoteState.unspecified,
         this.createdAt = createdAt ?? DateTime.now(),
         this.modifiedAt = modifiedAt ?? DateTime.now();
