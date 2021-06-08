@@ -2,17 +2,17 @@ import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/presentation/blocs/note_color_bloc/note_color_bloc.dart';
 import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NoteEditorBottomBar extends StatelessWidget {
   final String strLastModified;
-  final Color color;
 
   const NoteEditorBottomBar({
     Key key,
     @required this.strLastModified,
-    @required this.color,
   }) : super(key: key);
 
   @override
@@ -30,10 +30,20 @@ class NoteEditorBottomBar extends StatelessWidget {
             Expanded(
               child: Row(),
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              color: Colors.black54,
-              onPressed: () => _showNoteBottomSheet(context, color),
+            BlocBuilder<NoteColorBloc, NoteColorState>(
+              cubit: BlocProvider.of<NoteColorBloc>(context),
+              builder: (context, state) {
+                if (state is NoteColorChanged) {
+                  Color color = state.color;
+                  return IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    color: Colors.black54,
+                    onPressed: () => _showNoteBottomSheet(context, color),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             ),
           ],
         ),
@@ -45,7 +55,7 @@ class NoteEditorBottomBar extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: color,
-      builder: (context) => Container(
+      builder: (_) => Container(
         color: color,
         padding: EdgeInsets.symmetric(vertical: Sizes.dimen_19.w),
         child: SingleChildScrollView(
@@ -70,7 +80,10 @@ class NoteEditorBottomBar extends StatelessWidget {
                       ),
                       onTap: () {
                         if (colorI != color) {
-                          print(colorI);
+                          BlocProvider.of<NoteColorBloc>(context).add(
+                            ChangeNoteColorEvent(color: colorI),
+                          );
+                          Navigator.pop(context);
                         }
                       },
                     ),
@@ -83,29 +96,3 @@ class NoteEditorBottomBar extends StatelessWidget {
     );
   }
 }
-
-// .flatMapIndexed((i, color) => [
-//       if (i == 0) const SizedBox(width: 17),
-//       InkWell(
-//         child: Container(
-//           width: 36,
-//           height: 36,
-//           decoration: BoxDecoration(
-//             color: color,
-//             shape: BoxShape.circle,
-//             border: Border.all(color: kColorPickerBorderColor),
-//           ),
-//           child: color == _currColor(note)
-//               ? const Icon(Icons.check,
-//                   color: kColorPickerBorderColor)
-//               : null,
-//         ),
-//         onTap: () {
-//           if (color != _currColor(note)) {
-//             note.updateWith(color: color);
-//           }
-//         },
-//       ),
-//       SizedBox(width: i == kNoteColors.length - 1 ? 17 : 20),
-//     ])
-// .asList(),
