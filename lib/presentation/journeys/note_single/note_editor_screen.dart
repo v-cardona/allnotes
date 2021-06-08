@@ -19,11 +19,23 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen> {
   NoteEntity _note;
+  TextEditingController _noteContentController;
+  TextEditingController _noteTitleController;
 
   @override
   void initState() {
     super.initState();
+    _noteContentController = TextEditingController(text: widget.note?.content);
+    _noteTitleController = TextEditingController(text: widget.note?.title);
+
     _note = widget.note;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _noteContentController.dispose();
+    _noteTitleController.dispose();
   }
 
   @override
@@ -44,52 +56,55 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: Scaffold(
-            appBar: AppBar(
-              iconTheme: IconThemeData(color: Colors.black54),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.push_pin_outlined,
-                  ),
-                  onPressed: () {},
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.black54),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.push_pin_outlined,
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.archive_outlined,
-                  ),
-                  onPressed: () {},
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.archive_outlined,
                 ),
-              ],
-              bottom: const PreferredSize(
-                preferredSize: Size(0, 24),
-                child: SizedBox(),
+                onPressed: () {},
+              ),
+            ],
+            bottom: const PreferredSize(
+              preferredSize: Size(0, 24),
+              child: SizedBox(),
+            ),
+          ),
+          body: NoteEditorForm(
+            noteContentController: _noteContentController,
+            noteTitleController: _noteTitleController,
+            readOnly: !(_note?.canEdit ?? true),
+          ),
+          bottomNavigationBar: BottomAppBar(
+            elevation: 0,
+            child: Padding(
+              padding: EdgeInsets.only(left: Sizes.dimen_10.w),
+              child: Row(
+                children: [
+                  Text(_note != null
+                      ? TranslationConstants.edited.translate(context) +
+                          ' ${_note?.strLastModified}'
+                      : ''),
+                  Expanded(
+                    child: Row(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    color: Colors.black54,
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ),
-            body: NoteEditorForm(
-              note: _note,
-            ),
-            bottomNavigationBar: BottomAppBar(
-              elevation: 0,
-              child: Padding(
-                padding: EdgeInsets.only(left: Sizes.dimen_10.w),
-                child: Row(
-                  children: [
-                    Text(_note != null
-                        ? TranslationConstants.edited.translate(context) +
-                            ' ${_note?.strLastModified}'
-                        : ''),
-                    Expanded(
-                      child: Row(),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.more_vert),
-                      color: Colors.black54,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ),
-            )),
+          ),
+        ),
       ),
     );
   }

@@ -1,16 +1,21 @@
 import 'package:allnotes/common/constants/size_constants.dart';
-import 'package:allnotes/data/models/note_model.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/presentation/themes/theme_text.dart';
 import 'package:allnotes/presentation/widgets/note_text_input.dart';
-import 'package:allnotes/presentation/widgets/title_text_input.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:flutter/material.dart';
 
 class NoteEditorForm extends StatelessWidget {
-  final NoteModel note;
+  final bool readOnly;
+  final TextEditingController noteTitleController;
+  final TextEditingController noteContentController;
 
   const NoteEditorForm({
     Key key,
-    @required this.note,
+    this.readOnly,
+    @required this.noteTitleController,
+    @required this.noteContentController,
   }) : super(key: key);
 
   @override
@@ -19,16 +24,28 @@ class NoteEditorForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TitleTextInput(
-            initialText: note?.title,
-            readOnly: !(note?.canEdit ?? true),
+          NoteTextInput(
+            editingController: noteTitleController,
+            decoration: InputDecoration(
+              hintText: TranslationConstants.title.translate(context),
+              border: InputBorder.none,
+              counter: const SizedBox(),
+            ),
+            maxLength: 1024,
+            textStyle: ThemeText.noteEditorTitle,
+            readOnly: readOnly,
           ),
           SizedBox(
             height: Sizes.dimen_8.h,
           ),
           NoteTextInput(
-            initialText: note?.content,
-            readOnly: !(note?.canEdit ?? true),
+            editingController: noteContentController,
+            decoration: InputDecoration.collapsed(
+              hintText: TranslationConstants.note.translate(context),
+            ),
+            textStyle: ThemeText.noteEditor,
+            keyboardType: TextInputType.multiline,
+            readOnly: readOnly,
           ),
         ],
       ),

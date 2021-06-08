@@ -1,20 +1,23 @@
-import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/common/extensions/size_extensions.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
-import 'package:allnotes/common/constants/translation_constants.dart';
-import 'package:allnotes/presentation/themes/theme_text.dart';
 import 'package:flutter/material.dart';
 
 class NoteTextInput extends StatelessWidget {
-  final String initialText;
-  final Function onPressed;
   final bool readOnly;
+  final TextEditingController editingController;
+  final InputDecoration decoration;
+  final int maxLength;
+  final TextStyle textStyle;
+  final TextInputType keyboardType;
 
   const NoteTextInput({
     Key key,
-    this.initialText = '',
-    this.onPressed,
     this.readOnly = false,
+    @required this.editingController,
+    this.decoration,
+    this.maxLength,
+    this.textStyle,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -24,15 +27,13 @@ class NoteTextInput extends StatelessWidget {
         horizontal: Sizes.dimen_14.w,
         vertical: Sizes.dimen_8.h,
       ),
-      child: TextFormField(
-        initialValue: initialText,
-        onChanged: onPressed,
-        keyboardType: TextInputType.multiline,
-        decoration: InputDecoration.collapsed(
-          hintText: TranslationConstants.note.translate(context),
-        ),
+      child: TextField(
+        controller: editingController,
+        keyboardType: keyboardType,
+        decoration: decoration,
         maxLines: null,
-        style: ThemeText.noteEditor,
+        maxLength: maxLength,
+        style: textStyle,
         textCapitalization: TextCapitalization.sentences,
         readOnly: readOnly,
       ),

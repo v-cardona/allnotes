@@ -1,3 +1,4 @@
+import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,13 +14,14 @@ class NoteEntity extends Equatable {
 
   NoteEntity(
       {this.content,
-      this.color,
       this.id,
       this.title,
+      Color color,
       NoteState state,
       DateTime createdAt,
       DateTime modifiedAt})
-      : this.state = state ?? NoteState.unspecified,
+      : this.color = color ?? AppColor.white,
+        this.state = state ?? NoteState.unspecified,
         this.createdAt = createdAt ?? DateTime.now(),
         this.modifiedAt = modifiedAt ?? DateTime.now();
 
