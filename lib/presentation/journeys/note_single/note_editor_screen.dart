@@ -1,11 +1,11 @@
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/blocs/note_color_bloc/note_color_bloc.dart';
+import 'package:allnotes/presentation/blocs/note_state_bloc/note_state_bloc.dart';
 import 'package:allnotes/presentation/journeys/note_single/note_editor_bottom_bar.dart';
 import 'package:allnotes/presentation/journeys/note_single/note_editor_form.dart';
 import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -21,6 +21,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   TextEditingController _noteContentController;
   TextEditingController _noteTitleController;
   NoteColorBloc _noteColorBloc;
+  NoteStateBloc _noteStateBloc;
   bool _readOnly;
   String _strLastModified;
 
@@ -30,8 +31,17 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     _noteContentController = TextEditingController(text: widget.note?.content);
     _noteTitleController = TextEditingController(text: widget.note?.title);
     _noteColorBloc = getItInstance<NoteColorBloc>();
-    _noteColorBloc.add(ChangeNoteColorEvent(
-        color: widget.note?.color ?? AppColor.noteColorDefault));
+    _noteColorBloc.add(
+      ChangeNoteColorEvent(
+        color: widget.note?.color ?? AppColor.noteColorDefault,
+      ),
+    );
+    _noteStateBloc = getItInstance<NoteStateBloc>();
+    _noteStateBloc.add(
+      ChangeNoteStateEvent(
+        state: widget.note?.state ?? NoteState.unspecified,
+      ),
+    );
 
     _readOnly = !(widget.note?.canEdit ?? true);
     _strLastModified = widget.note?.strLastModified;
@@ -43,51 +53,95 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     _noteContentController.dispose();
     _noteTitleController.dispose();
     _noteColorBloc.close();
+    _noteStateBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      cubit: _noteColorBloc,
-      builder: (context, state) {
-        if (state is NoteColorChanged) {
-          Color color = state.color;
-          return Theme(
-            data: Theme.of(context).copyWith(
-              primaryColor: color,
-              appBarTheme: Theme.of(context).appBarTheme.copyWith(
-                    elevation: 0,
-                  ),
-              scaffoldBackgroundColor: color,
-              bottomAppBarColor: color,
-            ),
-            child: AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: color,
-                systemNavigationBarColor: color,
-                systemNavigationBarIconBrightness: Brightness.dark,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _noteColorBloc),
+        BlocProvider.value(value: _noteStateBloc),
+      ],
+      child: BlocBuilder<NoteColorBloc, NoteColorState>(
+        builder: (_, state) {
+          if (state is NoteColorChanged) {
+            Color color = state.color;
+            return Theme(
+              data: Theme.of(context).copyWith(
+                primaryColor: color,
+                appBarTheme: Theme.of(context).appBarTheme.copyWith(
+                      elevation: 0,
+                    ),
+                scaffoldBackgroundColor: color,
+                bottomAppBarColor: color,
               ),
               child: Scaffold(
                   appBar: AppBar(
-                    iconTheme: IconThemeData(color: Colors.black54),
+                    iconTheme: const IconThemeData(color: Colors.black54),
                     actions: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.push_pin_outlined,
-                        ),
-                        onPressed: () {},
+                      BlocConsumer<NoteStateBloc, NoteStateState>(
+                        listener: (context, state) {
+                          if (state is NoteStateChanged) {
+                            String message = '';
+                            if (state.state == NoteState.pinned) {
+                              message = 'Note pinned';
+                            } else if (state.state == NoteState.archived) {
+                              message = 'Note archived';
+                            }
+                            if (message != '') {
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(message),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is NoteStateChanged) {
+                            return IconButton(
+                              icon: Icon(
+                                state.state == NoteState.pinned
+                                    ? Icons.push_pin_rounded
+                                    : Icons.push_pin_outlined,
+                              ),
+                              onPressed: () => _noteStateBloc.add(
+                                ChangeNoteStateEvent(
+                                  state: state.state == NoteState.pinned
+                                      ? NoteState.unspecified
+                                      : NoteState.pinned,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        },
                       ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.archive_outlined,
-                        ),
-                        onPressed: () {},
+                      BlocBuilder<NoteStateBloc, NoteStateState>(
+                        builder: (context, state) {
+                          if (state is NoteStateChanged) {
+                            return IconButton(
+                              icon: Icon(
+                                state.state == NoteState.archived
+                                    ? Icons.archive_rounded
+                                    : Icons.archive_outlined,
+                              ),
+                              onPressed: () => _noteStateBloc.add(
+                                ChangeNoteStateEvent(
+                                  state: state.state == NoteState.archived
+                                      ? NoteState.unspecified
+                                      : NoteState.archived,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        },
                       ),
                     ],
-                    bottom: const PreferredSize(
-                      preferredSize: Size(0, 24),
-                      child: SizedBox(),
-                    ),
                   ),
                   body: NoteEditorForm(
                     noteContentController: _noteContentController,
@@ -100,12 +154,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                       strLastModified: _strLastModified,
                     ),
                   )),
-            ),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 }

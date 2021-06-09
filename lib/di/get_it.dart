@@ -12,6 +12,7 @@ import 'package:allnotes/domain/usecases/logout.dart';
 import 'package:allnotes/domain/usecases/sign_up.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:allnotes/presentation/blocs/note_color_bloc/note_color_bloc.dart';
+import 'package:allnotes/presentation/blocs/note_state_bloc/note_state_bloc.dart';
 import 'package:allnotes/presentation/blocs/notes_bloc/notes_bloc.dart';
 import 'package:allnotes/presentation/blocs/signup_bloc/signup_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,4 +63,5 @@ Future init() async {
   getItInstance.registerFactory<NotesBloc>(
       () => NotesBloc(getAllNotes: getItInstance()));
   getItInstance.registerFactory<NoteColorBloc>(() => NoteColorBloc());
+  getItInstance.registerFactory<NoteStateBloc>(() => NoteStateBloc());
 }
