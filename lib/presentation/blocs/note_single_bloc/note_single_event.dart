@@ -13,8 +13,10 @@ class SaveNoteSingleEvent extends NoteSingleEvent {
   final String id;
   final Color color;
   final NoteState state;
+  final DateTime createdAt;
 
   SaveNoteSingleEvent({
+    @required this.createdAt,
     @required this.color,
     @required this.state,
     @required this.title,

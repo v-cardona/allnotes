@@ -50,6 +50,7 @@ class NoteSingleBloc extends Bloc<NoteSingleEvent, NoteSingleState> {
           content: event.content,
           title: event.title,
           id: event.id,
+          createdAt: event.createdAt,
         );
         Either<AppError, bool> eitherUpdateNote = await updateNote.call(
           NoteParams(note: note),

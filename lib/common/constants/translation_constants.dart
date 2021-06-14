@@ -26,6 +26,7 @@ class TranslationConstants {
   // EDITOR NOTE SCREEN
   static const String edited = 'edited';
   static const String title = 'title';
+  static const String untitled = 'untitled';
   static const String note = 'note';
   static const String notePinned = 'notePinned';
   static const String noteArchived = 'noteArchived';

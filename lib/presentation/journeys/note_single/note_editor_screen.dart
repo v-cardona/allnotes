@@ -28,7 +28,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   NoteSingleBloc _noteSingleBloc;
   bool _readOnly;
   String _strLastModified;
-  String noteId;
+  String _noteId;
+  DateTime _createdAt;
 
   @override
   void initState() {
@@ -51,7 +52,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
 
     _readOnly = !(widget.note?.canEdit ?? true);
     _strLastModified = widget.note?.strLastModified;
-    noteId = widget.note?.id;
+    _noteId = widget.note?.id;
+    _createdAt = widget.note?.createdAt;
   }
 
   @override
@@ -87,17 +89,23 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
               ),
               child: WillPopScope(
                 onWillPop: () {
-                  NoteColorChanged noteColorChanged = _noteColorBloc.state;
-                  NoteStateChanged noteStateChanged = _noteStateBloc.state;
-                  _noteSingleBloc.add(
-                    SaveNoteSingleEvent(
-                      content: _noteContentController.text,
-                      title: _noteTitleController.text,
-                      id: noteId,
-                      color: noteColorChanged.color,
-                      state: noteStateChanged.state,
-                    ),
-                  );
+                  if (_noteContentController.text != '' ||
+                      _noteTitleController.text != '') {
+                    NoteColorChanged noteColorChanged = _noteColorBloc.state;
+                    NoteStateChanged noteStateChanged = _noteStateBloc.state;
+                    _noteSingleBloc.add(
+                      SaveNoteSingleEvent(
+                        createdAt: _createdAt,
+                        content: _noteContentController.text,
+                        title: _noteTitleController.text != ''
+                            ? _noteTitleController.text
+                            : TranslationConstants.untitled.translate(context),
+                        id: _noteId,
+                        color: noteColorChanged.color,
+                        state: noteStateChanged.state,
+                      ),
+                    );
+                  }
                   Navigator.of(context).pop();
                   return Future.value(false);
                 },
