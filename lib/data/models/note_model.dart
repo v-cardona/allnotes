@@ -69,7 +69,6 @@ class NoteModel extends NoteEntity {
     data['color'] = color.value;
     data['content'] = content;
     data['creation_time'] = Timestamp.fromDate(createdAt);
-    data['id'] = id;
     data['last_modification_time'] = Timestamp.fromDate(modifiedAt);
     data['state'] = state.index;
     data['title'] = title;

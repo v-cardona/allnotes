@@ -1,6 +1,9 @@
+import 'package:allnotes/common/constants/translation_constants.dart';
+import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/blocs/note_color_bloc/note_color_bloc.dart';
+import 'package:allnotes/presentation/blocs/note_single_bloc/note_single_bloc.dart';
 import 'package:allnotes/presentation/blocs/note_state_bloc/note_state_bloc.dart';
 import 'package:allnotes/presentation/journeys/note_single/note_editor_bottom_bar.dart';
 import 'package:allnotes/presentation/journeys/note_single/note_editor_form.dart';
@@ -22,8 +25,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   TextEditingController _noteTitleController;
   NoteColorBloc _noteColorBloc;
   NoteStateBloc _noteStateBloc;
+  NoteSingleBloc _noteSingleBloc;
   bool _readOnly;
   String _strLastModified;
+  String noteId;
 
   @override
   void initState() {
@@ -42,9 +47,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
         state: widget.note?.state ?? NoteState.unspecified,
       ),
     );
+    _noteSingleBloc = getItInstance<NoteSingleBloc>();
 
     _readOnly = !(widget.note?.canEdit ?? true);
     _strLastModified = widget.note?.strLastModified;
+    noteId = widget.note?.id;
   }
 
   @override
@@ -54,6 +61,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     _noteTitleController.dispose();
     _noteColorBloc.close();
     _noteStateBloc.close();
+    _noteSingleBloc.close();
   }
 
   @override
@@ -62,6 +70,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
       providers: [
         BlocProvider.value(value: _noteColorBloc),
         BlocProvider.value(value: _noteStateBloc),
+        BlocProvider.value(value: _noteSingleBloc),
       ],
       child: BlocBuilder<NoteColorBloc, NoteColorState>(
         builder: (_, state) {
@@ -76,84 +85,103 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 scaffoldBackgroundColor: color,
                 bottomAppBarColor: color,
               ),
-              child: Scaffold(
-                  appBar: AppBar(
-                    iconTheme: const IconThemeData(color: Colors.black54),
-                    actions: [
-                      BlocConsumer<NoteStateBloc, NoteStateState>(
-                        listener: (context, state) {
-                          if (state is NoteStateChanged) {
-                            String message = '';
-                            if (state.state == NoteState.pinned) {
-                              message = 'Note pinned';
-                            } else if (state.state == NoteState.archived) {
-                              message = 'Note archived';
+              child: WillPopScope(
+                onWillPop: () {
+                  NoteColorChanged noteColorChanged = _noteColorBloc.state;
+                  NoteStateChanged noteStateChanged = _noteStateBloc.state;
+                  _noteSingleBloc.add(
+                    SaveNoteSingleEvent(
+                      content: _noteContentController.text,
+                      title: _noteTitleController.text,
+                      id: noteId,
+                      color: noteColorChanged.color,
+                      state: noteStateChanged.state,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                  return Future.value(false);
+                },
+                child: Scaffold(
+                    appBar: AppBar(
+                      iconTheme: const IconThemeData(color: Colors.black54),
+                      actions: [
+                        BlocConsumer<NoteStateBloc, NoteStateState>(
+                          listener: (context, state) {
+                            if (state is NoteStateChanged) {
+                              String message = '';
+                              if (state.state == NoteState.pinned) {
+                                message = TranslationConstants.notePinned
+                                    .translate(context);
+                              } else if (state.state == NoteState.archived) {
+                                message = TranslationConstants.noteArchived
+                                    .translate(context);
+                              }
+                              if (message != '') {
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(message),
+                                  ),
+                                );
+                              }
                             }
-                            if (message != '') {
-                              Scaffold.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(message),
+                          },
+                          builder: (context, state) {
+                            if (state is NoteStateChanged) {
+                              return IconButton(
+                                icon: Icon(
+                                  state.state == NoteState.pinned
+                                      ? Icons.push_pin_rounded
+                                      : Icons.push_pin_outlined,
+                                ),
+                                onPressed: () => _noteStateBloc.add(
+                                  ChangeNoteStateEvent(
+                                    state: state.state == NoteState.pinned
+                                        ? NoteState.unspecified
+                                        : NoteState.pinned,
+                                  ),
                                 ),
                               );
+                            } else {
+                              return SizedBox.shrink();
                             }
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is NoteStateChanged) {
-                            return IconButton(
-                              icon: Icon(
-                                state.state == NoteState.pinned
-                                    ? Icons.push_pin_rounded
-                                    : Icons.push_pin_outlined,
-                              ),
-                              onPressed: () => _noteStateBloc.add(
-                                ChangeNoteStateEvent(
-                                  state: state.state == NoteState.pinned
-                                      ? NoteState.unspecified
-                                      : NoteState.pinned,
+                          },
+                        ),
+                        BlocBuilder<NoteStateBloc, NoteStateState>(
+                          builder: (context, state) {
+                            if (state is NoteStateChanged) {
+                              return IconButton(
+                                icon: Icon(
+                                  state.state == NoteState.archived
+                                      ? Icons.archive_rounded
+                                      : Icons.archive_outlined,
                                 ),
-                              ),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
-                        },
-                      ),
-                      BlocBuilder<NoteStateBloc, NoteStateState>(
-                        builder: (context, state) {
-                          if (state is NoteStateChanged) {
-                            return IconButton(
-                              icon: Icon(
-                                state.state == NoteState.archived
-                                    ? Icons.archive_rounded
-                                    : Icons.archive_outlined,
-                              ),
-                              onPressed: () => _noteStateBloc.add(
-                                ChangeNoteStateEvent(
-                                  state: state.state == NoteState.archived
-                                      ? NoteState.unspecified
-                                      : NoteState.archived,
+                                onPressed: () => _noteStateBloc.add(
+                                  ChangeNoteStateEvent(
+                                    state: state.state == NoteState.archived
+                                        ? NoteState.unspecified
+                                        : NoteState.archived,
+                                  ),
                                 ),
-                              ),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  body: NoteEditorForm(
-                    noteContentController: _noteContentController,
-                    noteTitleController: _noteTitleController,
-                    readOnly: _readOnly,
-                  ),
-                  bottomNavigationBar: BlocProvider(
-                    create: (context) => _noteColorBloc,
-                    child: NoteEditorBottomBar(
-                      strLastModified: _strLastModified,
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                  )),
+                    body: NoteEditorForm(
+                      noteContentController: _noteContentController,
+                      noteTitleController: _noteTitleController,
+                      readOnly: _readOnly,
+                    ),
+                    bottomNavigationBar: BlocProvider(
+                      create: (context) => _noteColorBloc,
+                      child: NoteEditorBottomBar(
+                        strLastModified: _strLastModified,
+                      ),
+                    )),
+              ),
             );
           } else {
             return Center(child: CircularProgressIndicator());

@@ -19,6 +19,8 @@
   "edited": "Edited",
   "title": "Title",
   "note": "Note",
+  "notePinned": "Note pinned",
+  "noteArchived": "Note archived",
   "errorMsgGeneral": "An error has occurred",
   "errorMsgSignupEmailInUse": "The account already exists for that email.",
   "errorMsgSignupEmailInvalid": "Invalid email address.",
