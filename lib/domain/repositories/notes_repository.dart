@@ -7,4 +7,6 @@ abstract class NotesRepository {
   Future<Either<AppError, List<NoteEntity>>> getAllNotes();
 
   Future<Either<AppError, bool>> addNote(NoteEntity note);
+
+  Future<Either<AppError, bool>> updateNote(NoteEntity note);
 }

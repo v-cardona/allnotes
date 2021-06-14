@@ -10,6 +10,7 @@ import 'package:allnotes/domain/usecases/login_with_email.dart';
 import 'package:allnotes/domain/usecases/login_with_google.dart';
 import 'package:allnotes/domain/usecases/logout.dart';
 import 'package:allnotes/domain/usecases/sign_up.dart';
+import 'package:allnotes/domain/usecases/update_note.dart';
 import 'package:allnotes/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:allnotes/presentation/blocs/note_color_bloc/note_color_bloc.dart';
 import 'package:allnotes/presentation/blocs/note_single_bloc/note_single_bloc.dart';
@@ -50,6 +51,8 @@ Future init() async {
   getItInstance
       .registerLazySingleton<GetAllNotes>(() => GetAllNotes(getItInstance()));
   getItInstance.registerLazySingleton<AddNote>(() => AddNote(getItInstance()));
+  getItInstance
+      .registerLazySingleton<UpdateNote>(() => UpdateNote(getItInstance()));
 
   // blocs
   getItInstance.registerLazySingleton<AuthenticationBloc>(() =>
@@ -68,6 +71,7 @@ Future init() async {
   getItInstance.registerFactory<NoteSingleBloc>(
     () => NoteSingleBloc(
       addNote: getItInstance(),
+      updateNote: getItInstance(),
     ),
   );
 }

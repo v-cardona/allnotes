@@ -23,6 +23,17 @@ class FirestoreClient {
     return noteAdded;
   }
 
+  Future<bool> updateNote(NoteModel note) async {
+    String collectionName = getCollectionName();
+    CollectionReference collection = _firestore.collection(collectionName);
+    DocumentReference documentReference = collection.doc(note.id);
+    bool noteUpdated = false;
+    await documentReference
+        .update(note.toJson())
+        .then((value) => noteUpdated = true);
+    return noteUpdated;
+  }
+
   String getCollectionName() {
     return '${FirestoreConstants.BASE_USER_DOCUMENT}${_user.uid}';
   }

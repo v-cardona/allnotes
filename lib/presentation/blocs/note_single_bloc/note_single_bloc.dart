@@ -4,6 +4,7 @@ import 'package:allnotes/domain/entities/app_error.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/domain/entities/note_params.dart';
 import 'package:allnotes/domain/usecases/add_note.dart';
+import 'package:allnotes/domain/usecases/update_note.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -14,9 +15,11 @@ part 'note_single_state.dart';
 
 class NoteSingleBloc extends Bloc<NoteSingleEvent, NoteSingleState> {
   final AddNote addNote;
+  final UpdateNote updateNote;
 
   NoteSingleBloc({
     @required this.addNote,
+    @required this.updateNote,
   }) : super(NoteSingleInitial());
 
   @override
@@ -37,6 +40,21 @@ class NoteSingleBloc extends Bloc<NoteSingleEvent, NoteSingleState> {
           NoteParams(note: note),
         );
         yield eitherAddNote.fold(
+          (l) => NoteSingleError(appErrorType: l.errorType),
+          (r) => NoteSingleUpdated(),
+        );
+      } else {
+        NoteEntity note = NoteEntity(
+          color: event.color,
+          state: event.state,
+          content: event.content,
+          title: event.title,
+          id: event.id,
+        );
+        Either<AppError, bool> eitherUpdateNote = await updateNote.call(
+          NoteParams(note: note),
+        );
+        yield eitherUpdateNote.fold(
           (l) => NoteSingleError(appErrorType: l.errorType),
           (r) => NoteSingleUpdated(),
         );

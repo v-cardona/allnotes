@@ -19,7 +19,7 @@ class NotesRepositoryImpl extends NotesRepository {
       List<NoteModel> notes = await remoteDataSource.getAllNotes();
       return Right(notes);
     } on Exception {
-      return Left(AppError(AppErrorType.general));
+      return Left(AppError(AppErrorType.firebaseConnection));
     }
   }
 
@@ -32,6 +32,21 @@ class NotesRepositoryImpl extends NotesRepository {
         return Right(noteAdded);
       } else {
         return Left(AppError(AppErrorType.addNoteFailed));
+      }
+    } on Exception {
+      return Left(AppError(AppErrorType.general));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> updateNote(NoteEntity note) async {
+    try {
+      NoteModel noteModel = NoteModel.fromNoteEntity(note);
+      bool noteUpdated = await remoteDataSource.updateNote(noteModel);
+      if (noteUpdated) {
+        return Right(noteUpdated);
+      } else {
+        return Left(AppError(AppErrorType.updateNoteFailed));
       }
     } on Exception {
       return Left(AppError(AppErrorType.general));

@@ -18,5 +18,7 @@ enum AppErrorType {
   loginUserDisabled,
   loginWrongPassword,
   loginDifferentCredential,
-  addNoteFailed
+  firebaseConnection,
+  addNoteFailed,
+  updateNoteFailed,
 }
