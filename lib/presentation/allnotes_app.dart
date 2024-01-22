@@ -7,11 +7,10 @@ import 'package:allnotes/common/constants/languages_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/presentation/app_localizations.dart';
-import 'package:allnotes/presentation/journeys/loading/loading_page.dart';
 import 'package:allnotes/presentation/routes.dart';
 
 class AllnotesApp extends StatefulWidget {
-  const AllnotesApp({Key? key}) : super(key: key);
+  const AllnotesApp({super.key});
 
   @override
   State<AllnotesApp> createState() => _AllnotesAppState();

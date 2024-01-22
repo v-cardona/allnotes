@@ -7,9 +7,9 @@ import 'package:allnotes/presentation/journeys/loading/loading_effect.dart';
 class LoadingPage extends StatelessWidget {
   final Widget screen;
   const LoadingPage({
-    Key? key,
+    super.key,
     required this.screen,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

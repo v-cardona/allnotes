@@ -9,7 +9,7 @@ import 'package:allnotes/presentation/journeys/login/text_privacy_terms.dart';
 import 'package:allnotes/presentation/widgets/text_input_widget.dart';
 
 class LoginEmailPage extends StatefulWidget {
-  const LoginEmailPage({Key? key}) : super(key: key);
+  const LoginEmailPage({super.key});
 
   @override
   State<LoginEmailPage> createState() => _LoginEmailPageState();

@@ -4,7 +4,7 @@ import 'package:allnotes/common/extensions/string_extensions.dart';
 
 class TextInputWidget extends StatelessWidget {
   const TextInputWidget({
-    Key? key,
+    super.key,
     required this.label,
     required this.controller,
     this.onChange,
@@ -12,7 +12,7 @@ class TextInputWidget extends StatelessWidget {
     this.suffixIcon,
     this.textInputType = TextInputType.name,
     this.maxLength,
-  }) : super(key: key);
+  });
 
   final String label;
   final Function(String)? onChange;

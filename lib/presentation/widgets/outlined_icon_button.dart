@@ -6,11 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OutlinedIconButton extends StatelessWidget {
   const OutlinedIconButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
     required this.iconData,
-  }) : super(key: key);
+  });
 
   final String label;
   final Function() onPressed;

@@ -4,7 +4,7 @@ import 'package:allnotes/common/constants/translations_constants.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 
 class TextPrivacyTerms extends StatelessWidget {
-  const TextPrivacyTerms({Key? key}) : super(key: key);
+  const TextPrivacyTerms({super.key});
 
   @override
   Widget build(BuildContext context) {
