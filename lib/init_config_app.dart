@@ -7,12 +7,13 @@ import 'firebase_options.dart';
 import 'package:allnotes/di/get_it.dart' as get_it;
 
 Future<void> configureApp() async {
-  // initialize dependency injection
-  await get_it.init();
   // init firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // initialize dependency injection
+  await get_it.init();
 
   // force to portrait mode only
   unawaited(

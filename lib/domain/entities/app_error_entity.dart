@@ -20,14 +20,12 @@ class AppError extends Equatable {
 
 enum AppErrorType {
   defaultError,
-  signupEmailInUse,
-  signupEmailInvalid,
-  signupWeakPassword,
-  loginUserNotFound,
-  loginUserDisabled,
-  loginWrongPassword,
-  loginDifferentCredential,
-  firebaseConnection,
-  addNoteFailed,
-  updateNoteFailed,
+  accountExists,
+  invalidCredential,
+  operationNotAllowed,
+  userDisabled,
+  userNotFound,
+  invalidVerificationCode,
+  invalidVerificationId,
+  logout
 }

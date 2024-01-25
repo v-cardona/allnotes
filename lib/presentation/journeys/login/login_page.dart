@@ -1,13 +1,18 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:allnotes/common/constants/image_constants.dart';
 import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
+import 'package:allnotes/presentation/blocs/authentication/authentication_cubit.dart';
 import 'package:allnotes/presentation/journeys/login/text_privacy_terms.dart';
 import 'package:allnotes/presentation/themes/custom_icons.dart';
 import 'package:allnotes/presentation/widgets/outlined_icon_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +22,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
+  late final StreamSubscription<void> _authStateSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _authStateSubscription = BlocProvider.of<AuthenticationCubit>(context)
+        .initSubscriptionAuth(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _authStateSubscription.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +68,9 @@ class _LoginState extends State<LoginPage> {
                       OutlinedIconButton(
                         label: TranslationConstants.continueGoogle,
                         iconData: CustomIcons.google,
-                        onPressed: () => null,
+                        onPressed: () =>
+                            BlocProvider.of<AuthenticationCubit>(context)
+                                .loginWithGoogle(),
                       ),
                       SizedBox(
                         height: Sizes.dimen_12.h,
