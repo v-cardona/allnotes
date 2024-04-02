@@ -50,12 +50,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   // eoc, it will o to the login page and save as unauthenticated
   // it will be handle the splashscreen
   void manageAuth(BuildContext context) {
-    getMyUser(context, route: RouteList.rootPage);
+    getMyUser(context, route: RouteList.homePage);
   }
 
   void authenticated(BuildContext context) async {
     _loadingCubit.showInitial();
-    getMyUser(context, route: RouteList.rootPage);
+    getMyUser(context, route: RouteList.homePage);
     _loadingCubit.hide();
   }
 

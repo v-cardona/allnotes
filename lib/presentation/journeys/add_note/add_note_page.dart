@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class RootPage extends StatelessWidget {
-  const RootPage({super.key});
+class AddNotePage extends StatelessWidget {
+  const AddNotePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
         body: Center(
-          child: Text("logged"),
+          child: Text("add page editor"),
         ),
       ),
     );

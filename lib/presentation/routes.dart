@@ -1,10 +1,11 @@
+import 'package:allnotes/presentation/journeys/add_note/add_note_page.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:allnotes/presentation/journeys/login/login_email_page.dart';
 import 'package:allnotes/presentation/journeys/login/login_page.dart';
 import 'package:allnotes/presentation/journeys/login/splash_page.dart';
-import 'package:allnotes/presentation/journeys/root_page.dart';
+import 'package:allnotes/presentation/journeys/homepage/home_page.dart';
 
 final router = GoRouter(
   routes: [
@@ -24,9 +25,15 @@ final router = GoRouter(
       builder: (context, state) => const LoginEmailPage(),
     ),
     GoRoute(
-      name: RouteList.rootPage,
-      path: RouteList.rootPage,
-      builder: (context, state) => const RootPage(),
-    ),
+        name: RouteList.homePage,
+        path: RouteList.homePage,
+        builder: (context, state) => const HomePage(),
+        routes: <RouteBase>[
+          GoRoute(
+            name: RouteList.addNotePage,
+            path: RouteList.addNotePage,
+            builder: (context, state) => const AddNotePage(),
+          ),
+        ]),
   ],
 );
