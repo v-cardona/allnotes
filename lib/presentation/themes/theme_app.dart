@@ -72,5 +72,8 @@ class ThemeApp {
       ),
     ),
     scaffoldBackgroundColor: AppColor.alabaster,
+    dividerTheme: const DividerThemeData(
+      color: Colors.grey,
+    ),
   );
 }

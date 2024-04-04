@@ -46,7 +46,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.settings),
+            leading: const Icon(Icons.settings_outlined),
             title: Text(TranslationConstants.settings.translate(context)),
             onTap: () {},
           ),
