@@ -11,7 +11,7 @@ class ThemeApp {
   static ThemeData lightTheme = ThemeData.light().copyWith(
     brightness: Brightness.light,
     // scaffoldBackgroundColor: AppColor.shark,
-    colorScheme: const ColorScheme.dark(
+    colorScheme: const ColorScheme.light(
       // secondary: AppColor.brandyPunch,
       primary: AppColor.amber,
     ),
@@ -71,5 +71,6 @@ class ThemeApp {
         borderRadius: BorderRadius.circular(Sizes.dimen_8),
       ),
     ),
+    scaffoldBackgroundColor: AppColor.alabaster,
   );
 }

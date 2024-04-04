@@ -1,6 +1,9 @@
-import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:allnotes/common/constants/routes_constants.dart';
+import 'package:allnotes/presentation/journeys/homepage/appbar_widget.dart';
+import 'package:allnotes/presentation/journeys/homepage/drawer_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,8 +12,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Text("logged"),
+        drawer: const DrawerWidget(),
+        body: const Stack(
+          children: [
+            AppBarWidget(),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

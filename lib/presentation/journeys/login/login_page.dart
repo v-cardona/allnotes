@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:allnotes/common/constants/image_constants.dart';
+import 'package:allnotes/presentation/widgets/logo_widget.dart';
 import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
@@ -48,12 +48,8 @@ class _LoginState extends State<LoginPage> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.all(Sizes.dimen_150.h),
-                  child: Image.asset(
-                    ImagesConstants.logo,
-                    height: Sizes.dimen_500.h,
-                  ),
-                ),
+                    padding: EdgeInsets.all(Sizes.dimen_150.h),
+                    child: const LogoWidget()),
               ),
               Align(
                 alignment: Alignment.center,
