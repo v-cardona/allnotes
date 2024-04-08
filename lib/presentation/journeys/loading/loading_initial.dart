@@ -25,10 +25,8 @@ class LoadingInitial extends StatelessWidget {
             ),
           ),
           SizedBox(height: Sizes.dimen_20.h),
-          Center(
-            child: LoadingEffect(
-              size: Sizes.dimen_20.w,
-            ),
+          const Center(
+            child: LoadingEffect(),
           ),
           SizedBox(height: Sizes.dimen_40.h),
           Center(

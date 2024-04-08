@@ -1,8 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/presentation/blocs/authentication/authentication_cubit.dart';
 import 'package:allnotes/presentation/journeys/loading/loading_effect.dart';
 
@@ -34,11 +33,9 @@ class SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: LoadingEffect(
-          size: Sizes.dimen_20.w,
-        ),
+        child: LoadingEffect(),
       ),
     );
   }
