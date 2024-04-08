@@ -1,3 +1,4 @@
+import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:allnotes/common/extensions/string_extensions.dart';
@@ -32,6 +33,7 @@ class TextInputWidget extends StatelessWidget {
         label: Text(label.translate(context)),
         suffixIcon: Icon(
           suffixIcon,
+          color: AppColor.amber,
         ),
       ),
       maxLines: 1,
