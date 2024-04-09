@@ -1,4 +1,6 @@
+import 'package:allnotes/presentation/blocs/authentication/authentication_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:allnotes/common/constants/size_constants.dart';
@@ -45,8 +47,12 @@ class AppBarWidget extends StatelessWidget {
                     SizedBox(
                       width: Sizes.dimen_30.w,
                     ),
-                    const Icon(
-                      Icons.person,
+                    IconButton(
+                      icon: const Icon(
+                        Icons.person,
+                      ),
+                      onPressed: () =>
+                          context.read<AuthenticationCubit>().logout(),
                       color: Colors.grey,
                     ),
                   ],
