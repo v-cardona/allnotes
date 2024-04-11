@@ -8,6 +8,8 @@ extension ErrorExtension on AppError {
   String getMessage(BuildContext context) {
     String error;
     switch (this.error) {
+      case AppErrorType.cannotCreateCollection:
+        error = TranslationConstants.cannotCreateCollection.translate(context);
       default:
         error = TranslationConstants.errorDefault.translate(context);
     }

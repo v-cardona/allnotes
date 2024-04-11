@@ -27,5 +27,6 @@ enum AppErrorType {
   userNotFound,
   invalidVerificationCode,
   invalidVerificationId,
-  logout
+  logout,
+  cannotCreateCollection,
 }

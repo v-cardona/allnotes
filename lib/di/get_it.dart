@@ -1,3 +1,8 @@
+import 'package:allnotes/data/core/firebase_client.dart';
+import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
+import 'package:allnotes/data/repositories/notes_repository_impl.dart';
+import 'package:allnotes/domain/repositories/notes_repository.dart';
+import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:allnotes/data/repositories/authentication_repository_impl.dart';
@@ -14,12 +19,25 @@ Future init() async {
   // --------------
   // DATA SOURCES
   // --------------
+  getItInstance.registerLazySingleton<FirebaseClient>(
+    () => FirebaseClient(),
+  );
+  getItInstance.registerLazySingleton<NotesRemoteDataSource>(
+    () => NotesRemoteDataSourceImpl(
+      getItInstance(),
+    ),
+  );
 
   // --------------
   // REPOSITORIES
   // --------------
   getItInstance.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(),
+  );
+  getItInstance.registerLazySingleton<NotesRepository>(
+    () => NotesRepositoryImpl(
+      getItInstance(),
+    ),
   );
 
   // --------------
@@ -37,6 +55,13 @@ Future init() async {
     () => Logout(getItInstance()),
   );
 
+  // notes
+  getItInstance.registerLazySingleton<CreateFirstNote>(
+    () => CreateFirstNote(
+      getItInstance(),
+    ),
+  );
+
   // --------------
   // BLOCS
   // --------------
@@ -51,6 +76,7 @@ Future init() async {
       getMyUser: getItInstance(),
       loginWithGoogle: getItInstance(),
       logout: getItInstance(),
+      createFirstNote: getItInstance(),
     ),
   );
 }

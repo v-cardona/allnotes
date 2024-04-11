@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:allnotes/domain/entities/params/user_id_param.dart';
+import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:allnotes/common/constants/routes_constants.dart';
-import 'package:allnotes/domain/entities/no_params.dart';
+import 'package:allnotes/domain/entities/params/no_params.dart';
 import 'package:allnotes/domain/entities/user_entity.dart';
 import 'package:allnotes/domain/usecases/authentication/get_my_user.dart';
 import 'package:allnotes/domain/usecases/authentication/login_with_google.dart';
@@ -20,10 +22,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     required LoginWithGoogle loginWithGoogle,
     required Logout logout,
     required GetMyUser getMyUser,
+    required CreateFirstNote createFirstNote,
   })  : _loadingCubit = loadingCubit,
         _loginWithGoogle = loginWithGoogle,
         _logout = logout,
         _getMyUser = getMyUser,
+        _createFirstNote = createFirstNote,
         super(const AuthenticationState(
           UserEntity.empty,
           AuthenticationEnum.unauthenticated,
@@ -33,6 +37,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final LoginWithGoogle _loginWithGoogle;
   final Logout _logout;
   final GetMyUser _getMyUser;
+  final CreateFirstNote _createFirstNote;
 
   // init the subscription to listen the changes of the supabase auth
   // if detects signin or signout will go to the respective page and emit the new state
@@ -69,7 +74,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void loginWithGoogle() async {
     _loadingCubit.show();
-    await _loginWithGoogle(NoParams());
+    final response = await _loginWithGoogle(NoParams());
+    response.fold(
+      (error) => null,
+      (userCredential) {
+        String? userId = userCredential.user?.uid;
+        if ((userCredential.additionalUserInfo?.isNewUser ?? false) &&
+            userId != null) {
+          _createFirstNote(
+            UserIdParams(userId: userId),
+          );
+        }
+      },
+    );
     _loadingCubit.hide();
   }
 

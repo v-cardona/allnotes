@@ -11,5 +11,6 @@
     "archive": "Archive",
     "trash": "Trash",
     "settings": "Settings",
-    "errorDefault": "An error has occurred"
+    "errorDefault": "An error has occurred",
+    "cannotCreateCollection": "Cannot create the notebook. Please contact with the team"
 }

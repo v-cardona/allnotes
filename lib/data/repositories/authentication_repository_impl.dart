@@ -34,7 +34,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   ///
   /// Throws a [LogInWithGoogleFailure] if an exception occurs.
   @override
-  Future<Either<AppError, bool>> loginWithGoogle() async {
+  Future<Either<AppError, UserCredential>> loginWithGoogle() async {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -49,9 +49,10 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
         idToken: googleAuth?.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      final userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
 
-      return const Right(true);
+      return Right(userCredential);
     } on firebase_auth.FirebaseAuthException catch (e) {
       AppError appError = getErrorFromFirebaseCode(e.code);
       return Left(appError);
