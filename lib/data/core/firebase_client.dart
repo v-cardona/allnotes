@@ -13,4 +13,9 @@ class FirebaseClient {
           toFirestore: (NoteModel note, options) => note.toFirestore(),
         );
   }
+
+  Future<QuerySnapshot<Object?>> getAllDocuments(String collectionName) async {
+    final collection = getCollection(collectionName);
+    return await collection.get();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:allnotes/data/models/note_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:allnotes/domain/entities/note_state_entity.dart';
@@ -17,8 +18,9 @@ class NoteEntity {
     required this.content,
     required this.color,
     this.status = NoteState.unspecified,
+    DateTime? createAt,
     DateTime? modifiedAt,
-  })  : createdAt = DateTime.now(),
+  })  : createdAt = createAt ?? DateTime.now(),
         modifiedAt = modifiedAt ?? DateTime.now();
 
   NoteEntity copyWith({
@@ -40,15 +42,14 @@ class NoteEntity {
     );
   }
 
-  Map<String, Object?> toFirestore() {
-    return {
-      "id": id,
-      "title": title,
-      "content": content,
-      "color": color,
-      "status": status,
-      "createdAt": createdAt,
-      "modifiedAt": modifiedAt,
-    };
+  factory NoteEntity.fromNoteModel(NoteModel model) {
+    return NoteEntity(
+        id: model.id ?? '',
+        title: model.title,
+        content: model.content,
+        color: Color(model.color),
+        status: NoteStateEntity().getNoteState(model.statusInt),
+        createAt: model.createdAt,
+        modifiedAt: model.modifiedAt);
   }
 }

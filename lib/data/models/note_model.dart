@@ -52,8 +52,8 @@ class NoteModel {
       content: data?['content'],
       color: data?['color'],
       statusInt: data?['status'],
-      createdAt: data?['createdAt'],
-      modifiedAt: data?['modifiedAt'],
+      createdAt: data?['createdAt'].toDate(),
+      modifiedAt: data?['modifiedAt'].toDate(),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:allnotes/data/models/note_model.dart';
+import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
@@ -19,6 +20,20 @@ class NotesRepositoryImpl extends NotesRepository {
         NoteModel.firstNote(),
       );
       return const Right(true);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.cannotCreateCollection));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<NoteEntity>>> getAllNotes(String userId) async {
+    try {
+      List<NoteModel> notes = await _notesRemoteDataSource.getAllNotes(
+        userId,
+      );
+      List<NoteEntity> notesEntities =
+          notes.map((e) => NoteEntity.fromNoteModel(e)).toList();
+      return Right(notesEntities);
     } catch (_) {
       return const Left(AppError(AppErrorType.cannotCreateCollection));
     }

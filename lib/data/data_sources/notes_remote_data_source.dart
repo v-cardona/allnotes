@@ -6,6 +6,9 @@ import 'package:allnotes/data/models/note_model.dart';
 abstract class NotesRemoteDataSource {
   /// create note
   Future<NoteModel> createNote(String userId, NoteModel note);
+
+  /// get all notes
+  Future<List<NoteModel>> getAllNotes(String userId);
 }
 
 class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
@@ -27,5 +30,17 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
     return note.copyWith(
       id: noteReference.id,
     );
+  }
+
+  @override
+  Future<List<NoteModel>> getAllNotes(String userId) async {
+    QuerySnapshot<Object?> querySnapshot =
+        await _client.getAllDocuments(_getCollectionName(userId));
+    return querySnapshot.docs.map((e) {
+      NoteModel model = e.data() as NoteModel;
+      return model.copyWith(
+        id: e.id,
+      );
+    }).toList();
   }
 }
