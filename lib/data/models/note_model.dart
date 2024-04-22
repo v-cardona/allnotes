@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 import 'package:allnotes/domain/entities/note_state_entity.dart';
+import 'package:allnotes/presentation/themes/app_color.dart';
 
 class NoteModel {
   final String? id;
@@ -61,7 +61,7 @@ class NoteModel {
     return NoteModel(
       title: 'Untitled',
       content: 'This is your first note',
-      color: Colors.white.value,
+      color: AppColor.noteColorDefault.value,
       statusInt: NoteStateEntity().getEnumValue(NoteState.unspecified),
     );
   }

@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:allnotes/di/get_it.dart';
-import 'package:allnotes/presentation/blocs/notes/notes_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:allnotes/presentation/blocs/authentication/authentication_cubit.dart';
 import 'package:allnotes/common/constants/routes_constants.dart';
+import 'package:allnotes/di/get_it.dart';
+import 'package:allnotes/presentation/blocs/notes/notes_cubit.dart';
+import 'package:allnotes/presentation/blocs/authentication/authentication_cubit.dart';
+import 'package:allnotes/presentation/journeys/homepage/notes/notes_default.dart';
 import 'package:allnotes/presentation/journeys/homepage/appbar_widget.dart';
 import 'package:allnotes/presentation/journeys/homepage/drawer_widget.dart';
 
@@ -46,14 +47,15 @@ class _HomePageState extends State<HomePage> {
       child: SafeArea(
         child: Scaffold(
           drawer: const DrawerWidget(),
-          body: BlocBuilder<NotesCubit, NotesState>(
-            builder: (context, state) {
-              return const Stack(
+          body: const Stack(
+            children: [
+              Column(
                 children: [
-                  AppBarWidget(),
+                  NotesDefault(),
                 ],
-              );
-            },
+              ),
+              AppBarWidget(),
+            ],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

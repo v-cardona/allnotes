@@ -35,7 +35,7 @@ class NotesRepositoryImpl extends NotesRepository {
           notes.map((e) => NoteEntity.fromNoteModel(e)).toList();
       return Right(notesEntities);
     } catch (_) {
-      return const Left(AppError(AppErrorType.cannotCreateCollection));
+      return const Left(AppError(AppErrorType.getAllNotes));
     }
   }
 }

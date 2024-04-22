@@ -10,6 +10,8 @@ extension ErrorExtension on AppError {
     switch (this.error) {
       case AppErrorType.cannotCreateCollection:
         error = TranslationConstants.cannotCreateCollection.translate(context);
+      case AppErrorType.getAllNotes:
+        error = TranslationConstants.errorGetAllNotes.translate(context);
       default:
         error = TranslationConstants.errorDefault.translate(context);
     }

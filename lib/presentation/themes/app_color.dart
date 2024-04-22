@@ -14,6 +14,7 @@ class AppColor {
   static const Color sharkSemi = Color(0x21000000);
 
   static const Color froly = Color(0xFFF28C82);
+  static const Color flamingo = Color(0xFFF44743);
   static const Color amber = Color(0xFFFABD03);
   static const Color parisDaisy = Color(0xFFFFF476);
   static const Color reef = Color(0xFFCDFF90);

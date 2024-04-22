@@ -9,6 +9,8 @@ sealed class NotesState extends Equatable {
 
 final class NotesInitial extends NotesState {}
 
+final class NotesLoading extends NotesState {}
+
 final class NotesLoaded extends NotesState {
   final List<NoteEntity> notes;
 
@@ -16,4 +18,13 @@ final class NotesLoaded extends NotesState {
 
   @override
   List<Object> get props => [notes];
+}
+
+class NotesFailureState extends NotesState {
+  final AppError appError;
+
+  const NotesFailureState({required this.appError});
+
+  @override
+  List<Object> get props => [appError];
 }

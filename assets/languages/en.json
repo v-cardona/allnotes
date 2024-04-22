@@ -12,5 +12,6 @@
     "trash": "Trash",
     "settings": "Settings",
     "errorDefault": "An error has occurred",
-    "cannotCreateCollection": "Cannot create the notebook. Please contact with the team"
+    "cannotCreateCollection": "Cannot create the notebook. Please contact with the team",
+    "errorGetAllNotes": "No notes could be retrieved"
 }
