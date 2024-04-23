@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:allnotes/domain/entities/params/user_id_param.dart';
-import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +11,7 @@ import 'package:allnotes/domain/entities/user_entity.dart';
 import 'package:allnotes/domain/usecases/authentication/get_my_user.dart';
 import 'package:allnotes/domain/usecases/authentication/login_with_google.dart';
 import 'package:allnotes/domain/usecases/authentication/logout.dart';
+import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:allnotes/presentation/blocs/authentication/authentication_state.dart';
 import 'package:allnotes/presentation/blocs/loading/loading_cubit.dart';
 
@@ -82,7 +81,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         if ((userCredential.additionalUserInfo?.isNewUser ?? false) &&
             userId != null) {
           _createFirstNote(
-            UserIdParams(userId: userId),
+            NoParams(),
           );
         }
       },

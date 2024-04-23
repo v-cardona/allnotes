@@ -5,6 +5,8 @@ import 'package:allnotes/domain/entities/user_entity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthenticationRepository {
+  String getUserId();
+
   /// Returns the current user [User].
   Either<AppError, UserEntity> getMyUser();
 

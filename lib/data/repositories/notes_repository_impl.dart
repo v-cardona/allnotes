@@ -1,5 +1,6 @@
 import 'package:allnotes/data/models/note_model.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
+import 'package:allnotes/domain/repositories/authentication_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
@@ -8,17 +9,22 @@ import 'package:allnotes/domain/entities/app_error_entity.dart';
 
 /// Repository which manages authentication
 class NotesRepositoryImpl extends NotesRepository {
-  NotesRepositoryImpl(this._notesRemoteDataSource);
+  NotesRepositoryImpl(
+    this._notesRemoteDataSource,
+    this._authenticationRepository,
+  );
 
   final NotesRemoteDataSource _notesRemoteDataSource;
+  final AuthenticationRepository _authenticationRepository;
 
   List<NoteEntity> _modelToEntityList(List<NoteModel> notesModel) {
     return notesModel.map((e) => NoteEntity.fromNoteModel(e)).toList();
   }
 
   @override
-  Future<Either<AppError, bool>> createFirstNote(String userId) async {
+  Future<Either<AppError, bool>> createFirstNote() async {
     try {
+      String userId = _authenticationRepository.getUserId();
       await _notesRemoteDataSource.createNote(
         userId,
         NoteModel.firstNote(),
@@ -30,8 +36,9 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
-  Future<Either<AppError, List<NoteEntity>>> getAllNotes(String userId) async {
+  Future<Either<AppError, List<NoteEntity>>> getAllNotes() async {
     try {
+      String userId = _authenticationRepository.getUserId();
       List<NoteModel> notes = await _notesRemoteDataSource.getAllNotes(
         userId,
       );
@@ -43,9 +50,9 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
-  Future<Either<AppError, List<NoteEntity>>> getUnspecifiedNotes(
-      String userId) async {
+  Future<Either<AppError, List<NoteEntity>>> getUnspecifiedNotes() async {
     try {
+      String userId = _authenticationRepository.getUserId();
       List<NoteModel> notes = await _notesRemoteDataSource.getUnspecifiedNotes(
         userId,
       );

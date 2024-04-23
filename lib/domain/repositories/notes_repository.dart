@@ -5,11 +5,11 @@ import 'package:allnotes/domain/entities/app_error_entity.dart';
 
 abstract class NotesRepository {
   /// create the collection
-  Future<Either<AppError, bool>> createFirstNote(String userId);
+  Future<Either<AppError, bool>> createFirstNote();
 
   /// get all notes
-  Future<Either<AppError, List<NoteEntity>>> getAllNotes(String userId);
+  Future<Either<AppError, List<NoteEntity>>> getAllNotes();
 
   /// get getUnspecifiedNotes notes
-  Future<Either<AppError, List<NoteEntity>>> getUnspecifiedNotes(String userId);
+  Future<Either<AppError, List<NoteEntity>>> getUnspecifiedNotes();
 }

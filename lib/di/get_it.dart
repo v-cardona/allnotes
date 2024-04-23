@@ -40,6 +40,7 @@ Future init() async {
   getItInstance.registerLazySingleton<NotesRepository>(
     () => NotesRepositoryImpl(
       getItInstance(),
+      getItInstance(),
     ),
   );
 

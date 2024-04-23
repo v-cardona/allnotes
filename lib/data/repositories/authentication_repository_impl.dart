@@ -18,6 +18,13 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
+  /// returns de id of the logged user
+  /// empty string eoc
+  @override
+  String getUserId() {
+    return _firebaseAuth.currentUser?.uid ?? '';
+  }
+
   /// Returns the current user.
   /// Defaults to [User.empty] if there is no user.
   @override
