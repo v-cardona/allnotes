@@ -1,3 +1,4 @@
+import 'package:allnotes/common/constants/notes_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:allnotes/domain/entities/note_state_entity.dart';
@@ -48,12 +49,12 @@ class NoteModel {
   ) {
     final data = snapshot.data();
     return NoteModel(
-      title: data?['title'],
-      content: data?['content'],
-      color: data?['color'],
-      statusInt: data?['status'],
-      createdAt: data?['createdAt'].toDate(),
-      modifiedAt: data?['modifiedAt'].toDate(),
+      title: data?[NoteConstants.titleStr],
+      content: data?[NoteConstants.contentStr],
+      color: data?[NoteConstants.colorStr],
+      statusInt: data?[NoteConstants.statusStr],
+      createdAt: data?[NoteConstants.createdAtStr].toDate(),
+      modifiedAt: data?[NoteConstants.modifiedAtStr].toDate(),
     );
   }
 
@@ -68,12 +69,12 @@ class NoteModel {
 
   Map<String, Object?> toFirestore() {
     return {
-      "title": title,
-      "content": content,
-      "color": color,
-      "status": statusInt,
-      "createdAt": createdAt,
-      "modifiedAt": modifiedAt,
+      NoteConstants.titleStr: title,
+      NoteConstants.contentStr: content,
+      NoteConstants.colorStr: color,
+      NoteConstants.statusStr: statusInt,
+      NoteConstants.createdAtStr: createdAt,
+      NoteConstants.modifiedAtStr: modifiedAt,
     };
   }
 }

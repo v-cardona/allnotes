@@ -9,4 +9,7 @@ abstract class NotesRepository {
 
   /// get all notes
   Future<Either<AppError, List<NoteEntity>>> getAllNotes(String userId);
+
+  /// get getUnspecifiedNotes notes
+  Future<Either<AppError, List<NoteEntity>>> getUnspecifiedNotes(String userId);
 }

@@ -11,7 +11,8 @@ extension ErrorExtension on AppError {
       case AppErrorType.cannotCreateCollection:
         error = TranslationConstants.cannotCreateCollection.translate(context);
       case AppErrorType.getAllNotes:
-        error = TranslationConstants.errorGetAllNotes.translate(context);
+      case AppErrorType.getUnspecifiedNotes:
+        error = TranslationConstants.errorGetNotes.translate(context);
       default:
         error = TranslationConstants.errorDefault.translate(context);
     }

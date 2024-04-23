@@ -1,3 +1,4 @@
+import 'package:allnotes/common/constants/notes_constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -23,11 +24,11 @@ class EditNoteParams extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'title': title,
-      'content': content,
-      'color': color,
-      'state': state,
-      'id': noteId,
+      NoteConstants.titleStr: title,
+      NoteConstants.contentStr: content,
+      NoteConstants.colorStr: color,
+      NoteConstants.statusStr: state,
+      NoteConstants.idStr: noteId,
     };
   }
 }

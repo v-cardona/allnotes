@@ -1,3 +1,5 @@
+import 'package:allnotes/common/constants/notes_constants.dart';
+import 'package:allnotes/domain/entities/note_state_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:allnotes/data/core/firebase_client.dart';
@@ -9,6 +11,9 @@ abstract class NotesRemoteDataSource {
 
   /// get all notes
   Future<List<NoteModel>> getAllNotes(String userId);
+
+  /// get unspecified
+  Future<List<NoteModel>> getUnspecifiedNotes(String userId);
 }
 
 class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
@@ -20,6 +25,15 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
 
   String _getCollectionName(String userId) {
     return '$notes-$userId';
+  }
+
+  List<NoteModel> _queryToListNote(QuerySnapshot<Object?> querySnapshot) {
+    return querySnapshot.docs.map((e) {
+      NoteModel model = e.data() as NoteModel;
+      return model.copyWith(
+        id: e.id,
+      );
+    }).toList();
   }
 
   @override
@@ -36,11 +50,18 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
   Future<List<NoteModel>> getAllNotes(String userId) async {
     QuerySnapshot<Object?> querySnapshot =
         await _client.getAllDocuments(_getCollectionName(userId));
-    return querySnapshot.docs.map((e) {
-      NoteModel model = e.data() as NoteModel;
-      return model.copyWith(
-        id: e.id,
-      );
-    }).toList();
+    return _queryToListNote(querySnapshot);
+  }
+
+  @override
+  Future<List<NoteModel>> getUnspecifiedNotes(String userId) async {
+    final collection = _client.getCollection(_getCollectionName(userId));
+    QuerySnapshot<Object?> querySnapshot = await collection
+        .where(
+          NoteConstants.statusStr,
+          isEqualTo: NoteStateEntity().enumToIndex[NoteState.unspecified],
+        )
+        .get();
+    return _queryToListNote(querySnapshot);
   }
 }

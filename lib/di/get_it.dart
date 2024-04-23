@@ -4,7 +4,8 @@ import 'package:allnotes/data/repositories/notes_repository_impl.dart';
 import 'package:allnotes/domain/repositories/notes_repository.dart';
 import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:allnotes/domain/usecases/notes/get_all_notes.dart';
-import 'package:allnotes/presentation/blocs/notes/notes_cubit.dart';
+import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
+import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:allnotes/data/repositories/authentication_repository_impl.dart';
@@ -68,6 +69,11 @@ Future init() async {
       getItInstance(),
     ),
   );
+  getItInstance.registerLazySingleton<GetUnspecifiedNotes>(
+    () => GetUnspecifiedNotes(
+      getItInstance(),
+    ),
+  );
 
   // --------------
   // BLOCS
@@ -87,9 +93,9 @@ Future init() async {
     ),
   );
   // notes
-  getItInstance.registerSingleton<NotesCubit>(
-    NotesCubit(
-      getAllNotes: getItInstance(),
+  getItInstance.registerSingleton<NotesUnspecifiedCubit>(
+    NotesUnspecifiedCubit(
+      getUnspecifiedNotes: getItInstance(),
     ),
   );
 }

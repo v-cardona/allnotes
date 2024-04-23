@@ -30,4 +30,5 @@ enum AppErrorType {
   logout,
   cannotCreateCollection,
   getAllNotes,
+  getUnspecifiedNotes,
 }
