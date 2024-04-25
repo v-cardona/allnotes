@@ -1,3 +1,4 @@
+import 'package:allnotes/presentation/journeys/add_note/add_note_arguments.dart';
 import 'package:allnotes/presentation/journeys/add_note/add_note_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,7 +33,14 @@ final router = GoRouter(
           GoRoute(
             name: RouteList.addNotePage,
             path: RouteList.addNotePage,
-            builder: (context, state) => const AddNotePage(),
+            builder: (context, state) {
+              final args =
+                  state.extra != null ? state.extra as AddNoteArguments : null;
+              return AddNotePage(
+                key: state.pageKey,
+                arguments: args,
+              );
+            },
           ),
         ]),
   ],

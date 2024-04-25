@@ -18,6 +18,11 @@ class TranslationConstants {
   static const String trash = 'trash';
   static const String settings = 'settings';
 
+  // NOTES
+  static const String delete = 'delete';
+  static const String title = 'title';
+  static const String writeYourNote = 'writeYourNote';
+
   // ERROR MESSAGES
   static const String errorDefault = 'errorDefault';
   static const String cannotCreateCollection = 'cannotCreateCollection';

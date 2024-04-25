@@ -5,6 +5,7 @@ import 'package:allnotes/domain/repositories/notes_repository.dart';
 import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:allnotes/domain/usecases/notes/get_all_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
+import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -98,5 +99,9 @@ Future init() async {
     NotesUnspecifiedCubit(
       getUnspecifiedNotes: getItInstance(),
     ),
+  );
+  // edit/create note
+  getItInstance.registerFactory(
+    () => EditNoteBloc(),
   );
 }
