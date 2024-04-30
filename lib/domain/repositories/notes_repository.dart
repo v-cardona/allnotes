@@ -7,6 +7,9 @@ abstract class NotesRepository {
   /// create first note
   Future<Either<AppError, bool>> createFirstNote();
 
+  /// create note
+  Future<Either<AppError, bool>> createNote(NoteEntity note);
+
   /// edit note
   Future<Either<AppError, bool>> editNote(NoteEntity note);
 

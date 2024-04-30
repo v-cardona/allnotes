@@ -36,6 +36,34 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
+  Future<Either<AppError, bool>> createNote(NoteEntity note) async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      await _notesRemoteDataSource.createNote(
+        userId,
+        NoteModel.fromNoteEntity(note),
+      );
+      return const Right(true);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.cannotCreateNote));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> editNote(NoteEntity note) async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      await _notesRemoteDataSource.editNote(
+        userId,
+        NoteModel.fromNoteEntity(note),
+      );
+      return const Right(true);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.cannotEditNote));
+    }
+  }
+
+  @override
   Future<Either<AppError, List<NoteEntity>>> getAllNotes() async {
     try {
       String userId = _authenticationRepository.getUserId();
@@ -60,20 +88,6 @@ class NotesRepositoryImpl extends NotesRepository {
       return Right(notesEntities);
     } catch (_) {
       return const Left(AppError(AppErrorType.getAllNotes));
-    }
-  }
-
-  @override
-  Future<Either<AppError, bool>> editNote(NoteEntity note) async {
-    try {
-      String userId = _authenticationRepository.getUserId();
-      await _notesRemoteDataSource.editNote(
-        userId,
-        NoteModel.fromNoteEntity(note),
-      );
-      return const Right(true);
-    } catch (_) {
-      return const Left(AppError(AppErrorType.cannotEditNote));
     }
   }
 }
