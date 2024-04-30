@@ -27,4 +27,6 @@ class TranslationConstants {
   static const String errorDefault = 'errorDefault';
   static const String cannotCreateCollection = 'cannotCreateCollection';
   static const String errorGetNotes = 'errorGetNotes';
+  static const String errorEditNote = 'errorEditNote';
+  static const String errorCreateNote = 'errorCreateNote';
 }

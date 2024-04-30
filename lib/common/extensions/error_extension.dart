@@ -13,6 +13,10 @@ extension ErrorExtension on AppError {
       case AppErrorType.getAllNotes:
       case AppErrorType.getUnspecifiedNotes:
         error = TranslationConstants.errorGetNotes.translate(context);
+      case AppErrorType.cannotEditNote:
+        error = TranslationConstants.errorEditNote.translate(context);
+      case AppErrorType.cannotCreateNote:
+        error = TranslationConstants.errorCreateNote.translate(context);
       default:
         error = TranslationConstants.errorDefault.translate(context);
     }

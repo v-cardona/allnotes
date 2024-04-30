@@ -16,5 +16,7 @@
     "settings": "Settings",
     "errorDefault": "An error has occurred",
     "cannotCreateCollection": "Cannot create the notebook. Please contact with the team",
-    "errorGetNotes": "No notes could be retrieved"
+    "errorGetNotes": "No notes could be retrieved",
+    "errorEditNote": "Cannot edit the note",
+    "errorCreateNote": "Cannot create the note"
 }

@@ -62,4 +62,18 @@ class NotesRepositoryImpl extends NotesRepository {
       return const Left(AppError(AppErrorType.getAllNotes));
     }
   }
+
+  @override
+  Future<Either<AppError, bool>> editNote(NoteEntity note) async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      await _notesRemoteDataSource.editNote(
+        userId,
+        NoteModel.fromNoteEntity(note),
+      );
+      return const Right(true);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.cannotEditNote));
+    }
+  }
 }

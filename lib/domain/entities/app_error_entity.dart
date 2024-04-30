@@ -29,6 +29,8 @@ enum AppErrorType {
   invalidVerificationId,
   logout,
   cannotCreateCollection,
+  cannotEditNote,
+  cannotCreateNote,
   getAllNotes,
   getUnspecifiedNotes,
 }

@@ -1,4 +1,5 @@
 import 'package:allnotes/common/constants/notes_constants.dart';
+import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:allnotes/domain/entities/note_state_entity.dart';
@@ -55,6 +56,18 @@ class NoteModel {
       statusInt: data?[NoteConstants.statusStr],
       createdAt: data?[NoteConstants.createdAtStr].toDate(),
       modifiedAt: data?[NoteConstants.modifiedAtStr].toDate(),
+    );
+  }
+
+  factory NoteModel.fromNoteEntity(NoteEntity note) {
+    return NoteModel(
+      id: note.id,
+      title: note.title,
+      content: note.content,
+      color: note.color.value,
+      statusInt: note.status.index,
+      createdAt: note.createdAt,
+      modifiedAt: note.modifiedAt,
     );
   }
 

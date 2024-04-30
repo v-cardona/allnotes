@@ -9,6 +9,9 @@ abstract class NotesRemoteDataSource {
   /// create note
   Future<NoteModel> createNote(String userId, NoteModel note);
 
+  /// edit note
+  Future<bool> editNote(String userId, NoteModel note);
+
   /// get all notes
   Future<List<NoteModel>> getAllNotes(String userId);
 
@@ -44,6 +47,17 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
     return note.copyWith(
       id: noteReference.id,
     );
+  }
+
+  @override
+  Future<bool> editNote(String userId, NoteModel note) async {
+    CollectionReference collection =
+        _client.getCollection(_getCollectionName(userId));
+    bool edited = false;
+    await collection.doc(note.id).set(note).then(
+          (value) => edited = true,
+        );
+    return edited;
   }
 
   @override
