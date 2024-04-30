@@ -1,9 +1,10 @@
-import 'package:allnotes/domain/entities/app_error_entity.dart';
-import 'package:allnotes/domain/entities/note_state_entity.dart';
-import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:allnotes/domain/entities/app_error_entity.dart';
+import 'package:allnotes/domain/entities/note_entity.dart';
+import 'package:allnotes/presentation/themes/app_color.dart';
 
 part 'edit_note_event.dart';
 part 'edit_note_state.dart';

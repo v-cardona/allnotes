@@ -1,7 +1,6 @@
-import 'package:allnotes/data/models/note_model.dart';
 import 'package:flutter/material.dart';
 
-import 'package:allnotes/domain/entities/note_state_entity.dart';
+import 'package:allnotes/data/models/note_model.dart';
 
 class NoteEntity {
   final String id;
@@ -48,8 +47,15 @@ class NoteEntity {
         title: model.title,
         content: model.content,
         color: Color(model.color),
-        status: NoteStateEntity().getNoteState(model.statusInt),
+        status: NoteState.values[model.statusInt],
         createAt: model.createdAt,
         modifiedAt: model.modifiedAt);
   }
+}
+
+enum NoteState {
+  unspecified, // por defecto
+  pinned, // fijado en la parte superior
+  archived, // menu de archivado
+  deleted, // papelera
 }

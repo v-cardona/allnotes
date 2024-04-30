@@ -1,8 +1,7 @@
-import 'package:allnotes/common/constants/notes_constants.dart';
-import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:allnotes/domain/entities/note_state_entity.dart';
+import 'package:allnotes/common/constants/notes_constants.dart';
+import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/themes/app_color.dart';
 
 class NoteModel {
@@ -76,7 +75,7 @@ class NoteModel {
       title: 'Untitled',
       content: 'This is your first note',
       color: AppColor.noteColorDefault.value,
-      statusInt: NoteStateEntity().getEnumValue(NoteState.unspecified),
+      statusInt: NoteState.unspecified.index,
     );
   }
 

@@ -1,9 +1,9 @@
+import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:allnotes/common/constants/notes_constants.dart';
 import 'package:allnotes/data/core/firebase_client.dart';
 import 'package:allnotes/data/models/note_model.dart';
-import 'package:allnotes/domain/entities/note_state_entity.dart';
 
 abstract class NotesRemoteDataSource {
   /// create note
@@ -73,7 +73,7 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
     QuerySnapshot<Object?> querySnapshot = await collection
         .where(
           NoteConstants.statusStr,
-          isEqualTo: NoteStateEntity().enumToIndex[NoteState.unspecified],
+          isEqualTo: NoteState.unspecified.index,
         )
         .get();
     return _queryToListNote(querySnapshot);
