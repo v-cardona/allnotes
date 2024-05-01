@@ -7,6 +7,7 @@ import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/domain/entities/app_error_entity.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
+import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:allnotes/presentation/journeys/add_note/add_note_appbar.dart';
 import 'package:allnotes/presentation/journeys/add_note/add_note_arguments.dart';
 import 'package:allnotes/presentation/widgets/text_input_note_widget.dart';
@@ -68,9 +69,6 @@ class _AddNotePageState extends State<AddNotePage> {
           bloc: _editNoteBloc,
           listener: (context, state) {
             if (state.isSaved) {
-              context.showInfoSnackBar(
-                message: TranslationConstants.savedSuccessfully,
-              );
               context.pop();
             } else if (state.errorType != null) {
               context.showErrorSnackBar(

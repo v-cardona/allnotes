@@ -3,6 +3,7 @@ import 'package:allnotes/domain/entities/params/note_params.dart';
 import 'package:allnotes/domain/usecases/notes/create_note.dart';
 import 'package:allnotes/domain/usecases/notes/edit_note.dart';
 import 'package:allnotes/presentation/blocs/loading/loading_cubit.dart';
+import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,13 @@ part 'edit_note_state.dart';
 class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   EditNoteBloc({
     required LoadingCubit loadingCubit,
+    required NotesUnspecifiedCubit notesUnspecifiedCubit,
     required EditNote editNote,
     required CreateNote createNote,
   })  : _editNote = editNote,
         _createNote = createNote,
         _loadingCubit = loadingCubit,
+        _notesUnspecifiedCubit = notesUnspecifiedCubit,
         super(EditNoteState(
           color: AppColor.noteColorDefault,
           status: NoteState.unspecified,
@@ -39,6 +42,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   }
 
   final LoadingCubit _loadingCubit;
+  final NotesUnspecifiedCubit _notesUnspecifiedCubit;
   final EditNote _editNote;
   final CreateNote _createNote;
 
@@ -100,6 +104,8 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       ),
       (isSaved) {
         if (isSaved) {
+          // erload notes list
+          _notesUnspecifiedCubit.getAllNotes();
           emit(
             state.copyWith(isSaved: true),
           );

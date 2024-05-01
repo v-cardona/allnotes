@@ -118,6 +118,7 @@ Future init() async {
       createNote: getItInstance(),
       editNote: getItInstance(),
       loadingCubit: getItInstance(),
+      notesUnspecifiedCubit: getItInstance(),
     ),
   );
 }
