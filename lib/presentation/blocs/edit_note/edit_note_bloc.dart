@@ -76,7 +76,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     );
   }
 
-  /// change color note visually
+  /// change status note visually
   Future<void> _changeStatus(
     ChangeStatusEditNoteEvent event,
     Emitter<EditNoteState> emit,
@@ -127,7 +127,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
       ),
       (isSaved) {
         if (isSaved) {
-          // erload notes list
+          // reload notes list
           _notesUnspecifiedCubit.getAllNotes();
           emit(
             state.copyWith(isSaved: true),

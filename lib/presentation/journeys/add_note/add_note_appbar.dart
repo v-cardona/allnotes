@@ -1,5 +1,6 @@
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
+import 'package:allnotes/common/extensions/context._extension.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
@@ -13,7 +14,12 @@ import 'package:go_router/go_router.dart';
 class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
   const AddNoteAppbar({
     super.key,
+    required this.title,
+    required this.content,
   });
+
+  final String title;
+  final String content;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -73,13 +79,36 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-              leading: const Icon(Icons.delete_outline_outlined),
-              title: Text(
-                TranslationConstants.delete.translate(context),
+            if (context.read<EditNoteBloc>().state.id != null)
+              ListTile(
+                leading: const Icon(Icons.delete_outline_outlined),
+                title: Text(
+                  TranslationConstants.delete.translate(context),
+                ),
+                onTap: () {
+                  context.showDeleteDialog(
+                    title: TranslationConstants.deleteNoteConfiramtion,
+                    onPressed: () {
+                      context.read<EditNoteBloc>().add(
+                            const ChangeStatusEditNoteEvent(
+                              status: NoteState.deleted,
+                            ),
+                          );
+                      context.read<EditNoteBloc>().add(
+                            SaveEditNoteEvent(
+                              title: title,
+                              content: content,
+                            ),
+                          );
+                      context.pop();
+                    },
+                  );
+                },
               ),
-              onTap: () {},
-            ),
+            if (context.read<EditNoteBloc>().state.id == null)
+              SizedBox(
+                height: Sizes.dimen_50.h,
+              ),
             const Divider(),
             SizedBox(
               height: Sizes.dimen_200.h,

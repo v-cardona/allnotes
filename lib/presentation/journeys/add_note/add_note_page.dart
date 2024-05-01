@@ -69,7 +69,12 @@ class _AddNotePageState extends State<AddNotePage> {
           bloc: _editNoteBloc,
           listener: (context, state) {
             if (state.isSaved) {
+              // si se ha guardado cerrar la pagina de notas
               context.pop();
+              if (state.status == NoteState.deleted) {
+                // si se ha borrado, estara en el bottom sheet, por eso tiene que hacer 2 pop, el del bottom y la pagina
+                context.pop();
+              }
             } else if (state.errorType != null) {
               context.showErrorSnackBar(
                 message: AppError(state.errorType!).getMessage(context),
@@ -99,7 +104,10 @@ class _AddNotePageState extends State<AddNotePage> {
               },
               child: Scaffold(
                 backgroundColor: state.color,
-                appBar: const AddNoteAppbar(),
+                appBar: AddNoteAppbar(
+                  content: _contentController.text,
+                  title: _titleController.text,
+                ),
                 body: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.symmetric(

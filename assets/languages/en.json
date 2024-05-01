@@ -24,6 +24,7 @@
     "closeAppConfirmation": "Do you want to close the app?",
     "logoutConfirmation": "Do you want to logout?",
     "discardEditConfirmation": "Do you want to leave without saving?",
+    "deleteNoteConfiramtion": "Do you want to delete the note?",
     "errorDefault": "An error has occurred",
     "cannotCreateCollection": "Cannot create the notebook. Please contact with the team",
     "errorGetNotes": "No notes could be retrieved",
