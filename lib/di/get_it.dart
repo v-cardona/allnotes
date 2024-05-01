@@ -3,6 +3,8 @@ import 'package:allnotes/data/data_sources/notes_remote_data_source.dart';
 import 'package:allnotes/data/repositories/notes_repository_impl.dart';
 import 'package:allnotes/domain/repositories/notes_repository.dart';
 import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
+import 'package:allnotes/domain/usecases/notes/create_note.dart';
+import 'package:allnotes/domain/usecases/notes/edit_note.dart';
 import 'package:allnotes/domain/usecases/notes/get_all_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
@@ -66,6 +68,16 @@ Future init() async {
       getItInstance(),
     ),
   );
+  getItInstance.registerLazySingleton<EditNote>(
+    () => EditNote(
+      getItInstance(),
+    ),
+  );
+  getItInstance.registerLazySingleton<CreateNote>(
+    () => CreateNote(
+      getItInstance(),
+    ),
+  );
   getItInstance.registerLazySingleton<GetAllNotes>(
     () => GetAllNotes(
       getItInstance(),
@@ -102,6 +114,10 @@ Future init() async {
   );
   // edit/create note
   getItInstance.registerFactory(
-    () => EditNoteBloc(),
+    () => EditNoteBloc(
+      createNote: getItInstance(),
+      editNote: getItInstance(),
+      loadingCubit: getItInstance(),
+    ),
   );
 }

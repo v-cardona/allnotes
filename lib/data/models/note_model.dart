@@ -1,3 +1,4 @@
+import 'package:allnotes/common/constants/translations_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:allnotes/common/constants/notes_constants.dart';
@@ -72,7 +73,7 @@ class NoteModel {
 
   factory NoteModel.firstNote() {
     return NoteModel(
-      title: 'Untitled',
+      title: TranslationConstants.untitled,
       content: 'This is your first note',
       color: AppColor.noteColorDefault.value,
       statusInt: NoteState.unspecified.index,

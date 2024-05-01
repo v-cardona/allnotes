@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:allnotes/data/models/note_model.dart';
 
 class NoteEntity {
-  final String id;
+  final String? id;
   final String title;
   final String content;
   final Color color;

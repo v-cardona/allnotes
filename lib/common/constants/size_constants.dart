@@ -1,5 +1,11 @@
+// ignore_for_file: constant_identifier_names
+
 class Sizes {
   Sizes._();
+
+  // sizes for screenutil of poco x5 pro
+  static const double width_device = 1080;
+  static const double height_device = 2400;
 
   static const double dimen_0 = 0;
   static const double dimen_1 = 1;
@@ -40,9 +46,11 @@ class Sizes {
   static const double dimen_200 = 200;
   static const double dimen_230 = 230;
   static const double dimen_250 = 250;
+  static const double dimen_270 = 270;
   static const double dimen_300 = 300;
   static const double dimen_350 = 350;
   static const double dimen_450 = 450;
   static const double dimen_500 = 500;
   static const double dimen_700 = 700;
+  static const double dimen_2100 = 2100;
 }

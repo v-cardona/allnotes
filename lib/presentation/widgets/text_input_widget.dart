@@ -32,7 +32,7 @@ class TextInputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enableInteractiveSelection: false,
+      enableInteractiveSelection: true,
       controller: controller,
       keyboardType: textInputType,
       style: textStyle,

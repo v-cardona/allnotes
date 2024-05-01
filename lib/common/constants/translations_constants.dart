@@ -10,6 +10,7 @@ class TranslationConstants {
   static const String continueEmail = 'continueEmail';
   static const String termsConditionsAcceptLogin = 'termsConditionsAcceptLogin';
   static const String writingDownBestIdeas = 'writingDownBestIdeas';
+  static const String logout = 'logout';
 
   // HOME PAGE
   static const String searchYourNotes = 'searchYourNotes';
@@ -22,6 +23,19 @@ class TranslationConstants {
   static const String delete = 'delete';
   static const String title = 'title';
   static const String writeYourNote = 'writeYourNote';
+  static const String save = 'save';
+  static const String untitled = 'untitled';
+
+  // SUCCESS/INFO
+  static const String savedSuccessfully = 'savedSuccessfully';
+
+  // DIALOGS / SNACKBARS / BANNERS
+  static const String discard = 'discard';
+  static const String close = 'close';
+  static const String no = 'no';
+  static const String cancel = 'cancel';
+  static const String closeAppConfirmation = 'closeAppConfirmation';
+  static const String logoutConfirmation = 'logoutConfirmation';
 
   // ERROR MESSAGES
   static const String errorDefault = 'errorDefault';

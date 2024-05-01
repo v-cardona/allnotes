@@ -1,3 +1,4 @@
+import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -52,7 +53,7 @@ class _AllnotesAppState extends State<AllnotesApp> {
       ],
       child: ScreenUtilInit(
         // device of moto g5 because of design
-        designSize: const Size(1080, 2400),
+        designSize: const Size(Sizes.width_device, Sizes.height_device),
         builder: (context, child) => MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme: ThemeApp.lightTheme,
