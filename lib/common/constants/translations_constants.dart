@@ -36,6 +36,7 @@ class TranslationConstants {
   static const String cancel = 'cancel';
   static const String closeAppConfirmation = 'closeAppConfirmation';
   static const String logoutConfirmation = 'logoutConfirmation';
+  static const String discardEditConfirmation = 'discardEditConfirmation';
 
   // ERROR MESSAGES
   static const String errorDefault = 'errorDefault';
