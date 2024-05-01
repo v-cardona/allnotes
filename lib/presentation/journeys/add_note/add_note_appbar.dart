@@ -1,6 +1,7 @@
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
+import 'package:allnotes/domain/entities/note_entity.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
 import 'package:allnotes/presentation/themes/app_color.dart';
 import 'package:allnotes/presentation/widgets/color_picker_widget.dart';
@@ -31,12 +32,25 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
           child: AppBar(
             actions: [
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.push_pin_outlined),
+                onPressed: () => context.read<EditNoteBloc>().add(
+                      const ChangeStatusEditNoteEvent(status: NoteState.pinned),
+                    ),
+                icon: Icon(
+                  state.status == NoteState.pinned
+                      ? Icons.push_pin_sharp
+                      : Icons.push_pin_outlined,
+                ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.archive_outlined),
+                onPressed: () => context.read<EditNoteBloc>().add(
+                      const ChangeStatusEditNoteEvent(
+                          status: NoteState.archived),
+                    ),
+                icon: Icon(
+                  state.status == NoteState.archived
+                      ? Icons.archive_rounded
+                      : Icons.archive_outlined,
+                ),
               ),
               IconButton(
                 onPressed: () => _openBottomSheetOptions(context),

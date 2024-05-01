@@ -36,6 +36,9 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     on<ChangeColorEditNoteEvent>(
       _changeColor,
     );
+    on<ChangeStatusEditNoteEvent>(
+      _changeStatus,
+    );
     on<SaveEditNoteEvent>(
       _saveNote,
     );
@@ -71,6 +74,26 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         color: event.color,
       ),
     );
+  }
+
+  /// change color note visually
+  Future<void> _changeStatus(
+    ChangeStatusEditNoteEvent event,
+    Emitter<EditNoteState> emit,
+  ) async {
+    if (state.status == event.status) {
+      emit(
+        state.copyWith(
+          status: NoteState.unspecified,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: event.status,
+        ),
+      );
+    }
   }
 
   /// save note

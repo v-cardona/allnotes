@@ -45,6 +45,19 @@ class ChangeColorEditNoteEvent extends EditNoteEvent {
       ];
 }
 
+class ChangeStatusEditNoteEvent extends EditNoteEvent {
+  const ChangeStatusEditNoteEvent({
+    required this.status,
+  });
+
+  final NoteState status;
+
+  @override
+  List<Object> get props => [
+        status,
+      ];
+}
+
 class SaveEditNoteEvent extends EditNoteEvent {
   const SaveEditNoteEvent({
     required this.title,
