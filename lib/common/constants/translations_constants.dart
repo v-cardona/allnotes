@@ -28,6 +28,8 @@ class TranslationConstants {
   static const String lastUpdated = 'lastUpdated';
   static const String colon = 'colon';
   static const String space = 'space';
+  static const String other = 'other';
+  static const String pinned = 'pinned';
 
   // SUCCESS/INFO
   static const String savedSuccessfully = 'savedSuccessfully';

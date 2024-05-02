@@ -1,6 +1,6 @@
 import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/common/constants/translations_constants.dart';
-import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
+import 'package:allnotes/presentation/blocs/notes_pinned/notes_pinned_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,15 +10,15 @@ import 'package:allnotes/presentation/journeys/loading/loading_effect.dart';
 import 'package:allnotes/presentation/widgets/error_app_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NotesDefault extends StatelessWidget {
-  const NotesDefault({super.key});
+class NotesPinned extends StatelessWidget {
+  const NotesPinned({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      bloc: context.read<NotesUnspecifiedCubit>(),
+      bloc: context.read<NotesPinnedCubit>(),
       builder: (context, state) {
-        if (state is NotesUnspecifiedLoading) {
+        if (state is NotesPinnedLoading) {
           return SliverToBoxAdapter(
             child: Column(
               children: [
@@ -29,7 +29,7 @@ class NotesDefault extends StatelessWidget {
               ],
             ),
           );
-        } else if (state is NotesUnspecifiedFailureState) {
+        } else if (state is NotesPinnedFailureState) {
           return SliverToBoxAdapter(
             child: Center(
               child: Column(
@@ -42,11 +42,11 @@ class NotesDefault extends StatelessWidget {
               ),
             ),
           );
-        } else if (state is NotesUnspecifiedLoaded) {
+        } else if (state is NotesPinnedLoaded) {
           return SliverToBoxAdapter(
             child: NotesDefaultGrid(
               notes: state.notes,
-              title: TranslationConstants.other,
+              title: TranslationConstants.pinned,
             ),
           );
         } else {

@@ -11,6 +11,7 @@ import 'package:allnotes/domain/usecases/notes/get_deleted_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_pinned_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
+import 'package:allnotes/presentation/blocs/notes_pinned/notes_pinned_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -130,6 +131,11 @@ Future init() async {
       getUnspecifiedNotes: getItInstance(),
     ),
   );
+  getItInstance.registerSingleton<NotesPinnedCubit>(
+    NotesPinnedCubit(
+      getPinnedNotes: getItInstance(),
+    ),
+  );
   // edit/create note
   getItInstance.registerFactory(
     () => EditNoteBloc(
@@ -137,6 +143,7 @@ Future init() async {
       editNote: getItInstance(),
       loadingCubit: getItInstance(),
       notesUnspecifiedCubit: getItInstance(),
+      notesPinnedCubit: getItInstance(),
     ),
   );
 }
