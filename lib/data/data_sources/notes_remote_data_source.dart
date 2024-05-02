@@ -75,6 +75,10 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
           NoteConstants.statusStr,
           isEqualTo: NoteState.unspecified.index,
         )
+        .orderBy(
+          NoteConstants.createdAtStr,
+          descending: true,
+        )
         .get();
     return _queryToListNote(querySnapshot);
   }
