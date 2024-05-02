@@ -35,9 +35,12 @@ class NoteGridWidget extends StatelessWidget {
                 note.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w400,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
+              ),
+              SizedBox(
+                height: Sizes.dimen_20.h,
               ),
               Text(
                 note.content,
