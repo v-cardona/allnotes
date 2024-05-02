@@ -22,7 +22,7 @@ class NoteModel {
     required this.statusInt,
     DateTime? createdAt,
     DateTime? modifiedAt,
-  })  : createdAt = DateTime.now(),
+  })  : createdAt = createdAt ?? DateTime.now(),
         modifiedAt = modifiedAt ?? DateTime.now();
 
   NoteModel copyWith({
@@ -40,6 +40,7 @@ class NoteModel {
       content: content ?? this.content,
       color: color ?? this.color,
       statusInt: statusInt ?? this.statusInt,
+      createdAt: createdAt ?? this.createdAt,
       modifiedAt: modifiedAt ?? this.modifiedAt,
     );
   }
