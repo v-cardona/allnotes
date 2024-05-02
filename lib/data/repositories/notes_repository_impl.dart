@@ -90,4 +90,46 @@ class NotesRepositoryImpl extends NotesRepository {
       return const Left(AppError(AppErrorType.getAllNotes));
     }
   }
+
+  @override
+  Future<Either<AppError, List<NoteEntity>>> getArchivedNotes() async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      List<NoteModel> notes = await _notesRemoteDataSource.getArchivedNotes(
+        userId,
+      );
+      List<NoteEntity> notesEntities = _modelToEntityList(notes);
+      return Right(notesEntities);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.getAllNotes));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<NoteEntity>>> getDeletedNotes() async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      List<NoteModel> notes = await _notesRemoteDataSource.getDeletedNotes(
+        userId,
+      );
+      List<NoteEntity> notesEntities = _modelToEntityList(notes);
+      return Right(notesEntities);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.getAllNotes));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<NoteEntity>>> getPinnedNotes() async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      List<NoteModel> notes = await _notesRemoteDataSource.getPinnedNotes(
+        userId,
+      );
+      List<NoteEntity> notesEntities = _modelToEntityList(notes);
+      return Right(notesEntities);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.getAllNotes));
+    }
+  }
 }

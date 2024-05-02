@@ -17,6 +17,15 @@ abstract class NotesRemoteDataSource {
 
   /// get unspecified
   Future<List<NoteModel>> getUnspecifiedNotes(String userId);
+
+  /// get pinned notes
+  Future<List<NoteModel>> getPinnedNotes(String userId);
+
+  /// get archive notes
+  Future<List<NoteModel>> getArchivedNotes(String userId);
+
+  /// get deleted notes
+  Future<List<NoteModel>> getDeletedNotes(String userId);
 }
 
 class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
@@ -74,6 +83,54 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
         .where(
           NoteConstants.statusStr,
           isEqualTo: NoteState.unspecified.index,
+        )
+        .orderBy(
+          NoteConstants.createdAtStr,
+          descending: true,
+        )
+        .get();
+    return _queryToListNote(querySnapshot);
+  }
+
+  @override
+  Future<List<NoteModel>> getPinnedNotes(String userId) async {
+    final collection = _client.getCollection(_getCollectionName(userId));
+    QuerySnapshot<Object?> querySnapshot = await collection
+        .where(
+          NoteConstants.statusStr,
+          isEqualTo: NoteState.pinned.index,
+        )
+        .orderBy(
+          NoteConstants.createdAtStr,
+          descending: true,
+        )
+        .get();
+    return _queryToListNote(querySnapshot);
+  }
+
+  @override
+  Future<List<NoteModel>> getArchivedNotes(String userId) async {
+    final collection = _client.getCollection(_getCollectionName(userId));
+    QuerySnapshot<Object?> querySnapshot = await collection
+        .where(
+          NoteConstants.statusStr,
+          isEqualTo: NoteState.archived.index,
+        )
+        .orderBy(
+          NoteConstants.createdAtStr,
+          descending: true,
+        )
+        .get();
+    return _queryToListNote(querySnapshot);
+  }
+
+  @override
+  Future<List<NoteModel>> getDeletedNotes(String userId) async {
+    final collection = _client.getCollection(_getCollectionName(userId));
+    QuerySnapshot<Object?> querySnapshot = await collection
+        .where(
+          NoteConstants.statusStr,
+          isEqualTo: NoteState.deleted.index,
         )
         .orderBy(
           NoteConstants.createdAtStr,

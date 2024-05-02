@@ -6,6 +6,9 @@ import 'package:allnotes/domain/usecases/notes/create_first_note.dart';
 import 'package:allnotes/domain/usecases/notes/create_note.dart';
 import 'package:allnotes/domain/usecases/notes/edit_note.dart';
 import 'package:allnotes/domain/usecases/notes/get_all_notes.dart';
+import 'package:allnotes/domain/usecases/notes/get_archived_notes.dart';
+import 'package:allnotes/domain/usecases/notes/get_deleted_notes.dart';
+import 'package:allnotes/domain/usecases/notes/get_pinned_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
@@ -85,6 +88,21 @@ Future init() async {
   );
   getItInstance.registerLazySingleton<GetUnspecifiedNotes>(
     () => GetUnspecifiedNotes(
+      getItInstance(),
+    ),
+  );
+  getItInstance.registerLazySingleton<GetPinnedNotes>(
+    () => GetPinnedNotes(
+      getItInstance(),
+    ),
+  );
+  getItInstance.registerLazySingleton<GetArchivedNotes>(
+    () => GetArchivedNotes(
+      getItInstance(),
+    ),
+  );
+  getItInstance.registerLazySingleton<GetDeletedNotes>(
+    () => GetDeletedNotes(
       getItInstance(),
     ),
   );
