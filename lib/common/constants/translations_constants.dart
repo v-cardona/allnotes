@@ -25,6 +25,9 @@ class TranslationConstants {
   static const String writeYourNote = 'writeYourNote';
   static const String save = 'save';
   static const String untitled = 'untitled';
+  static const String lastUpdated = 'lastUpdated';
+  static const String colon = 'colon';
+  static const String space = 'space';
 
   // SUCCESS/INFO
   static const String savedSuccessfully = 'savedSuccessfully';

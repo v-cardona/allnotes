@@ -3,6 +3,7 @@ import 'package:allnotes/common/constants/translations_constants.dart';
 import 'package:allnotes/common/extensions/context._extension.dart';
 import 'package:allnotes/common/extensions/error_extension.dart';
 import 'package:allnotes/common/extensions/string_extensions.dart';
+import 'package:allnotes/common/utils/utils.dart';
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/domain/entities/app_error_entity.dart';
 import 'package:allnotes/domain/entities/note_entity.dart';
@@ -108,57 +109,89 @@ class _AddNotePageState extends State<AddNotePage> {
                   content: _contentController.text,
                   title: _titleController.text,
                 ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: Sizes.dimen_20.h,
-                      horizontal: Sizes.dimen_60.w,
+                body: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          Sizes.dimen_60.w,
+                          Sizes.dimen_20.h,
+                          Sizes.dimen_60.w,
+                          Sizes.dimen_200.h,
+                        ),
+                        child: Column(
+                          children: [
+                            TextInputNoteWidget(
+                              controller: _titleController,
+                              hint:
+                                  TranslationConstants.title.translate(context),
+                              maxLength: 50,
+                              textStyle:
+                                  Theme.of(context).textTheme.headlineLarge,
+                              textInputType: TextInputType.text,
+                            ),
+                            TextInputNoteWidget(
+                              controller: _contentController,
+                              hint: TranslationConstants.writeYourNote
+                                  .translate(context),
+                              maxLines: null,
+                              textInputType: TextInputType.multiline,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    child: SizedBox(
-                      width: Sizes.width_device.w,
-                      height: Sizes.dimen_2100.h,
-                      child: Stack(
-                        children: [
-                          Column(
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        color: Utils.darken(state.color, 0.2),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Sizes.dimen_60.w,
+                            vertical: Sizes.dimen_10.h,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextInputNoteWidget(
-                                controller: _titleController,
-                                hint: TranslationConstants.title
-                                    .translate(context),
-                                maxLength: 50,
-                                textStyle:
-                                    Theme.of(context).textTheme.headlineLarge,
-                                textInputType: TextInputType.text,
+                              Text.rich(
+                                TextSpan(
+                                  style: const TextStyle(
+                                      fontStyle: FontStyle.italic),
+                                  children: [
+                                    TextSpan(
+                                        text: TranslationConstants.lastUpdated
+                                            .translate(context)),
+                                    TextSpan(
+                                        text: TranslationConstants.colon
+                                            .translate(context)),
+                                    TextSpan(
+                                        text: TranslationConstants.space
+                                            .translate(context)),
+                                    TextSpan(
+                                        text: _notePrevious?.strLastModified),
+                                  ],
+                                ),
                               ),
-                              TextInputNoteWidget(
-                                controller: _contentController,
-                                hint: TranslationConstants.writeYourNote
-                                    .translate(context),
-                                maxLines: null,
-                                textInputType: TextInputType.multiline,
+                              ElevatedButton.icon(
+                                onPressed: () => _editNoteBloc.add(
+                                  SaveEditNoteEvent(
+                                    title: _titleController.text,
+                                    content: _contentController.text,
+                                  ),
+                                ),
+                                icon: const Icon(Icons.save_outlined),
+                                label: Text(TranslationConstants.save
+                                    .translate(context)),
                               ),
                             ],
                           ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: FilledButton.icon(
-                              onPressed: () => _editNoteBloc.add(
-                                SaveEditNoteEvent(
-                                  title: _titleController.text,
-                                  content: _contentController.text,
-                                ),
-                              ),
-                              icon: const Icon(Icons.save_outlined),
-                              label: Text(
-                                  TranslationConstants.save.translate(context)),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             );

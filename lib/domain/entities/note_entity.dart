@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:allnotes/data/models/note_model.dart';
+import 'package:intl/intl.dart';
 
 class NoteEntity {
   final String? id;
@@ -51,6 +52,9 @@ class NoteEntity {
         createAt: model.createdAt,
         modifiedAt: model.modifiedAt);
   }
+
+  /// Formatted last modified time
+  String get strLastModified => DateFormat.MMMd().format(modifiedAt);
 }
 
 enum NoteState {
