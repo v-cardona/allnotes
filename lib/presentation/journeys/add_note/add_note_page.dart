@@ -146,56 +146,63 @@ class _AddNotePageState extends State<AddNotePage> {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      child: Container(
-                        color: Utils.darken(state.color, 0.2),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Sizes.dimen_60.w,
-                            vertical: Sizes.dimen_10.h,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
-                                  children: [
-                                    TextSpan(
-                                        text: TranslationConstants.lastUpdated
-                                            .translate(context)),
-                                    TextSpan(
-                                        text: TranslationConstants.colon
-                                            .translate(context)),
-                                    TextSpan(
-                                        text: TranslationConstants.space
-                                            .translate(context)),
-                                    TextSpan(
-                                        text: _notePrevious?.strLastModified),
-                                  ],
-                                ),
-                              ),
-                              ElevatedButton.icon(
-                                onPressed: () => _editNoteBloc.add(
-                                  SaveEditNoteEvent(
-                                    title: _titleController.text,
-                                    content: _contentController.text,
-                                  ),
-                                ),
-                                icon: const Icon(Icons.save_outlined),
-                                label: Text(TranslationConstants.save
-                                    .translate(context)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: _bottomBar(state.color, _notePrevious == null),
                     ),
                   ],
                 ),
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomBar(Color color, bool isNewNote) {
+    Widget saveButton = ElevatedButton.icon(
+      onPressed: () => _editNoteBloc.add(
+        SaveEditNoteEvent(
+          title: _titleController.text,
+          content: _contentController.text,
+        ),
+      ),
+      icon: const Icon(Icons.save_outlined),
+      label: Text(TranslationConstants.save.translate(context)),
+    );
+    if (isNewNote) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Sizes.dimen_60.w,
+          vertical: Sizes.dimen_10.h,
+        ),
+        child: saveButton,
+      );
+    }
+    return Container(
+      color: Utils.darken(color, 0.2),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Sizes.dimen_60.w,
+          vertical: Sizes.dimen_10.h,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text.rich(
+              TextSpan(
+                style: const TextStyle(fontStyle: FontStyle.italic),
+                children: [
+                  TextSpan(
+                      text:
+                          TranslationConstants.lastUpdated.translate(context)),
+                  TextSpan(text: TranslationConstants.colon.translate(context)),
+                  TextSpan(text: TranslationConstants.space.translate(context)),
+                  TextSpan(text: _notePrevious?.strLastModified),
+                ],
+              ),
+            ),
+            saveButton
+          ],
         ),
       ),
     );
