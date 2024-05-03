@@ -4,6 +4,7 @@ import 'package:allnotes/domain/usecases/notes/create_note.dart';
 import 'package:allnotes/domain/usecases/notes/edit_note.dart';
 import 'package:allnotes/presentation/blocs/loading/loading_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_archived/notes_archived_cubit.dart';
+import 'package:allnotes/presentation/blocs/notes_deleted/notes_deleted_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_pinned/notes_pinned_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:dartz/dartz.dart';
@@ -24,6 +25,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     required NotesUnspecifiedCubit notesUnspecifiedCubit,
     required NotesPinnedCubit notesPinnedCubit,
     required NotesArchivedCubit notesArchivedCubit,
+    required NotesDeletedCubit notesDeletedCubit,
     required EditNote editNote,
     required CreateNote createNote,
   })  : _editNote = editNote,
@@ -32,6 +34,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         _notesUnspecifiedCubit = notesUnspecifiedCubit,
         _notesPinnedCubit = notesPinnedCubit,
         _notesArchivedCubit = notesArchivedCubit,
+        _notesDeletedCubit = notesDeletedCubit,
         super(EditNoteState(
           color: AppColor.noteColorDefault,
           status: NoteState.unspecified,
@@ -54,6 +57,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   final NotesUnspecifiedCubit _notesUnspecifiedCubit;
   final NotesPinnedCubit _notesPinnedCubit;
   final NotesArchivedCubit _notesArchivedCubit;
+  final NotesDeletedCubit _notesDeletedCubit;
   final EditNote _editNote;
   final CreateNote _createNote;
 
@@ -139,6 +143,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
           _notesUnspecifiedCubit.getAllNotes();
           _notesPinnedCubit.getAllNotes();
           _notesArchivedCubit.getAllNotes();
+          _notesDeletedCubit.getAllNotes();
           emit(
             state.copyWith(isSaved: true),
           );

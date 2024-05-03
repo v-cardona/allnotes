@@ -5,9 +5,11 @@ import 'package:allnotes/common/constants/size_constants.dart';
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/navigation_drawer/navigation_drawer_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_archived/notes_archived_cubit.dart';
+import 'package:allnotes/presentation/blocs/notes_deleted/notes_deleted_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_pinned/notes_pinned_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:allnotes/presentation/journeys/archive/archive_page.dart';
+import 'package:allnotes/presentation/journeys/deleted/deleted_page.dart';
 import 'package:allnotes/presentation/journeys/homepage/home_page.dart';
 import 'package:allnotes/presentation/journeys/root_page/appbar_widget.dart';
 import 'package:allnotes/presentation/journeys/root_page/drawer/drawer_widget.dart';
@@ -30,6 +32,7 @@ class _RootPageState extends State<RootPage> {
   late final NotesUnspecifiedCubit _notesUnspecifiedCubit;
   late final NotesPinnedCubit _notesPinnedCubit;
   late final NotesArchivedCubit _notesArchivedCubit;
+  late final NotesDeletedCubit _notesDeletedCubit;
 
   @override
   void initState() {
@@ -40,9 +43,11 @@ class _RootPageState extends State<RootPage> {
     _notesUnspecifiedCubit = getItInstance<NotesUnspecifiedCubit>();
     _notesPinnedCubit = getItInstance<NotesPinnedCubit>();
     _notesArchivedCubit = getItInstance<NotesArchivedCubit>();
+    _notesDeletedCubit = getItInstance<NotesDeletedCubit>();
     _notesPinnedCubit.getAllNotes();
     _notesUnspecifiedCubit.getAllNotes();
     _notesArchivedCubit.getAllNotes();
+    _notesDeletedCubit.getAllNotes();
   }
 
   @override
@@ -53,6 +58,7 @@ class _RootPageState extends State<RootPage> {
     _notesUnspecifiedCubit.close();
     _notesPinnedCubit.close();
     _notesArchivedCubit.close();
+    _notesDeletedCubit.close();
   }
 
   @override
@@ -71,6 +77,9 @@ class _RootPageState extends State<RootPage> {
         BlocProvider(
           create: (context) => _notesArchivedCubit,
         ),
+        BlocProvider(
+          create: (context) => _notesDeletedCubit,
+        ),
       ],
       child: BlocBuilder<NavigationDrawerCubit, NavigationDrawerState>(
         bloc: _navigationDrawerCubit,
@@ -84,11 +93,7 @@ class _RootPageState extends State<RootPage> {
               screen = const ArchivePage();
               break;
             case NavbarItem.deleted:
-              screen = const SliverToBoxAdapter(
-                child: Center(
-                  child: Text('deleted'),
-                ),
-              );
+              screen = const DeletedPage();
               break;
             default:
               screen = Container();
