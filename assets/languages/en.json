@@ -30,6 +30,7 @@
     "logoutConfirmation": "Do you want to logout?",
     "discardEditConfirmation": "Do you want to leave without saving?",
     "deleteNoteConfiramtion": "Do you want to delete the note?",
+    "infoThereAreNoNotes": "There are no notes",
     "errorDefault": "An error has occurred",
     "cannotCreateCollection": "Cannot create the notebook. Please contact with the team",
     "errorGetNotes": "No notes could be retrieved",

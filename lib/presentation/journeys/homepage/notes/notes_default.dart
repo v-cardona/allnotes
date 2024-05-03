@@ -19,40 +19,32 @@ class NotesDefault extends StatelessWidget {
       bloc: context.read<NotesUnspecifiedCubit>(),
       builder: (context, state) {
         if (state is NotesUnspecifiedLoading) {
-          return SliverToBoxAdapter(
+          return Column(
+            children: [
+              SizedBox(height: Sizes.dimen_230.h),
+              const Center(
+                child: LoadingEffect(),
+              ),
+            ],
+          );
+        } else if (state is NotesUnspecifiedFailureState) {
+          return Center(
             child: Column(
               children: [
                 SizedBox(height: Sizes.dimen_230.h),
-                const Center(
-                  child: LoadingEffect(),
+                ErrorAppWidget(
+                  errorText: state.appError.getMessage(context),
                 ),
               ],
             ),
           );
-        } else if (state is NotesUnspecifiedFailureState) {
-          return SliverToBoxAdapter(
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(height: Sizes.dimen_230.h),
-                  ErrorAppWidget(
-                    errorText: state.appError.getMessage(context),
-                  ),
-                ],
-              ),
-            ),
-          );
         } else if (state is NotesUnspecifiedLoaded) {
-          return SliverToBoxAdapter(
-            child: NotesDefaultGrid(
-              notes: state.notes,
-              title: TranslationConstants.other,
-            ),
+          return NotesDefaultGrid(
+            notes: state.notes,
+            title: TranslationConstants.other,
           );
         } else {
-          return SliverToBoxAdapter(
-            child: Container(),
-          );
+          return Container();
         }
       },
     );

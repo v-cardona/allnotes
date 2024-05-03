@@ -1,12 +1,12 @@
-import 'package:allnotes/presentation/journeys/add_note/add_note_arguments.dart';
-import 'package:allnotes/presentation/journeys/add_note/add_note_page.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:allnotes/presentation/journeys/add_note/add_note_arguments.dart';
+import 'package:allnotes/presentation/journeys/add_note/add_note_page.dart';
+import 'package:allnotes/presentation/journeys/root_page/root_page.dart';
 import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:allnotes/presentation/journeys/login/login_email_page.dart';
 import 'package:allnotes/presentation/journeys/login/login_page.dart';
 import 'package:allnotes/presentation/journeys/login/splash_page.dart';
-import 'package:allnotes/presentation/journeys/homepage/home_page.dart';
 
 final router = GoRouter(
   routes: [
@@ -26,22 +26,23 @@ final router = GoRouter(
       builder: (context, state) => const LoginEmailPage(),
     ),
     GoRoute(
-        name: RouteList.homePage,
-        path: RouteList.homePage,
-        builder: (context, state) => const HomePage(),
-        routes: <RouteBase>[
-          GoRoute(
-            name: RouteList.addNotePage,
-            path: RouteList.addNotePage,
-            builder: (context, state) {
-              final args =
-                  state.extra != null ? state.extra as AddNoteArguments : null;
-              return AddNotePage(
-                key: state.pageKey,
-                arguments: args,
-              );
-            },
-          ),
-        ]),
+      name: RouteList.rootPage,
+      path: RouteList.rootPage,
+      builder: (context, state) => const RootPage(),
+      routes: <RouteBase>[
+        GoRoute(
+          name: RouteList.addNotePage,
+          path: RouteList.addNotePage,
+          builder: (context, state) {
+            final args =
+                state.extra != null ? state.extra as AddNoteArguments : null;
+            return AddNotePage(
+              key: state.pageKey,
+              arguments: args,
+            );
+          },
+        ),
+      ],
+    ),
   ],
 );

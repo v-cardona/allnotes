@@ -1,3 +1,5 @@
+import 'package:allnotes/common/constants/translations_constants.dart';
+import 'package:allnotes/presentation/widgets/info_app_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,38 +20,47 @@ class NotesDefaultGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null && notes.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Sizes.dimen_40.w,
-              ),
-              child: Text(
-                title!.translate(context),
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ),
-          GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: Sizes.dimen_30.w,
-              crossAxisSpacing: Sizes.dimen_30.h,
-            ),
-            shrinkWrap: true,
+    Widget widget;
+    if (notes.isEmpty) {
+      widget = const Center(
+        child: InfoAppWidget(
+          infoText: TranslationConstants.infoThereAreNoNotes,
+        ),
+      );
+    } else {
+      widget = GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: Sizes.dimen_30.w,
+          crossAxisSpacing: Sizes.dimen_30.h,
+        ),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(
+          vertical: Sizes.dimen_20.h,
+          horizontal: Sizes.dimen_40.w,
+        ),
+        itemCount: notes.length,
+        itemBuilder: (context, index) {
+          return NoteGridWidget(note: notes[index]);
+        },
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
             padding: EdgeInsets.symmetric(
-              vertical: Sizes.dimen_20.h,
               horizontal: Sizes.dimen_40.w,
             ),
-            itemCount: notes.length,
-            itemBuilder: (context, index) {
-              return NoteGridWidget(note: notes[index]);
-            },
+            child: Text(
+              title!.translate(context),
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
-        ],
-      ),
+        widget,
+      ],
     );
   }
 }

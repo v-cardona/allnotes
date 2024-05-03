@@ -43,6 +43,7 @@ class TranslationConstants {
   static const String logoutConfirmation = 'logoutConfirmation';
   static const String discardEditConfirmation = 'discardEditConfirmation';
   static const String deleteNoteConfiramtion = 'deleteNoteConfiramtion';
+  static const String infoThereAreNoNotes = 'infoThereAreNoNotes';
 
   // ERROR MESSAGES
   static const String errorDefault = 'errorDefault';

@@ -3,6 +3,7 @@ import 'package:allnotes/domain/entities/params/note_params.dart';
 import 'package:allnotes/domain/usecases/notes/create_note.dart';
 import 'package:allnotes/domain/usecases/notes/edit_note.dart';
 import 'package:allnotes/presentation/blocs/loading/loading_cubit.dart';
+import 'package:allnotes/presentation/blocs/notes_archived/notes_archived_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_pinned/notes_pinned_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_unspecified/notes_unspecified_cubit.dart';
 import 'package:dartz/dartz.dart';
@@ -22,6 +23,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
     required LoadingCubit loadingCubit,
     required NotesUnspecifiedCubit notesUnspecifiedCubit,
     required NotesPinnedCubit notesPinnedCubit,
+    required NotesArchivedCubit notesArchivedCubit,
     required EditNote editNote,
     required CreateNote createNote,
   })  : _editNote = editNote,
@@ -29,6 +31,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
         _loadingCubit = loadingCubit,
         _notesUnspecifiedCubit = notesUnspecifiedCubit,
         _notesPinnedCubit = notesPinnedCubit,
+        _notesArchivedCubit = notesArchivedCubit,
         super(EditNoteState(
           color: AppColor.noteColorDefault,
           status: NoteState.unspecified,
@@ -50,6 +53,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
   final LoadingCubit _loadingCubit;
   final NotesUnspecifiedCubit _notesUnspecifiedCubit;
   final NotesPinnedCubit _notesPinnedCubit;
+  final NotesArchivedCubit _notesArchivedCubit;
   final EditNote _editNote;
   final CreateNote _createNote;
 
@@ -134,6 +138,7 @@ class EditNoteBloc extends Bloc<EditNoteEvent, EditNoteState> {
           // reload notes list
           _notesUnspecifiedCubit.getAllNotes();
           _notesPinnedCubit.getAllNotes();
+          _notesArchivedCubit.getAllNotes();
           emit(
             state.copyWith(isSaved: true),
           );
