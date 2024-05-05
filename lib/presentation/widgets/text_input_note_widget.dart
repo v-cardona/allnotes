@@ -14,6 +14,7 @@ class TextInputNoteWidget extends StatelessWidget {
     this.maxLines,
     this.textStyle,
     this.textInputType = TextInputType.text,
+    this.readOnly = false,
   });
 
   final String? label;
@@ -25,6 +26,7 @@ class TextInputNoteWidget extends StatelessWidget {
   final int? maxLines;
   final TextStyle? textStyle;
   final TextInputType textInputType;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class TextInputNoteWidget extends StatelessWidget {
         textStyle: textStyle,
         maxLines: maxLines,
         textInputType: textInputType,
+        readOnly: readOnly,
       ),
     );
   }

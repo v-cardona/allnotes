@@ -21,6 +21,7 @@
     "space": " ",
     "other": "Other",
     "pinned": "Pinned",
+    "readOnly": "Read only",
     "savedSuccessfully": "Saved successfully",
     "discard": "Discard",
     "close": "Close",

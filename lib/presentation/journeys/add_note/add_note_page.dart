@@ -108,6 +108,7 @@ class _AddNotePageState extends State<AddNotePage> {
                 appBar: AddNoteAppbar(
                   content: _contentController.text,
                   title: _titleController.text,
+                  readOnly: isNoteArchived(),
                 ),
                 body: Stack(
                   fit: StackFit.expand,
@@ -130,6 +131,7 @@ class _AddNotePageState extends State<AddNotePage> {
                               textStyle:
                                   Theme.of(context).textTheme.headlineLarge,
                               textInputType: TextInputType.text,
+                              readOnly: isNoteArchived(),
                             ),
                             TextInputNoteWidget(
                               controller: _contentController,
@@ -137,6 +139,7 @@ class _AddNotePageState extends State<AddNotePage> {
                                   .translate(context),
                               maxLines: null,
                               textInputType: TextInputType.multiline,
+                              readOnly: isNoteArchived(),
                             ),
                           ],
                         ),
@@ -158,8 +161,12 @@ class _AddNotePageState extends State<AddNotePage> {
     );
   }
 
+  bool isNoteArchived() {
+    return _notePrevious?.status == NoteState.archived;
+  }
+
   Widget _bottomBar(Color color, bool isNewNote) {
-    Widget saveButton = ElevatedButton.icon(
+    Widget button = ElevatedButton.icon(
       onPressed: () => _editNoteBloc.add(
         SaveEditNoteEvent(
           title: _titleController.text,
@@ -175,7 +182,13 @@ class _AddNotePageState extends State<AddNotePage> {
           horizontal: Sizes.dimen_60.w,
           vertical: Sizes.dimen_10.h,
         ),
-        child: saveButton,
+        child: button,
+      );
+    }
+    if (isNoteArchived()) {
+      button = Text(
+        TranslationConstants.readOnly.translate(context),
+        style: Theme.of(context).textTheme.headlineSmall,
       );
     }
     return Container(
@@ -201,7 +214,7 @@ class _AddNotePageState extends State<AddNotePage> {
                 ],
               ),
             ),
-            saveButton
+            button
           ],
         ),
       ),

@@ -16,6 +16,7 @@ class TextInputWidget extends StatelessWidget {
     this.maxLines = 1,
     this.textStyle,
     this.hint,
+    this.readOnly = false,
   });
 
   final String? label;
@@ -28,11 +29,13 @@ class TextInputWidget extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final TextStyle? textStyle;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       enableInteractiveSelection: true,
+      readOnly: readOnly,
       controller: controller,
       keyboardType: textInputType,
       style: textStyle,

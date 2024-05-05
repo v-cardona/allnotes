@@ -30,6 +30,7 @@ class TranslationConstants {
   static const String space = 'space';
   static const String other = 'other';
   static const String pinned = 'pinned';
+  static const String readOnly = 'readOnly';
 
   // SUCCESS/INFO
   static const String savedSuccessfully = 'savedSuccessfully';

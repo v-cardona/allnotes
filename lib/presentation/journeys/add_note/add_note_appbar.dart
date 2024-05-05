@@ -16,10 +16,12 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     required this.content,
+    this.readOnly = false,
   });
 
   final String title;
   final String content;
+  final bool readOnly;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -38,9 +40,12 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
           child: AppBar(
             actions: [
               IconButton(
-                onPressed: () => context.read<EditNoteBloc>().add(
-                      const ChangeStatusEditNoteEvent(status: NoteState.pinned),
-                    ),
+                onPressed: readOnly
+                    ? null
+                    : () => context.read<EditNoteBloc>().add(
+                          const ChangeStatusEditNoteEvent(
+                              status: NoteState.pinned),
+                        ),
                 icon: Icon(
                   state.status == NoteState.pinned
                       ? Icons.push_pin_sharp
@@ -48,10 +53,12 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               IconButton(
-                onPressed: () => context.read<EditNoteBloc>().add(
-                      const ChangeStatusEditNoteEvent(
-                          status: NoteState.archived),
-                    ),
+                onPressed: readOnly
+                    ? null
+                    : () => context.read<EditNoteBloc>().add(
+                          const ChangeStatusEditNoteEvent(
+                              status: NoteState.archived),
+                        ),
                 icon: Icon(
                   state.status == NoteState.archived
                       ? Icons.archive_rounded
@@ -59,7 +66,8 @@ class AddNoteAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               IconButton(
-                onPressed: () => _openBottomSheetOptions(context),
+                onPressed:
+                    readOnly ? null : () => _openBottomSheetOptions(context),
                 icon: const Icon(Icons.more_vert_outlined),
               ),
             ],
