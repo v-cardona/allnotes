@@ -11,6 +11,8 @@ final class NotesDeletedInitial extends NotesDeletedState {}
 
 final class NotesDeletedLoading extends NotesDeletedState {}
 
+final class NotesDeletedPermanently extends NotesDeletedState {}
+
 final class NotesDeletedLoaded extends NotesDeletedState {
   final List<NoteEntity> notes;
 

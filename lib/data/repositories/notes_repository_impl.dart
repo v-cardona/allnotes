@@ -64,6 +64,20 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
+  Future<Either<AppError, bool>> removeNote(NoteEntity note) async {
+    try {
+      String userId = _authenticationRepository.getUserId();
+      await _notesRemoteDataSource.removeNote(
+        userId,
+        NoteModel.fromNoteEntity(note),
+      );
+      return const Right(true);
+    } catch (_) {
+      return const Left(AppError(AppErrorType.cannotRemoveNote));
+    }
+  }
+
+  @override
   Future<Either<AppError, List<NoteEntity>>> getAllNotes() async {
     try {
       String userId = _authenticationRepository.getUserId();

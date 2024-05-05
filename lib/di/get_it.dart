@@ -10,6 +10,7 @@ import 'package:allnotes/domain/usecases/notes/get_archived_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_deleted_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_pinned_notes.dart';
 import 'package:allnotes/domain/usecases/notes/get_unspecified_notes.dart';
+import 'package:allnotes/domain/usecases/notes/remove_note.dart';
 import 'package:allnotes/presentation/blocs/edit_note/edit_note_bloc.dart';
 import 'package:allnotes/presentation/blocs/navigation_drawer/navigation_drawer_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_archived/notes_archived_cubit.dart';
@@ -85,6 +86,11 @@ Future init() async {
       getItInstance(),
     ),
   );
+  getItInstance.registerLazySingleton<RemoveNote>(
+    () => RemoveNote(
+      getItInstance(),
+    ),
+  );
   getItInstance.registerLazySingleton<GetAllNotes>(
     () => GetAllNotes(
       getItInstance(),
@@ -150,6 +156,7 @@ Future init() async {
   getItInstance.registerSingleton<NotesDeletedCubit>(
     NotesDeletedCubit(
       getDeletedNotes: getItInstance(),
+      removeNotes: getItInstance(),
     ),
   );
   // edit/create note

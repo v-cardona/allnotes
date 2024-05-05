@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:allnotes/common/constants/routes_constants.dart';
 import 'package:allnotes/common/constants/size_constants.dart';
+import 'package:allnotes/common/constants/translations_constants.dart';
+import 'package:allnotes/common/extensions/context._extension.dart';
 import 'package:allnotes/di/get_it.dart';
 import 'package:allnotes/presentation/blocs/navigation_drawer/navigation_drawer_cubit.dart';
 import 'package:allnotes/presentation/blocs/notes_archived/notes_archived_cubit.dart';
@@ -98,31 +100,62 @@ class _RootPageState extends State<RootPage> {
             default:
               screen = Container();
           }
-          return SafeArea(
-            child: Scaffold(
-              drawer: const DrawerWidget(),
-              body: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    floating: true,
-                    flexibleSpace: const AppBarWidget(),
-                    backgroundColor: Colors.transparent,
-                    collapsedHeight: Sizes.dimen_250.h,
-                  ),
-                  screen,
-                ],
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  context.goNamed(RouteList.addNotePage);
-                },
-                child: const Icon(Icons.add),
+          return BlocListener<NotesDeletedCubit, NotesDeletedState>(
+            listener: (context, state) {
+              if (state is NotesDeletedPermanently) {
+                context.showInfoSnackBar(
+                    message: TranslationConstants.removedSuccessfully);
+              }
+            },
+            child: SafeArea(
+              child: Scaffold(
+                drawer: const DrawerWidget(),
+                body: CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      floating: true,
+                      flexibleSpace: const AppBarWidget(),
+                      backgroundColor: Colors.transparent,
+                      collapsedHeight: Sizes.dimen_250.h,
+                    ),
+                    screen,
+                  ],
+                ),
+                floatingActionButton: _createFAB(state.navbarItem),
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget? _createFAB(NavbarItem navbarItem) {
+    if (navbarItem == NavbarItem.notes) {
+      return FloatingActionButton(
+        onPressed: () {
+          context.goNamed(RouteList.addNotePage);
+        },
+        child: const Icon(Icons.add),
+      );
+    } else if (navbarItem == NavbarItem.deleted) {
+      return FloatingActionButton(
+        onPressed: () => removePermantlyNotes(),
+        child: const Icon(Icons.delete_forever_outlined),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  void removePermantlyNotes() {
+    context.showDeleteDialog(
+      title: TranslationConstants.deleteAllNotesConfirmation,
+      onPressed: () {
+        _notesDeletedCubit.removeAllNotes();
+        Navigator.of(context).pop();
+      },
     );
   }
 }

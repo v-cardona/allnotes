@@ -13,6 +13,9 @@ abstract class NotesRepository {
   /// edit note
   Future<Either<AppError, bool>> editNote(NoteEntity note);
 
+  /// remove note
+  Future<Either<AppError, bool>> removeNote(NoteEntity note);
+
   /// get all notes
   Future<Either<AppError, List<NoteEntity>>> getAllNotes();
 

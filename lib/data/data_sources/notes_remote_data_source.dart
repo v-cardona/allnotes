@@ -12,6 +12,9 @@ abstract class NotesRemoteDataSource {
   /// edit note
   Future<bool> editNote(String userId, NoteModel note);
 
+  /// remove note
+  Future<bool> removeNote(String userId, NoteModel note);
+
   /// get all notes
   Future<List<NoteModel>> getAllNotes(String userId);
 
@@ -67,6 +70,17 @@ class NotesRemoteDataSourceImpl extends NotesRemoteDataSource {
           (value) => edited = true,
         );
     return edited;
+  }
+
+  @override
+  Future<bool> removeNote(String userId, NoteModel note) async {
+    CollectionReference collection =
+        _client.getCollection(_getCollectionName(userId));
+    bool removed = false;
+    await collection.doc(note.id).delete().then(
+          (value) => removed = true,
+        );
+    return removed;
   }
 
   @override

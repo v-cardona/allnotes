@@ -34,6 +34,7 @@ class TranslationConstants {
 
   // SUCCESS/INFO
   static const String savedSuccessfully = 'savedSuccessfully';
+  static const String removedSuccessfully = 'removedSuccessfully';
 
   // DIALOGS / SNACKBARS / BANNERS
   static const String discard = 'discard';
@@ -45,6 +46,7 @@ class TranslationConstants {
   static const String discardEditConfirmation = 'discardEditConfirmation';
   static const String deleteNoteConfiramtion = 'deleteNoteConfiramtion';
   static const String infoThereAreNoNotes = 'infoThereAreNoNotes';
+  static const String deleteAllNotesConfirmation = 'deleteAllNotesConfirmation';
 
   // ERROR MESSAGES
   static const String errorDefault = 'errorDefault';
@@ -52,4 +54,5 @@ class TranslationConstants {
   static const String errorGetNotes = 'errorGetNotes';
   static const String errorEditNote = 'errorEditNote';
   static const String errorCreateNote = 'errorCreateNote';
+  static const String errorRemoveNote = 'errorRemoveNote';
 }

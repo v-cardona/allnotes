@@ -17,6 +17,8 @@ extension ErrorExtension on AppError {
         error = TranslationConstants.errorEditNote.translate(context);
       case AppErrorType.cannotCreateNote:
         error = TranslationConstants.errorCreateNote.translate(context);
+      case AppErrorType.cannotRemoveNote:
+        error = TranslationConstants.errorCreateNote.translate(context);
       default:
         error = TranslationConstants.errorDefault.translate(context);
     }
